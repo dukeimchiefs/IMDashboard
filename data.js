@@ -1,4 +1,4 @@
-// Auto-generated 2026-06-29 16:26 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-06-29 18:20 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
