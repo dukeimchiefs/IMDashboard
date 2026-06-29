@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IM Resident Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="data.js"></script>
+    <script>
+        const DUKE_BLUE = '#012169';
+        const ORANGE    = '#C84E00';
+        const TEAL      = '#339898';
+        const WARM_GRAY = '#F3F2ED';
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'duke-blue':   DUKE_BLUE,
+                        'duke-orange': ORANGE,
+                        'duke-teal':   TEAL,
+                        'warm-gray':   WARM_GRAY,
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warm-gray min-h-screen font-sans">
+
+    <!-- Top Nav -->
+    <nav class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
+            <span class="text-white font-bold text-xs tracking-[0.18em] uppercase">Duke IM Residency</span>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-white text-sm font-semibold border-b border-duke-orange pb-px">Home</a>
+                <a href="stats.html" class="text-blue-300 text-sm hover:text-white transition-colors">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 pt-12 pb-16">
+            <div class="h-[3px] w-10 bg-duke-orange mb-6"></div>
+            <p class="text-[11px] font-bold tracking-[0.25em] text-blue-300 uppercase mb-3">Resident Dashboard</p>
+            <h1 class="text-5xl font-bold text-white tracking-tight">Internal Medicine</h1>
+            <p class="text-blue-300 text-sm mt-2">2024 – 2025 Academic Year</p>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="max-w-6xl mx-auto px-6 -mt-5 pb-20 space-y-5">
+
+        <!-- Current Standings -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Current Standings</h2>
+                <span class="text-xs text-gray-400">Week 42 of 52</span>
+            </div>
+            <div class="divide-y divide-gray-50" id="standings-list">
+                <div class="px-6 py-8 text-center text-sm text-gray-400">Loading standings…</div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-3 gap-5">
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Total Points</p>
+                <p class="text-5xl font-bold text-duke-blue" id="stat-total">—</p>
+                <p class="text-xs text-gray-400 mt-2" id="stat-total-sub">loading…</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Points Leader</p>
+                <p class="text-2xl font-bold text-duke-orange mt-2" id="stat-leader">—</p>
+                <p class="text-xs text-gray-400 mt-2" id="stat-leader-sub">loading…</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Leading By</p>
+                <p class="text-5xl font-bold text-duke-blue" id="stat-gap">—</p>
+                <p class="text-xs text-gray-400 mt-2" id="stat-gap-sub">pts ahead of 2nd</p>
+            </div>
+        </div>
+
+        <!-- How Points Work -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-6">How Points Work</h2>
+            <div class="grid grid-cols-3 gap-8">
+                <div>
+                    <div class="w-2 h-8 bg-duke-blue rounded mb-3"></div>
+                    <p class="font-semibold text-gray-900 text-sm mb-1">Conferences</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Attend and present at grand rounds, M&M, and noon conferences to earn points for your team.</p>
+                </div>
+                <div>
+                    <div class="w-2 h-8 bg-duke-orange rounded mb-3"></div>
+                    <p class="font-semibold text-gray-900 text-sm mb-1">Teaching</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Lead teaching sessions, deliver case presentations, and mentor medical students.</p>
+                </div>
+                <div>
+                    <div class="w-2 h-8 bg-duke-teal rounded mb-3"></div>
+                    <p class="font-semibold text-gray-900 text-sm mb-1">Special Events</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Earn bonus points for wellness events, community service, and residency program activities.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        loadDashboardData().then(function(data) {
+            var teams = data.teams; // sorted by total desc from data source
+            var maxTotal = teams[0].total;
+
+            var rankBadge = [
+                ['bg-yellow-400', 'text-yellow-900'],
+                ['bg-gray-200',   'text-gray-600'],
+                ['bg-orange-100', 'text-orange-700'],
+            ];
+
+            // Render standings
+            var list = document.getElementById('standings-list');
+            list.innerHTML = teams.map(function(team, i) {
+                var rank    = i + 1;
+                var pct     = Math.round(team.total / maxTotal * 100);
+                var top3    = rank <= 3;
+                var badge   = top3 ? rankBadge[i] : ['bg-gray-100', 'text-gray-500'];
+                var rowBg   = top3 ? '' : 'bg-gray-50/50';
+                var nameCol = top3 ? 'text-gray-900' : 'text-gray-600';
+                var numCol  = top3 ? (rank === 1 ? 'text-gray-900' : 'text-gray-700') : 'text-gray-500';
+                var leader  = rank === 1
+                    ? '<span class="text-[10px] font-bold tracking-widest uppercase text-white px-2 py-0.5 rounded-full ml-2" style="background:#C84E00">Leader</span>'
+                    : '';
+                return [
+                    '<div class="flex items-center gap-5 px-6 py-4 ' + rowBg + '">',
+                    '  <div class="w-8 h-8 rounded-full ' + badge[0] + ' flex items-center justify-center flex-shrink-0">',
+                    '    <span class="' + badge[1] + ' font-bold text-sm">' + rank + '</span>',
+                    '  </div>',
+                    '  <div class="flex-1 min-w-0">',
+                    '    <div class="flex items-center mb-1.5">',
+                    '      <span class="font-semibold ' + nameCol + '">' + team.name + '</span>' + leader,
+                    '    </div>',
+                    '    <div class="w-full bg-gray-100 rounded-full h-1.5">',
+                    '      <div class="h-1.5 rounded-full" style="width:' + pct + '%;background-color:' + team.color + '"></div>',
+                    '    </div>',
+                    '  </div>',
+                    '  <div class="text-right flex-shrink-0">',
+                    '    <span class="text-xl font-bold ' + numCol + '">' + team.total.toLocaleString() + '</span>',
+                    '    <span class="text-xs text-gray-400 ml-1">pts</span>',
+                    '  </div>',
+                    '</div>',
+                ].join('');
+            }).join('');
+
+            // Update stat cards
+            var totalPts = teams.reduce(function(s, t) { return s + t.total; }, 0);
+            document.getElementById('stat-total').textContent     = totalPts.toLocaleString();
+            document.getElementById('stat-total-sub').textContent = teams.length + ' teams · ' + data.months.length + ' months tracked';
+            document.getElementById('stat-leader').textContent    = teams[0].name;
+            document.getElementById('stat-leader-sub').textContent = teams[0].total.toLocaleString() + ' pts this season';
+            var gap = teams.length > 1 ? teams[0].total - teams[1].total : 0;
+            document.getElementById('stat-gap').textContent    = '+' + gap.toLocaleString();
+            document.getElementById('stat-gap-sub').textContent = 'pts ahead of 2nd place';
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <span class="text-xs text-gray-400">Duke Internal Medicine Residency</span>
+            <span class="text-xs text-gray-400">2024 – 2025</span>
+        </div>
+    </footer>
+
+</body>
+</html>
