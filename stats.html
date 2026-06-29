@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics — IM Resident Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="data.js"></script>
+    <script>
+        const DUKE_BLUE = '#012169';
+        const ORANGE    = '#C84E00';
+        const TEAL      = '#339898';
+        const WARM_GRAY = '#F3F2ED';
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'duke-blue':   DUKE_BLUE,
+                        'duke-orange': ORANGE,
+                        'duke-teal':   TEAL,
+                        'warm-gray':   WARM_GRAY,
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warm-gray min-h-screen font-sans">
+
+    <!-- Top Nav -->
+    <nav class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
+            <span class="text-white font-bold text-xs tracking-[0.18em] uppercase">Duke IM Residency</span>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-blue-300 text-sm hover:text-white transition-colors">Home</a>
+                <a href="stats.html" class="text-white text-sm font-semibold border-b border-duke-orange pb-px">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 pt-12 pb-16">
+            <div class="h-[3px] w-10 bg-duke-orange mb-6"></div>
+            <p class="text-[11px] font-bold tracking-[0.25em] text-blue-300 uppercase mb-3">Season Statistics</p>
+            <h1 class="text-5xl font-bold text-white tracking-tight">By the Numbers</h1>
+            <p class="text-blue-300 text-sm mt-2" id="stats-subtitle">2024 – 2025 Academic Year</p>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="max-w-6xl mx-auto px-6 -mt-5 pb-20 space-y-5">
+
+        <!-- Summary Stats Row -->
+        <div class="grid grid-cols-4 gap-5">
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Total Points</p>
+                <p class="text-5xl font-bold text-duke-blue" id="s-total">—</p>
+                <p class="text-xs text-gray-400 mt-2" id="s-total-sub">loading…</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Best Month</p>
+                <p class="text-3xl font-bold text-duke-orange" id="s-best-month">—</p>
+                <p class="text-xs text-gray-400 mt-2" id="s-best-month-sub">loading…</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Tightest Race</p>
+                <p class="text-5xl font-bold text-duke-blue" id="s-tightest">—</p>
+                <p class="text-xs text-gray-400 mt-2" id="s-tightest-sub">loading…</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">December Dip</p>
+                <p class="text-5xl font-bold text-red-500" id="s-dec-dip">—</p>
+                <p class="text-xs text-gray-400 mt-2" id="s-dec-dip-sub">loading…</p>
+            </div>
+        </div>
+
+        <!-- Monthly Points by Team (Grouped Bar) -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <div class="mb-5">
+                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Monthly Points by Team</h2>
+                <p class="text-xs text-gray-400 mt-0.5">Points earned each month across the season</p>
+            </div>
+            <div class="relative" style="height:280px">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Cumulative Standings (Line) -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <div class="mb-5">
+                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Cumulative Standings</h2>
+                <p class="text-xs text-gray-400 mt-0.5">Running total — how the race has evolved</p>
+            </div>
+            <div class="relative" style="height:280px">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Category Doughnut + Season Highlights -->
+        <div class="grid grid-cols-3 gap-5">
+
+            <!-- Category Doughnut -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-5">Points by Category</h2>
+                <canvas id="doughnutChart"></canvas>
+                <div class="space-y-2.5 mt-5" id="category-legend">
+                    <div class="text-xs text-gray-400 text-center py-2">loading…</div>
+                </div>
+            </div>
+
+            <!-- Season Highlights -->
+            <div class="col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-5">Season Highlights</h2>
+
+                <div class="grid grid-cols-2 gap-3 mb-5">
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-2" id="h-win-rate-label">Leader Win Rate</p>
+                        <p class="text-3xl font-bold text-duke-orange" id="h-win-rate">—</p>
+                        <p class="text-xs text-gray-400 mt-1" id="h-win-rate-sub">loading…</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-2">Avg Pts / Team / Month</p>
+                        <p class="text-3xl font-bold text-duke-blue" id="h-avg">—</p>
+                        <p class="text-xs text-gray-400 mt-1" id="h-avg-sub">loading…</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-2">First-to-Last Gap</p>
+                        <p class="text-3xl font-bold text-duke-blue" id="h-gap">—</p>
+                        <p class="text-xs text-gray-400 mt-1" id="h-gap-sub">loading…</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-2">Most Competitive</p>
+                        <p class="text-3xl font-bold text-duke-blue" id="h-competitive">—</p>
+                        <p class="text-xs text-gray-400 mt-1" id="h-competitive-sub">loading…</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-100 pt-5">
+                    <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-3">Monthly Leader</p>
+                    <div id="leader-badges" class="flex flex-wrap gap-2.5"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <span class="text-xs text-gray-400">Duke Internal Medicine Residency</span>
+            <span class="text-xs text-gray-400">2024 – 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        function cumulative(arr) {
+            let run = 0;
+            return arr.map(v => (run += v));
+        }
+
+        function setText(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = val;
+        }
+
+        async function initStats() {
+            const data = await loadDashboardData();
+            const teams = data.teams;   // sorted desc by total
+            const months = data.months;
+
+            // ---- Derived statistics ----
+            const totalPts = teams.reduce((s, t) => s + t.total, 0);
+            const monthlyTotals = months.map((_, i) => teams.reduce((s, t) => s + t.monthly[i], 0));
+
+            // Best month
+            const bestIdx = monthlyTotals.indexOf(Math.max(...monthlyTotals));
+
+            // Tightest race (smallest gap between 1st and 2nd in any month)
+            let tightestMargin = Infinity, tightestMonth = '', tightestDetail = '';
+            months.forEach((m, i) => {
+                const sorted = [...teams].sort((a, b) => b.monthly[i] - a.monthly[i]);
+                const margin = sorted[0].monthly[i] - (sorted[1] ? sorted[1].monthly[i] : 0);
+                if (margin < tightestMargin) {
+                    tightestMargin = margin;
+                    tightestMonth  = m;
+                    tightestDetail = sorted[0].name.replace('Team ','') + ' over ' + (sorted[1] ? sorted[1].name.replace('Team ','') : '—');
+                }
+            });
+
+            // December dip
+            const novIdx = months.indexOf('Nov');
+            const decIdx = months.indexOf('Dec');
+            if (novIdx !== -1 && decIdx !== -1) {
+                const dip = Math.round((monthlyTotals[decIdx] - monthlyTotals[novIdx]) / monthlyTotals[novIdx] * 100);
+                setText('s-dec-dip', (dip > 0 ? '+' : '') + dip + '%');
+                setText('s-dec-dip-sub', monthlyTotals[novIdx].toLocaleString() + ' → ' + monthlyTotals[decIdx].toLocaleString() + ' pts (Nov → Dec)');
+            } else {
+                setText('s-dec-dip', 'N/A');
+                setText('s-dec-dip-sub', 'Nov and Dec data not available');
+            }
+
+            // Leader monthly wins
+            let leaderWins = 0;
+            months.forEach((_, i) => {
+                let best = teams[0];
+                teams.forEach(t => { if (t.monthly[i] > best.monthly[i]) best = t; });
+                if (best.name === teams[0].name) leaderWins++;
+            });
+
+            // ---- Update summary stat cards ----
+            setText('stats-subtitle', '2024 – 2025 Academic Year · ' + months[0] + ' – ' + months[months.length - 1]);
+            setText('s-total', totalPts.toLocaleString());
+            setText('s-total-sub', teams.length + ' teams · ' + months.length + ' months');
+            setText('s-best-month', months[bestIdx]);
+            setText('s-best-month-sub', monthlyTotals[bestIdx].toLocaleString() + ' pts across all teams');
+            setText('s-tightest', tightestMargin);
+            setText('s-tightest-sub', 'pts — ' + tightestMonth + ', ' + tightestDetail);
+
+            // ---- Season highlights ----
+            const winPct = Math.round(leaderWins / months.length * 100);
+            setText('h-win-rate-label', teams[0].name.replace('Team ', '') + ' Win Rate');
+            setText('h-win-rate', winPct + '%');
+            setText('h-win-rate-sub', leaderWins + ' of ' + months.length + ' months');
+
+            const avg = Math.round(totalPts / teams.length / months.length);
+            setText('h-avg', avg.toLocaleString());
+            setText('h-avg-sub', totalPts.toLocaleString() + ' ÷ ' + teams.length + ' ÷ ' + months.length);
+
+            const gap = teams[0].total - teams[teams.length - 1].total;
+            setText('h-gap', '+' + gap.toLocaleString());
+            setText('h-gap-sub', teams[0].name + ' leads ' + teams[teams.length - 1].name);
+
+            setText('h-competitive', tightestMonth);
+            setText('h-competitive-sub', 'Smallest winning margin (' + tightestMargin + ' pts)');
+
+            // ---- Category legend ----
+            const legendEl = document.getElementById('category-legend');
+            legendEl.innerHTML = data.categories.map(c => `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:${c.color}"></div>
+                        <span class="text-xs text-gray-600">${c.label}</span>
+                    </div>
+                    <span class="text-xs font-semibold text-gray-700">${c.value.toLocaleString()} pts</span>
+                </div>
+            `).join('');
+
+            // ---- Charts ----
+            Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
+            Chart.defaults.font.size = 11;
+            Chart.defaults.color = '#9CA3AF';
+
+            // Bar chart — monthly grouped
+            new Chart(document.getElementById('barChart'), {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: teams.map(t => ({
+                        label: t.name,
+                        data: t.monthly,
+                        backgroundColor: t.color,
+                        borderRadius: 3,
+                        borderSkipped: false,
+                    })),
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } },
+                        tooltip: { mode: 'index', intersect: false },
+                    },
+                    scales: {
+                        x: { grid: { display: false }, border: { display: false } },
+                        y: { beginAtZero: true, grid: { color: '#f3f4f6' }, border: { display: false }, ticks: { callback: v => v + ' pts' } },
+                    },
+                },
+            });
+
+            // Line chart — cumulative standings
+            new Chart(document.getElementById('lineChart'), {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: teams.map(t => ({
+                        label: t.name,
+                        data: cumulative(t.monthly),
+                        borderColor: t.color,
+                        backgroundColor: t.color + '18',
+                        borderWidth: 2,
+                        tension: 0.35,
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
+                        pointBackgroundColor: t.color,
+                        fill: false,
+                    })),
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } },
+                        tooltip: { mode: 'index', intersect: false, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} pts` } },
+                    },
+                    scales: {
+                        x: { grid: { display: false }, border: { display: false } },
+                        y: { beginAtZero: false, grid: { color: '#f3f4f6' }, border: { display: false }, ticks: { callback: v => v.toLocaleString() } },
+                    },
+                },
+            });
+
+            // Doughnut — category breakdown
+            const catTotal = data.categories.reduce((s, c) => s + c.value, 0);
+            new Chart(document.getElementById('doughnutChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: data.categories.map(c => c.label),
+                    datasets: [{
+                        data: data.categories.map(c => c.value),
+                        backgroundColor: data.categories.map(c => c.color),
+                        borderWidth: 0,
+                        hoverOffset: 10,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.4,
+                    cutout: '65%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.label}: ${ctx.parsed.toLocaleString()} pts (${Math.round(ctx.parsed / catTotal * 100)}%)`,
+                            },
+                        },
+                    },
+                },
+            });
+
+            // Monthly leader badge strip
+            const badgeContainer = document.getElementById('leader-badges');
+            months.forEach((month, i) => {
+                let best = teams[0];
+                teams.forEach(t => { if (t.monthly[i] > best.monthly[i]) best = t; });
+                const shortName = best.name.replace('Team ', '');
+                const wrap = document.createElement('div');
+                wrap.className = 'flex flex-col items-center gap-1';
+                wrap.innerHTML = `
+                    <span class="text-[10px] text-gray-400 font-medium">${month}</span>
+                    <span class="text-[10px] font-bold text-white px-2.5 py-0.5 rounded-full" style="background-color:${best.color}">${shortName}</span>
+                `;
+                badgeContainer.appendChild(wrap);
+            });
+        }
+
+        initStats();
+    </script>
+
+</body>
+</html>

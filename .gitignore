@@ -1,0 +1,21 @@
+# Un-ignore HTML/JS overridden by global gitignore
+!*.html
+!*.js
+
+# Excel workbooks — never commit, data stays local
+*.xlsx
+*.xls
+*.xlsm
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Internal files
+internal_README.md
+claude.md
