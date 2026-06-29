@@ -55,11 +55,12 @@ SHEET_NAME = None
 
 # Team colors — keys must match the Team column values exactly (case-sensitive).
 TEAM_COLORS = {
-    'Gold':  '#D97706',
-    'Blue':  '#012169',
-    'Teal':  '#339898',
-    'Green': '#16A34A',
-    'Red':   '#DC2626',
+    'Bezoars':  '#012169',
+    'Cultures': '#C84E00',
+    'PEEPs':    '#339898',
+    'Loops':    '#D97706',
+    'Blasts':   '#DC2626',
+    'Dispos':   '#16A34A',
 }
 
 # Category colors — keys must match Category column values exactly.
