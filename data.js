@@ -1,8 +1,8 @@
-// Auto-generated 2026-06-29 18:20 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-07-01 10:08 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
-        "Jun"
+        "Jul"
     ],
     "teams": [
         {
@@ -56,9 +56,14 @@ const SAMPLE_DATA = {
     ],
     "categories": [
         {
-            "label": "All Points",
-            "value": 16,
-            "color": "#012169"
+            "label": "Wellness",
+            "value": 6,
+            "color": "#16A34A"
+        },
+        {
+            "label": "Grittiness",
+            "value": 10,
+            "color": "#D97706"
         }
     ]
 };

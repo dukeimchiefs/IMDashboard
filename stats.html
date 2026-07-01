@@ -31,11 +31,10 @@
 
     <!-- Top Nav -->
     <nav class="bg-duke-blue">
-        <div class="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
-            <span class="text-white font-bold text-xs tracking-[0.18em] uppercase">Duke IM Residency</span>
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-end">
             <div class="flex items-center gap-6">
-                <a href="index.html" class="text-blue-300 text-sm hover:text-white transition-colors">Home</a>
-                <a href="stats.html" class="text-white text-sm font-semibold border-b border-duke-orange pb-px">Statistics</a>
+                <a href="index.html" class="text-blue-300 hover:text-white transition-colors" style="font-size:22px">Home</a>
+                <a href="stats.html" class="text-white font-semibold border-b border-duke-orange pb-px" style="font-size:22px">Statistics</a>
             </div>
         </div>
     </nav>
@@ -54,7 +53,7 @@
     <main class="max-w-6xl mx-auto px-6 -mt-5 pb-20 space-y-5">
 
         <!-- Summary Stats Row -->
-        <div class="grid grid-cols-4 gap-5">
+        <div class="grid grid-cols-3 gap-5">
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Total Points</p>
                 <p class="text-5xl font-bold text-duke-blue" id="s-total">—</p>
@@ -70,29 +69,27 @@
                 <p class="text-5xl font-bold text-duke-blue" id="s-tightest">—</p>
                 <p class="text-xs text-gray-400 mt-2" id="s-tightest-sub">loading…</p>
             </div>
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">December Dip</p>
-                <p class="text-5xl font-bold text-red-500" id="s-dec-dip">—</p>
-                <p class="text-xs text-gray-400 mt-2" id="s-dec-dip-sub">loading…</p>
-            </div>
         </div>
 
-        <!-- Monthly Points by Team (Grouped Bar) -->
+        <!-- Monthly Points by Team (Cumulative Snapshot, Tabbed by Month) -->
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <div class="mb-5">
-                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Monthly Points by Team</h2>
-                <p class="text-xs text-gray-400 mt-0.5">Points earned each month across the season</p>
+            <div class="mb-5 flex items-start justify-between flex-wrap gap-3">
+                <div>
+                    <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Monthly Points by Team</h2>
+                    <p class="text-xs text-gray-400 mt-0.5" id="month-tab-subtitle">Cumulative points through the season</p>
+                </div>
+                <div class="flex flex-wrap gap-1.5" id="month-tabs"></div>
             </div>
             <div class="relative" style="height:280px">
                 <canvas id="barChart"></canvas>
+                <div id="month-empty-state" class="hidden absolute inset-0 flex items-center justify-center text-sm text-gray-400">No data yet</div>
             </div>
         </div>
 
         <!-- Cumulative Standings (Line) -->
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <div class="mb-5">
-                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Cumulative Standings</h2>
-                <p class="text-xs text-gray-400 mt-0.5">Running total — how the race has evolved</p>
+                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">The Amazing Race</h2>
             </div>
             <div class="relative" style="height:280px">
                 <canvas id="lineChart"></canvas>
@@ -117,9 +114,9 @@
 
                 <div class="grid grid-cols-2 gap-3 mb-5">
                     <div class="bg-gray-50 rounded-xl p-4">
-                        <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-2" id="h-win-rate-label">Leader Win Rate</p>
-                        <p class="text-3xl font-bold text-duke-orange" id="h-win-rate">—</p>
-                        <p class="text-xs text-gray-400 mt-1" id="h-win-rate-sub">loading…</p>
+                        <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-2">Top Category</p>
+                        <p class="text-3xl font-bold text-duke-orange" id="h-top-category">—</p>
+                        <p class="text-xs text-gray-400 mt-1" id="h-top-category-sub">loading…</p>
                     </div>
                     <div class="bg-gray-50 rounded-xl p-4">
                         <p class="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-2">Avg Pts / Team / Month</p>
@@ -191,26 +188,6 @@
                 }
             });
 
-            // December dip
-            const novIdx = months.indexOf('Nov');
-            const decIdx = months.indexOf('Dec');
-            if (novIdx !== -1 && decIdx !== -1) {
-                const dip = Math.round((monthlyTotals[decIdx] - monthlyTotals[novIdx]) / monthlyTotals[novIdx] * 100);
-                setText('s-dec-dip', (dip > 0 ? '+' : '') + dip + '%');
-                setText('s-dec-dip-sub', monthlyTotals[novIdx].toLocaleString() + ' → ' + monthlyTotals[decIdx].toLocaleString() + ' pts (Nov → Dec)');
-            } else {
-                setText('s-dec-dip', 'N/A');
-                setText('s-dec-dip-sub', 'Nov and Dec data not available');
-            }
-
-            // Leader monthly wins
-            let leaderWins = 0;
-            months.forEach((_, i) => {
-                let best = teams[0];
-                teams.forEach(t => { if (t.monthly[i] > best.monthly[i]) best = t; });
-                if (best.name === teams[0].name) leaderWins++;
-            });
-
             // ---- Update summary stat cards ----
             setText('stats-subtitle', '2026 – 2027 Academic Year · ' + months[0] + ' – ' + months[months.length - 1]);
             setText('s-total', totalPts.toLocaleString());
@@ -221,10 +198,10 @@
             setText('s-tightest-sub', 'pts — ' + tightestMonth + ', ' + tightestDetail);
 
             // ---- Season highlights ----
-            const winPct = Math.round(leaderWins / months.length * 100);
-            setText('h-win-rate-label', teams[0].name.replace('Team ', '') + ' Win Rate');
-            setText('h-win-rate', winPct + '%');
-            setText('h-win-rate-sub', leaderWins + ' of ' + months.length + ' months');
+            const catTotal = data.categories.reduce((s, c) => s + c.value, 0);
+            const topCategory = [...data.categories].sort((a, b) => b.value - a.value)[0];
+            setText('h-top-category', topCategory.label);
+            setText('h-top-category-sub', topCategory.value.toLocaleString() + ' pts (' + Math.round(topCategory.value / catTotal * 100) + '% of total)');
 
             const avg = Math.round(totalPts / teams.length / months.length);
             setText('h-avg', avg.toLocaleString());
@@ -254,32 +231,81 @@
             Chart.defaults.font.size = 11;
             Chart.defaults.color = '#9CA3AF';
 
-            // Bar chart — monthly grouped
-            new Chart(document.getElementById('barChart'), {
-                type: 'bar',
-                data: {
-                    labels: months,
-                    datasets: teams.map(t => ({
-                        label: t.name,
-                        data: t.monthly,
-                        backgroundColor: t.color,
-                        borderRadius: 3,
-                        borderSkipped: false,
-                    })),
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } },
-                        tooltip: { mode: 'index', intersect: false },
+            // Bar chart — cumulative points snapshot, one tab per month of the academic year
+            const ACADEMIC_MONTHS = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+            const ACADEMIC_YEARS  = { Jul: 2026, Aug: 2026, Sep: 2026, Oct: 2026, Nov: 2026, Dec: 2026, Jan: 2027, Feb: 2027, Mar: 2027, Apr: 2027, May: 2027, Jun: 2027 };
+
+            const tabsEl        = document.getElementById('month-tabs');
+            const barCanvas     = document.getElementById('barChart');
+            const emptyStateEl  = document.getElementById('month-empty-state');
+            const subtitleEl    = document.getElementById('month-tab-subtitle');
+            let monthBarChart   = null;
+
+            function renderMonthTab(monthAbbr) {
+                [...tabsEl.children].forEach(btn => {
+                    const active = btn.dataset.month === monthAbbr;
+                    btn.className = active
+                        ? 'px-3 py-1 rounded-full text-xs font-semibold bg-duke-blue text-white transition-colors'
+                        : 'px-3 py-1 rounded-full text-xs font-semibold text-gray-400 hover:text-duke-blue transition-colors';
+                });
+
+                const idx = months.indexOf(monthAbbr);
+                if (idx === -1) {
+                    if (monthBarChart) { monthBarChart.destroy(); monthBarChart = null; }
+                    barCanvas.classList.add('hidden');
+                    emptyStateEl.classList.remove('hidden');
+                    subtitleEl.textContent = 'No data yet for ' + monthAbbr + ' ' + ACADEMIC_YEARS[monthAbbr];
+                    return;
+                }
+
+                barCanvas.classList.remove('hidden');
+                emptyStateEl.classList.add('hidden');
+                subtitleEl.textContent = 'Cumulative points through ' + monthAbbr + ' ' + ACADEMIC_YEARS[monthAbbr];
+
+                const snapshot = teams.map(t => ({
+                    name: t.name,
+                    color: t.color,
+                    value: t.monthly.slice(0, idx + 1).reduce((s, v) => s + v, 0),
+                }));
+
+                if (monthBarChart) monthBarChart.destroy();
+                monthBarChart = new Chart(barCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: snapshot.map(s => s.name.replace('Team ', '')),
+                        datasets: [{
+                            data: snapshot.map(s => s.value),
+                            backgroundColor: snapshot.map(s => s.color),
+                            borderRadius: 3,
+                            borderSkipped: false,
+                        }],
                     },
-                    scales: {
-                        x: { grid: { display: false }, border: { display: false } },
-                        y: { beginAtZero: true, grid: { color: '#f3f4f6' }, border: { display: false }, ticks: { callback: v => v + ' pts' } },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y.toLocaleString()} pts` } },
+                        },
+                        scales: {
+                            x: { grid: { display: false }, border: { display: false } },
+                            y: { beginAtZero: true, grid: { color: '#f3f4f6' }, border: { display: false }, ticks: { callback: v => v + ' pts' } },
+                        },
                     },
-                },
+                });
+            }
+
+            ACADEMIC_MONTHS.forEach(m => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.dataset.month = m;
+                btn.textContent = m;
+                btn.addEventListener('click', () => renderMonthTab(m));
+                tabsEl.appendChild(btn);
             });
+
+            const defaultMonth = [...ACADEMIC_MONTHS].reverse().find(m => months.includes(m)) || ACADEMIC_MONTHS[0];
+            renderMonthTab(defaultMonth);
 
             // Line chart — cumulative standings
             new Chart(document.getElementById('lineChart'), {
@@ -314,7 +340,6 @@
             });
 
             // Doughnut — category breakdown
-            const catTotal = data.categories.reduce((s, c) => s + c.value, 0);
             new Chart(document.getElementById('doughnutChart'), {
                 type: 'doughnut',
                 data: {
