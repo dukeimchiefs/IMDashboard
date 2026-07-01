@@ -66,9 +66,14 @@ TEAM_COLORS = {
 # Category colors — keys must match Category column values exactly.
 # 'All Points' is used automatically when no Category column exists.
 CATEGORY_COLORS = {
-    'Conferences':    '#012169',
+    'Mentoring':      '#012169',
     'Teaching':       '#C84E00',
-    'Special Events': '#339898',
+    'Diagnosing':     '#339898',
+    'Grittiness':     '#D97706',
+    'Follow-Through': '#DC2626',
+    'Wellness':       '#16A34A',
+    'Learning':       '#6366F1',
+    'Attendance':     '#EC4899',
     'All Points':     '#012169',
 }
 
