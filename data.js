@@ -1,4 +1,4 @@
-// Auto-generated 2026-07-01 10:08 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-07-04 11:06 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
@@ -8,13 +8,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Bezoars",
             "color": "#012169",
-            "total": 11,
+            "total": 1,
             "monthly": [
-                11
+                1
             ]
         },
         {
-            "name": "Team Cultures",
+            "name": "Team Karius",
             "color": "#C84E00",
             "total": 1,
             "monthly": [
@@ -30,7 +30,7 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Loops",
+            "name": "Team Ultrafiltraters",
             "color": "#D97706",
             "total": 1,
             "monthly": [
@@ -46,7 +46,7 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Dispos",
+            "name": "Team Scopetrotters",
             "color": "#16A34A",
             "total": 1,
             "monthly": [
@@ -59,11 +59,6 @@ const SAMPLE_DATA = {
             "label": "Wellness",
             "value": 6,
             "color": "#16A34A"
-        },
-        {
-            "label": "Grittiness",
-            "value": 10,
-            "color": "#D97706"
         }
     ]
 };
