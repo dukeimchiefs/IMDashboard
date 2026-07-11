@@ -32,8 +32,9 @@ Sheet tab named "Points" (or first sheet), headers in row 1:
 """
 
 import json
+import math
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 try:
@@ -83,6 +84,10 @@ CATEGORY_COLORS = {
 
 # Academic year starts in July.
 ACADEMIC_MONTHS = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+
+# Academic year start date — used to bucket events into weeks 1-52 (matches the
+# "Week X of 52" calculation in index.html).
+ACADEMIC_YEAR_START = datetime(2026, 7, 1)
 
 # Output path — always the data.js sitting next to this script.
 DATA_JS = Path(__file__).parent / 'data.js'
@@ -150,32 +155,56 @@ def read_events(path, sheet_name):
     return events
 
 
+def week_number(date):
+    """1-52 week index since ACADEMIC_YEAR_START, matching the frontend's calc."""
+    delta_days = (date - ACADEMIC_YEAR_START).days + 1
+    return min(52, max(1, math.ceil(delta_days / 7)))
+
+
+def week_month_label(week_num):
+    """Calendar month abbreviation that a given academic week falls in."""
+    week_start = ACADEMIC_YEAR_START + timedelta(weeks=week_num - 1)
+    return week_start.strftime('%b')
+
+
 def aggregate(events):
     team_monthly = {}
+    team_weekly  = {}
     cat_totals   = {}
     seen_months  = set()
+    seen_weeks   = set()
 
     for e in events:
         month = e['date'].strftime('%b')
         seen_months.add(month)
 
+        wk = week_number(e['date'])
+        seen_weeks.add(wk)
+
         t = e['team']
         team_monthly.setdefault(t, {})
         team_monthly[t][month] = team_monthly[t].get(month, 0) + e['points']
+
+        team_weekly.setdefault(t, {})
+        team_weekly[t][wk] = team_weekly[t].get(wk, 0) + e['points']
 
         c = e['category']
         cat_totals[c] = cat_totals.get(c, 0) + e['points']
 
     months = [m for m in ACADEMIC_MONTHS if m in seen_months]
+    weeks  = sorted(seen_weeks)
+    week_months = [week_month_label(w) for w in weeks]
 
     teams = []
-    for name, by_month in team_monthly.items():
-        monthly = [int(by_month.get(m, 0)) for m in months]
+    for name in set(team_monthly) | set(team_weekly):
+        monthly = [int(team_monthly.get(name, {}).get(m, 0)) for m in months]
+        weekly  = [int(team_weekly.get(name, {}).get(w, 0)) for w in weeks]
         teams.append({
             'name':    'Team ' + name,
             'color':   TEAM_COLORS.get(name, '#6B7280'),
             'total':   sum(monthly),
             'monthly': monthly,
+            'weekly':  weekly,
         })
     teams.sort(key=lambda t: t['total'], reverse=True)
 
@@ -188,7 +217,13 @@ def aggregate(events):
         for label, v in cat_totals.items()
     ]
 
-    return {'months': months, 'teams': teams, 'categories': categories}
+    return {
+        'months': months,
+        'weeks': weeks,
+        'weekMonths': week_months,
+        'teams': teams,
+        'categories': categories,
+    }
 
 
 def write_data_js(data):
