@@ -19,3 +19,7 @@ __pycache__/
 # Internal files
 internal_README.md
 claude.md
+Point_Spreadsheet.xlsx
+
+# Credentials — never commit
+.env

@@ -29,10 +29,15 @@ Sheet tab named "Points" (or first sheet), headers in row 1:
     Category: Must match a key in CATEGORY_COLORS below
     Points:   A number
     Notes:    Optional — ignored by the dashboard
+
+An optional "Attendance" sheet (written by scrape_attendance.py) is also
+folded in automatically if present — see ATTENDANCE_SHEET_NAME/EVENT_POINTS
+below. Run scrape_attendance.py first to sync it, then run this script.
 """
 
 import json
 import math
+import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -51,8 +56,29 @@ except ImportError:
 EXCEL_FILE = Path('/Users/nbrazeau/Library/CloudStorage/OneDrive-SharedLibraries-DukeUniversity/Duke Chiefs 2024-2026 - Documents/zChief_Gamification/Point_Spreadsheet.xlsx')
 
 
-# Sheet tab name with the points log. None = use the first (active) sheet.
-SHEET_NAME = None
+# Sheet tab name with the points log. None = use the first (active) sheet —
+# only safe with a single-sheet workbook. Now that the workbook has multiple
+# tabs (OtherPoints, Residents, Teams, Categories, AttendancePoints), hardcode
+# this so it doesn't depend on whichever tab Excel last had "active" when saved.
+SHEET_NAME = 'OtherPoints'
+
+# Sheet tab name with the scraped attendance roster (written by scrape_attendance.py).
+# Skipped entirely if this sheet doesn't exist yet.
+ATTENDANCE_SHEET_NAME = 'AttendancePoints'
+
+# Sheet tab (re)written each run with one row per resident's cumulative
+# attendance points, sourced from ATTENDANCE_SHEET_NAME.
+ATTENDANCE_SUMMARY_SHEET_NAME = 'Attendance Summary'
+
+# Points awarded per attendance event type. Add new event types here as needed.
+EVENT_POINTS = {
+    'Noon Conference':  20,
+    'Learning Session': 10,
+}
+
+# teams.html holds the single source of truth for resident team membership
+# (the ROSTER array) — parsed at runtime instead of duplicated here.
+TEAMS_HTML = Path(__file__).parent / 'teams.html'
 
 # Team colors — keys must match the Team column values exactly (case-sensitive).
 TEAM_COLORS = {
@@ -153,6 +179,94 @@ def read_events(path, sheet_name):
             events.append({'date': date, 'team': team, 'category': cat, 'points': pts})
 
     return events
+
+
+def load_roster_from_teams_html(path):
+    """Parse the ROSTER array out of teams.html and return {full_name: team_name}."""
+    text = path.read_text(encoding='utf-8')
+    roster = {}
+    for team_match in re.finditer(r"team:\s*'([^']+)'.*?members:\s*\[([^\]]*)\]", text, re.DOTALL):
+        team_name = team_match.group(1)
+        members_blob = team_match.group(2)
+        for name_match in re.finditer(r"'([^']+)'", members_blob):
+            roster[name_match.group(1)] = team_name
+    return roster
+
+
+def read_attendance(path, sheet_name, roster_map):
+    """Read the scraped Attendance sheet.
+
+    Returns (events, resident_totals):
+      - events: list of {'date', 'team', 'category': 'Attendance', 'points'} for aggregate()
+      - resident_totals: {name: cumulative_attendance_points} for every resident in
+        roster_map (0 for residents with no attendance rows yet)
+    """
+    resident_totals = {name: 0 for name in roster_map}
+
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+
+    if sheet_name not in wb.sheetnames:
+        wb.close()
+        return [], resident_totals
+
+    ws = wb[sheet_name]
+    rows = list(ws.iter_rows(values_only=True))
+    wb.close()
+
+    if len(rows) < 2:
+        return [], resident_totals
+
+    headers = [str(h).strip().lower() if h is not None else '' for h in rows[0]]
+
+    def col(name):
+        try:
+            return headers.index(name)
+        except ValueError:
+            raise ValueError(f'Column "{name}" not found in Attendance sheet. Headers detected: {list(rows[0])}')
+
+    date_i = col('date')
+    name_i = col('name')
+    event_i = col('event')
+
+    events = []
+    for row in rows[1:]:
+        try:
+            date = parse_date(row[date_i])
+            name = str(row[name_i] or '').strip()
+            event = str(row[event_i] or '').strip()
+        except (TypeError, ValueError, IndexError):
+            continue
+
+        team = roster_map.get(name)
+        if not team:
+            print(f'  [attendance] skipping unmapped name: {name!r}')
+            continue
+
+        points = EVENT_POINTS.get(event)
+        if not points:
+            print(f'  [attendance] skipping unknown event type: {event!r}')
+            continue
+
+        events.append({'date': date, 'team': team, 'category': 'Attendance', 'points': points})
+        resident_totals[name] = resident_totals.get(name, 0) + points
+
+    return events, resident_totals
+
+
+def write_attendance_summary(path, summary_sheet_name, resident_totals, roster_map):
+    """(Re)write the per-resident cumulative attendance points sheet."""
+    wb = openpyxl.load_workbook(path)
+
+    if summary_sheet_name in wb.sheetnames:
+        del wb[summary_sheet_name]
+    ws = wb.create_sheet(summary_sheet_name, 0)
+
+    ws.append(['Name', 'Team', 'Attendance Points'])
+    for name in sorted(roster_map, key=lambda n: (roster_map[n], n)):
+        ws.append([name, roster_map[name], resident_totals.get(name, 0)])
+
+    wb.save(path)
+    return len(roster_map)
 
 
 def week_number(date):
@@ -287,6 +401,16 @@ if __name__ == '__main__':
             '  - Points column containing numbers\n'
             '  - Team values matching TEAM_COLORS keys in refresh_data.py\n'
         )
+
+    if TEAMS_HTML.exists():
+        roster_map = load_roster_from_teams_html(TEAMS_HTML)
+        attendance_events, resident_totals = read_attendance(EXCEL_FILE, ATTENDANCE_SHEET_NAME, roster_map)
+        if attendance_events:
+            print(f'[attendance] merged {len(attendance_events)} attendance event(s).')
+        events += attendance_events
+
+        n_residents = write_attendance_summary(EXCEL_FILE, ATTENDANCE_SUMMARY_SHEET_NAME, resident_totals, roster_map)
+        print(f'[attendance] wrote "{ATTENDANCE_SUMMARY_SHEET_NAME}" sheet — {n_residents} resident row(s).')
 
     data = aggregate(events)
     write_data_js(data)
