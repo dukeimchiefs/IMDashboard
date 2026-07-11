@@ -1,0 +1,6 @@
+openpyxl
+playwright
+python-dotenv
+
+# After installing, run once:
+#   playwright install chromium
