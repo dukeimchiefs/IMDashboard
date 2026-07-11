@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rules — Duke Internal Medicine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const DUKE_BLUE = '#012169';
+        const ORANGE    = '#C84E00';
+        const TEAL      = '#339898';
+        const WARM_GRAY = '#F3F2ED';
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'duke-blue':   DUKE_BLUE,
+                        'duke-orange': ORANGE,
+                        'duke-teal':   TEAL,
+                        'warm-gray':   WARM_GRAY,
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warm-gray min-h-screen font-sans">
+
+    <!-- Top Nav -->
+    <nav class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-end">
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-blue-300 hover:text-white transition-colors" style="font-size:22px">Home</a>
+                <a href="teams.html" class="text-blue-300 hover:text-white transition-colors" style="font-size:22px">Team Assignments</a>
+                <a href="rules.html" class="text-white font-semibold border-b border-duke-orange pb-px" style="font-size:22px">Rules</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 pt-12 pb-16">
+            <div class="h-[3px] w-10 bg-duke-orange mb-6"></div>
+            <p class="text-[11px] font-bold tracking-[0.25em] text-blue-300 uppercase mb-3">How To Earn Points</p>
+            <h1 class="text-5xl font-bold text-white tracking-tight">Point Rules</h1>
+            <p class="text-blue-300 text-sm mt-2">2026 – 2027 Academic Year</p>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="max-w-6xl mx-auto px-6 -mt-5 pb-20 space-y-5">
+
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Point Categories</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-100">
+                            <th class="text-left px-6 py-3 text-[11px] font-bold tracking-[0.15em] uppercase text-gray-400">Category</th>
+                            <th class="text-left px-6 py-3 text-[11px] font-bold tracking-[0.15em] uppercase text-gray-400 whitespace-nowrap">Points</th>
+                            <th class="text-left px-6 py-3 text-[11px] font-bold tracking-[0.15em] uppercase text-gray-400">Rules</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        <tr>
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">Teaching</td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">5</td>
+                            <td class="px-6 py-4 text-gray-600 align-top">Resident teaching of medical students. Must include a photo (medical student should text chiefs).</td>
+                        </tr>
+                        <tr class="bg-gray-50/50">
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">Community Engagement</td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">10</td>
+                            <td class="px-6 py-4 text-gray-600 align-top">Participating at/with resi-teering opportunities.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">Residency Engagement</td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">10</td>
+                            <td class="px-6 py-4 text-gray-600 align-top">Attendance of residency-held events (including squad events, Doktoberfest, Funbruary).</td>
+                        </tr>
+                        <tr class="bg-gray-50/50">
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">Noon Conference Warrior</td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">20</td>
+                            <td class="px-6 py-4 text-gray-600 align-top">QR code/Attendence based.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">Report Rockstar</td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">10</td>
+                            <td class="px-6 py-4 text-gray-600 align-top">QR code/Attendence based.</td>
+                        </tr>
+                        <tr class="bg-gray-50/50">
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">Got Catch 'Em All <span class="block font-normal text-xs text-gray-400">(Great Catches/Exceptional Care)</span></td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">5–20 <span class="block font-normal text-xs text-gray-400">(varies)</span></td>
+                            <td class="px-6 py-4 text-gray-600 align-top">Great patient care, diagnoses, or treatment management. Must tell chiefs in person or send via text.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">PCP Wins</td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">5–20 <span class="block font-normal text-xs text-gray-400">(varies)</span></td>
+                            <td class="px-6 py-4 text-gray-600 align-top">Great PCP care and follow-up (transition of care from inpatient to outpatient, outpatient wins like reducing A1c, etc.). Must tell chiefs in person or send via text.</td>
+                        </tr>
+                        <tr class="bg-gray-50/50">
+                            <td class="px-6 py-4 font-semibold text-gray-900 align-top">Caring Colleague</td>
+                            <td class="px-6 py-4 text-duke-orange font-bold align-top whitespace-nowrap">5–20 <span class="block font-normal text-xs text-gray-400">(varies)</span></td>
+                            <td class="px-6 py-4 text-gray-600 align-top">Caring for our own! Chief will help recognize.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <span class="text-xs text-gray-400">Duke Internal Medicine Residency</span>
+            <span class="text-xs text-gray-400">2026 – 2027</span>
+        </div>
+    </footer>
+
+</body>
+</html>

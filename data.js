@@ -1,15 +1,24 @@
-// Auto-generated 2026-07-10 23:22 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-07-10 23:30 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
         "Jul"
     ],
+    "weeks": [
+        1
+    ],
+    "weekMonths": [
+        "Jul"
+    ],
     "teams": [
         {
-            "name": "Team Creatininjas",
-            "color": "#2a78d6",
+            "name": "Team Remissionaries",
+            "color": "#9d174d",
             "total": 1,
             "monthly": [
+                1
+            ],
+            "weekly": [
                 1
             ]
         },
@@ -19,13 +28,8 @@ const SAMPLE_DATA = {
             "total": 1,
             "monthly": [
                 1
-            ]
-        },
-        {
-            "name": "Team PEEPs",
-            "color": "#eda100",
-            "total": 1,
-            "monthly": [
+            ],
+            "weekly": [
                 1
             ]
         },
@@ -35,13 +39,19 @@ const SAMPLE_DATA = {
             "total": 1,
             "monthly": [
                 1
+            ],
+            "weekly": [
+                1
             ]
         },
         {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
+            "name": "Team Creatininjas",
+            "color": "#2a78d6",
             "total": 1,
             "monthly": [
+                1
+            ],
+            "weekly": [
                 1
             ]
         },
@@ -51,13 +61,8 @@ const SAMPLE_DATA = {
             "total": 1,
             "monthly": [
                 1
-            ]
-        },
-        {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
-            "total": 1,
-            "monthly": [
+            ],
+            "weekly": [
                 1
             ]
         },
@@ -67,6 +72,42 @@ const SAMPLE_DATA = {
             "total": 1,
             "monthly": [
                 1
+            ],
+            "weekly": [
+                1
+            ]
+        },
+        {
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
+            "total": 1,
+            "monthly": [
+                1
+            ],
+            "weekly": [
+                1
+            ]
+        },
+        {
+            "name": "Team PEEPs",
+            "color": "#eda100",
+            "total": 1,
+            "monthly": [
+                1
+            ],
+            "weekly": [
+                1
+            ]
+        },
+        {
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
+            "total": 1,
+            "monthly": [
+                1
+            ],
+            "weekly": [
+                1
             ]
         },
         {
@@ -75,13 +116,8 @@ const SAMPLE_DATA = {
             "total": 1,
             "monthly": [
                 1
-            ]
-        },
-        {
-            "name": "Team Remissionaries",
-            "color": "#9d174d",
-            "total": 1,
-            "monthly": [
+            ],
+            "weekly": [
                 1
             ]
         }

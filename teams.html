@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Assignments — Duke Internal Medicine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const DUKE_BLUE = '#012169';
+        const ORANGE    = '#C84E00';
+        const TEAL      = '#339898';
+        const WARM_GRAY = '#F3F2ED';
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'duke-blue':   DUKE_BLUE,
+                        'duke-orange': ORANGE,
+                        'duke-teal':   TEAL,
+                        'warm-gray':   WARM_GRAY,
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warm-gray min-h-screen font-sans">
+
+    <!-- Top Nav -->
+    <nav class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-end">
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-blue-300 hover:text-white transition-colors" style="font-size:22px">Home</a>
+                <a href="teams.html" class="text-white font-semibold border-b border-duke-orange pb-px" style="font-size:22px">Team Assignments</a>
+                <a href="rules.html" class="text-blue-300 hover:text-white transition-colors" style="font-size:22px">Rules</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="bg-duke-blue">
+        <div class="max-w-6xl mx-auto px-6 pt-12 pb-16">
+            <div class="h-[3px] w-10 bg-duke-orange mb-6"></div>
+            <h1 class="text-5xl font-bold text-white tracking-tight">Team Assignments</h1>
+            <p class="text-blue-300 text-sm mt-2">2026 – 2027 Academic Year</p>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="max-w-6xl mx-auto px-6 -mt-5 pb-20">
+        <div class="grid grid-cols-2 gap-5" id="teams-grid"></div>
+    </main>
+
+    <script>
+        const ROSTER = [
+            {
+                team: 'Creatininjas', color: '#2a78d6',
+                members: ['Abigail Driscoll', 'Anivarya Kumar', 'Brandon King', 'Christopher Delaney', 'Daniel Nwosuocha', 'Elizabeth Richardson', 'Garrett Moseley', 'Jamie Cyr', 'Joshua Kowalczyk', 'Kent Sutton', 'Lina Dimachkie', 'Margaret Lefebvre', 'Megan McFarland', 'Mitchell Ward', 'Odai Mansour', 'Riana Schleicher', 'Samira Mehta', 'Shwetha Bindhu', 'Thomas Li', 'Zachary Creech'],
+            },
+            {
+                team: 'Scopetrotters', color: '#1baf7a',
+                members: ['Aden Cowley', 'Anjali Bhatt', 'Brandon Molligoda', 'Christopher Gitter', 'David Stevens', 'Emily Egan', 'Grant Hiura', 'Jazlyn Seidel', 'Joshua Siar', 'Kevin Salinas', 'Lisette Corbin', 'Margot Kim', 'Megan Mukenge', 'Mohummad Hassan Raza Raja', 'Olawale Akinyemi', 'Rishabh Sehra', 'Samuel LeFew', 'Simo Kraguljac', 'Tilicea Henry', 'Zina Ibrahim'],
+            },
+            {
+                team: 'PEEPs', color: '#eda100',
+                members: ['Alessandro Racioppi', 'Anna Wasserman', 'Brandon Moritz', 'Christopher Norberg', 'Derek Schocken', 'Eric Bejarano', 'Gregory Hoy', 'Jessica Allred', 'Julia Alvarenga Fagundes Couto', 'Kiara Gallagher', 'Lucas Collins', 'Maria Paz', 'Melissa Marchese', 'Morgan Nakatani', 'Olivier Barolette', 'Rishay Patel', 'Samuel McCachren', 'Sloan Rhodes', 'Tyler Gillikin'],
+            },
+            {
+                team: 'Karius', color: '#008300',
+                members: ['Alexandria Danyluk', 'Annie Kleynerman Roels', 'Brian Koh', 'Claudia Pena', 'Douglas Jimenez', 'Ezan Chaudhry', 'Hannah Concannon', 'Jessica Irvin', 'Julie Kay', 'Kyla Brezitski', 'Mabel Donahue', 'Maria Salazar', 'Melissa Martin', 'Natalie Cohen', 'Olufemi Olatidoye', 'Robert Wasson', 'Sanjana Ravi', 'Sonum Tharwani', 'Victor Ayeni'],
+            },
+            {
+                team: 'Hemoglobbers', color: '#4a3aa7',
+                members: ['Alexis Green', 'Ariel Kline', 'Bronwen Foreman', 'Cody McIntire', 'Eesha Sachdeva', 'Fady Botros', 'Hendrik Glauninger', 'Jimshad Farooque-Wooden', 'Kaia Miller', 'Lara Scott', 'Maci Winn', 'Mary Kaufmann', 'Meredith Srour-Welser', 'Nia Mitchell', 'Olufolake Ogunmola', 'Roberto Rosario', 'Sara Jacob', 'Sydney Means', 'Vincent Archibald'],
+            },
+            {
+                team: 'Stentinels', color: '#e34948',
+                members: ['Alia Sadek', 'Ashley Diaz', 'Bryce Hendren', 'Collin Darwish', 'Elana Horwitz', 'Fiona Splaine', 'Hunter Litz', 'Joanna Assadourian', 'Kaley Parchinski', 'Larissa Lushniak', 'Madhura Pande', 'Matthew Garr', 'Mia Hofstad-Feist', 'Nicholas Sauder', 'Othmane Jadi', 'Roshini Srinivasan', 'Sarah Malik', 'Symon Ma', 'Wael Hanna'],
+            },
+            {
+                team: 'Jointventurers', color: '#e87ba4',
+                members: ['Alyssa Morrison', 'Benjamin Marks', 'Cassidy Allison', 'Connor Hughes', 'Elgin Yalin', 'Francyess Denis Oliva', 'Hyoungjun Sim', 'Jocelyn Reckford', 'Kamron Zand', 'Lauren Halsey', 'Madison Bagley', 'Matthew Morris', 'Michael Pitonak', 'Nicole Zatorski', 'Pankti Sheth', 'Ryan Cooper', 'Sarah Murphy', 'Tamar Chukrun', 'William Morgenlander'],
+            },
+            {
+                team: 'Codeblazers', color: '#eb6834',
+                members: ['Amanda Hertel', 'Binisha Patel', 'Celyn Bregio', 'Connor Moriarty', 'Eli Abernethy', 'Frank Estrella', 'Ian George', 'John Etter', 'Katelyn Young', 'Lauren Wein', 'Madison McCarthy', 'Maxwell Sumner', 'Michael Qureshi', 'Nikita Chaubal', 'Phoebe Warren', 'Ryan Moore', 'Sarthak Shah', 'Tarek Bou Dargham', 'Wufan Zhao'],
+            },
+            {
+                team: 'Glandiators', color: '#0891b2',
+                members: ['Amani Allen', 'Blaire Rikard', 'Chloe Love', 'Courtney Bair', 'Elisabeth Fassas', 'Gabrielle Cooper', 'Ian Malinow', 'Jonathan Parke', 'Katherine Dunn', 'Leela Ekambarapu', 'Maira Haque', 'Meagan Prescott', 'Michael Rauschenbach', 'Nisha Uppuluri', 'Rachel Zuzul', 'Sabrina Arezo', 'Sean LaFata', 'Tessa Danehy', 'Yannet Daniel'],
+            },
+            {
+                team: 'Remissionaries', color: '#9d174d',
+                members: ['Andrew Grose', 'Bobak Zakhireh', 'Christopher Choi', 'Daniel Bujnowski', 'Elizabeth Krogman', 'Gabrielle Pancio', 'Ibukunoluwa Olubowale', 'Joseph Locklear', 'Katie Lee', 'Leila Azari', 'Maison Furley', 'Meaghan Stevens', 'Mihir Patel', 'Nissma Bencheikh', 'Rebecca Sullenger', 'Sameer Kunte', 'Shane Collins', 'Thomas Hamner', 'Yashar Niknafs'],
+            },
+        ];
+
+        const grid = document.getElementById('teams-grid');
+        grid.innerHTML = ROSTER.map(t => `
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
+                    <div class="w-2 h-8 rounded flex-shrink-0" style="background-color:${t.color}"></div>
+                    <div>
+                        <h2 class="font-bold text-gray-900">Team ${t.team}</h2>
+                        <p class="text-xs text-gray-400">${t.members.length} residents</p>
+                    </div>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm text-gray-600">
+                        ${t.members.map(m => `<div class="truncate">${m}</div>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    </script>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <span class="text-xs text-gray-400">Duke Internal Medicine Residency</span>
+            <span class="text-xs text-gray-400">2026 – 2027</span>
+        </div>
+    </footer>
+
+</body>
+</html>
