@@ -1,4 +1,4 @@
-// Auto-generated 2026-07-11 10:06 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-07-11 10:19 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
@@ -12,8 +12,8 @@ const SAMPLE_DATA = {
     ],
     "teams": [
         {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
             "total": 1,
             "monthly": [
                 1
@@ -23,19 +23,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Scopetrotters",
-            "color": "#1baf7a",
-            "total": 1,
-            "monthly": [
-                1
-            ],
-            "weekly": [
-                1
-            ]
-        },
-        {
-            "name": "Team Glandiators",
-            "color": "#0891b2",
+            "name": "Team Karius",
+            "color": "#008300",
             "total": 1,
             "monthly": [
                 1
@@ -56,17 +45,6 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team PEEPs",
-            "color": "#eda100",
-            "total": 1,
-            "monthly": [
-                1
-            ],
-            "weekly": [
-                1
-            ]
-        },
-        {
             "name": "Team Remissionaries",
             "color": "#9d174d",
             "total": 1,
@@ -78,8 +56,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
             "total": 1,
             "monthly": [
                 1
@@ -89,8 +67,30 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Stentinels",
-            "color": "#e34948",
+            "name": "Team Glandiators",
+            "color": "#0891b2",
+            "total": 1,
+            "monthly": [
+                1
+            ],
+            "weekly": [
+                1
+            ]
+        },
+        {
+            "name": "Team PEEPs",
+            "color": "#eda100",
+            "total": 1,
+            "monthly": [
+                1
+            ],
+            "weekly": [
+                1
+            ]
+        },
+        {
+            "name": "Team Scopetrotters",
+            "color": "#1baf7a",
             "total": 1,
             "monthly": [
                 1
@@ -111,8 +111,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Karius",
-            "color": "#008300",
+            "name": "Team Stentinels",
+            "color": "#e34948",
             "total": 1,
             "monthly": [
                 1
