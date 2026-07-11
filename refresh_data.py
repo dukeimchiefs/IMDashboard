@@ -55,12 +55,16 @@ SHEET_NAME = None
 
 # Team colors — keys must match the Team column values exactly (case-sensitive).
 TEAM_COLORS = {
-    'Bezoars':  '#012169',
-    'Karius':   '#C84E00',
-    'PEEPs':    '#339898',
-    'Ultrafiltraters': '#D97706',
-    'Blasts':   '#DC2626',
-    'Scopetrotters':   '#16A34A',
+    'Creatininjas':    '#2a78d6',
+    'Scopetrotters':   '#1baf7a',
+    'PEEPs':           '#eda100',
+    'Karius':          '#008300',
+    'Hemoglobbers':    '#4a3aa7',
+    'Stentinels':      '#e34948',
+    'Jointventurers':  '#e87ba4',
+    'Codeblazers':     '#eb6834',
+    'Glandiators':     '#0891b2',
+    'Remissionaries':  '#9d174d',
 }
 
 # Category colors — keys must match Category column values exactly.
