@@ -34,6 +34,7 @@
             <div class="flex items-center gap-6">
                 <a href="index.html" class="text-white font-semibold border-b border-duke-orange pb-px" style="font-size:22px">Home</a>
                 <a href="stats.html" class="text-blue-300 hover:text-white transition-colors" style="font-size:22px">Statistics</a>
+                <a href="rules.html" class="text-blue-300 hover:text-white transition-colors" style="font-size:22px">Rules</a>
             </div>
         </div>
     </nav>
@@ -55,7 +56,7 @@
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400">Current Standings</h2>
-                <span class="text-xs text-gray-400">Week 42 of 52</span>
+                <span class="text-xs text-gray-400" id="stat-week">Week — of 52</span>
             </div>
             <div class="divide-y divide-gray-50" id="standings-list">
                 <div class="px-6 py-8 text-center text-sm text-gray-400">Loading standings…</div>
@@ -131,6 +132,12 @@
     </main>
 
     <script>
+        // Academic year runs July 2026 – July 2027
+        var ACADEMIC_YEAR_START = new Date(2026, 6, 1);
+        var msPerWeek = 7 * 24 * 60 * 60 * 1000;
+        var weekNum = Math.min(52, Math.max(1, Math.ceil((Date.now() - ACADEMIC_YEAR_START.getTime() + 1) / msPerWeek)));
+        document.getElementById('stat-week').textContent = 'Week ' + weekNum + ' of 52';
+
         loadDashboardData().then(function(data) {
             var teams = data.teams; // sorted by total desc from data source
             var maxTotal = teams[0].total;
