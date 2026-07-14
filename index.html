@@ -67,7 +67,7 @@
         <!-- Quick Stats -->
         <div class="grid grid-cols-3 gap-5">
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Total Points</p>
+                <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">Points This Week</p>
                 <p class="text-5xl font-bold text-duke-blue" id="stat-total">—</p>
                 <p class="text-xs text-gray-400 mt-2" id="stat-total-sub">loading…</p>
             </div>
@@ -216,9 +216,10 @@
             }).join('');
 
             // ---- Quick Stats ----
-            var totalPts = teams.reduce(function(s, t) { return s + t.total; }, 0);
-            document.getElementById('stat-total').textContent     = totalPts.toLocaleString();
-            document.getElementById('stat-total-sub').textContent = teams.length + ' teams · ' + months.length + ' months tracked';
+            var allWeeks = data.weeks;
+            var weekPts = teams.reduce(function(s, t) { return s + (t.weekly[t.weekly.length - 1] || 0); }, 0);
+            document.getElementById('stat-total').textContent     = weekPts.toLocaleString();
+            document.getElementById('stat-total-sub').textContent = 'across ' + teams.length + ' teams · Week ' + allWeeks[allWeeks.length - 1];
             document.getElementById('stat-leader').textContent    = teams[0].name;
             document.getElementById('stat-leader-sub').textContent = teams[0].total.toLocaleString() + ' pts this season';
             var gap = teams.length > 1 ? teams[0].total - teams[1].total : 0;
