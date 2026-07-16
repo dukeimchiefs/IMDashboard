@@ -1,4 +1,4 @@
-// Auto-generated 2026-07-16 00:40 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-07-16 18:07 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
@@ -26,32 +26,32 @@ const SAMPLE_DATA = {
             ]
         },
         {
+            "name": "Team Stentinels",
+            "color": "#e34948",
+            "total": 60,
+            "monthly": [
+                60
+            ],
+            "weekly": [
+                50,
+                10
+            ]
+        },
+        {
+            "name": "Team Glandiators",
+            "color": "#0891b2",
+            "total": 50,
+            "monthly": [
+                50
+            ],
+            "weekly": [
+                50,
+                0
+            ]
+        },
+        {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 50,
-            "monthly": [
-                50
-            ],
-            "weekly": [
-                50,
-                0
-            ]
-        },
-        {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
-            "total": 50,
-            "monthly": [
-                50
-            ],
-            "weekly": [
-                50,
-                0
-            ]
-        },
-        {
-            "name": "Team Scopetrotters",
-            "color": "#1baf7a",
             "total": 50,
             "monthly": [
                 50
@@ -74,8 +74,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team PEEPs",
-            "color": "#eda100",
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
             "total": 50,
             "monthly": [
                 50
@@ -86,8 +86,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Glandiators",
-            "color": "#0891b2",
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
             "total": 50,
             "monthly": [
                 50
@@ -110,8 +110,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
+            "name": "Team Scopetrotters",
+            "color": "#1baf7a",
             "total": 50,
             "monthly": [
                 50
@@ -122,8 +122,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Stentinels",
-            "color": "#e34948",
+            "name": "Team PEEPs",
+            "color": "#eda100",
             "total": 50,
             "monthly": [
                 50
@@ -144,6 +144,11 @@ const SAMPLE_DATA = {
             "label": "Teaching",
             "value": 10,
             "color": "#C84E00"
+        },
+        {
+            "label": "Caring for Colleage",
+            "value": 10,
+            "color": "#6B7280"
         }
     ]
 };
