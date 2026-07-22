@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 """
-Duke IM Resident Dashboard — Attendance Scraper
+Duke IM Resident Dashboard — Attendance Importer
 =================================================
-Logs into the password-protected attendance roster and appends any new
-records into the "Attendance" sheet of the shared Point_Spreadsheet.xlsx
-workbook. Run refresh_data.py afterward to fold these into the dashboard.
+Downloads the email-free attendance export through Cloudflare Access and
+appends any new records into the "Attendance" sheet of the shared
+Point_Spreadsheet.xlsx workbook. Run refresh_data.py afterward to fold these
+into the dashboard.
 
 SETUP (one-time)
 ----------------
 1. Install dependencies:
        pip3 install -r requirements.txt
-       playwright install chromium
 
-2. Copy .env.example to .env and fill in ATTENDANCE_PASSWORD.
-   .env is gitignored — never commit it.
+2. Credentials are read from environment variables first. On the dashboard
+   Mac, they fall back to the three macOS Keychain entries documented in the
+   README. Never put real credentials in a committed file.
 
 3. Run it whenever you want to sync attendance:
        python3 scrape_attendance.py
@@ -22,6 +23,7 @@ SETUP (one-time)
 """
 
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -36,19 +38,15 @@ except ImportError:
     sys.exit('python-dotenv not found. Install it with:  pip3 install -r requirements.txt')
 
 try:
-    from playwright.sync_api import sync_playwright
+    import requests
 except ImportError:
-    sys.exit(
-        'playwright not found. Install it with:\n'
-        '  pip3 install -r requirements.txt\n'
-        '  playwright install chromium'
-    )
+    sys.exit('requests not found. Install it with:  pip3 install -r requirements.txt')
 
 # ============================================================
 # CONFIGURATION — edit these to match your setup
 # ============================================================
 
-ATTENDANCE_URL = 'https://imresidentdashboardapp.pages.dev/attendance'
+ATTENDANCE_URL = 'https://imresidentdashboardapp.pages.dev/export'
 
 # Same workbook refresh_data.py reads from.
 EXCEL_FILE = Path('/Users/nbrazeau/Library/CloudStorage/OneDrive-SharedLibraries-DukeUniversity/Duke Chiefs 2024-2026 - Documents/zChief_Gamification/Point_Spreadsheet.xlsx')
@@ -58,66 +56,90 @@ ATTENDANCE_SHEET_NAME = 'AttendancePoints'
 # ============================================================
 
 
-def get_password():
+KEYCHAIN_ACCOUNT = 'nbrazeau'
+KEYCHAIN_SERVICES = {
+    'ADMIN_EXPORT_KEY': 'imresidentdashboardapp-admin-export-key',
+    'CF_ACCESS_CLIENT_ID': 'imresidentdashboard-access-client-id',
+    'CF_ACCESS_CLIENT_SECRET': 'imresidentdashboard-access-client-secret',
+}
+
+EVENT_LABELS = {
+    'noon_conference': 'Noon Conference',
+    'learning_session': 'Learning Session',
+    'grand_rounds': 'Grand Rounds',
+    'welcome': 'Welcome',
+}
+
+
+def keychain_value(service):
+    """Read a credential from macOS Keychain without echoing it."""
+    if sys.platform != 'darwin':
+        return None
+    result = subprocess.run(
+        ['security', 'find-generic-password', '-s', service, '-a', KEYCHAIN_ACCOUNT, '-w'],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return result.stdout.strip() if result.returncode == 0 else None
+
+
+def get_credentials():
     load_dotenv()
-    password = os.environ.get('ATTENDANCE_PASSWORD')
-    if not password:
-        sys.exit(
-            '\nERROR: ATTENDANCE_PASSWORD not set.\n'
-            'Copy .env.example to .env and fill in the password.\n'
-        )
-    return password
-
-
-def scrape_attendance(password):
-    """Log into ATTENDANCE_URL and return a list of (date, name, event) tuples."""
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
-        page.goto(ATTENDANCE_URL)
-
-        password_input = page.locator('input[type="password"]').first
-        password_input.wait_for(timeout=15000)
-        password_input.fill(password)
-
-        submit_button = page.locator(
-            'button[type="submit"], input[type="submit"], button:has-text("Unlock"), button:has-text("Submit"), button:has-text("Login"), button:has-text("Log in")'
-        ).first
-        if submit_button.count() > 0:
-            submit_button.click()
+    credentials = {}
+    missing = []
+    for name, service in KEYCHAIN_SERVICES.items():
+        value = os.environ.get(name) or keychain_value(service)
+        if value:
+            credentials[name] = value
         else:
-            password_input.press('Enter')
+            missing.append(name)
+    if missing:
+        sys.exit(
+            '\nERROR: Missing attendance export credentials: '
+            + ', '.join(missing)
+            + '.\nSet them as environment variables or install the documented macOS Keychain entries.\n'
+        )
+    return credentials
 
-        page.locator('table').first.wait_for(timeout=15000)
 
-        headers = [
-            h.strip().lower()
-            for h in page.locator('table thead th, table tr:first-child th, table tr:first-child td').all_inner_texts()
-        ]
+def scrape_attendance(credentials):
+    """Download the protected export and return (date, name, event) tuples."""
+    try:
+        response = requests.get(
+            ATTENDANCE_URL,
+            headers={
+                'Accept': 'application/json',
+                'X-Admin-Key': credentials['ADMIN_EXPORT_KEY'],
+                'CF-Access-Client-Id': credentials['CF_ACCESS_CLIENT_ID'],
+                'CF-Access-Client-Secret': credentials['CF_ACCESS_CLIENT_SECRET'],
+            },
+            timeout=30,
+        )
+    except requests.RequestException as error:
+        raise RuntimeError('attendance export request failed') from error
 
-        def col(name):
-            try:
-                return headers.index(name)
-            except ValueError:
-                raise ValueError(f'Column "{name}" not found in attendance table. Headers detected: {headers}')
+    if response.status_code != 200:
+        raise RuntimeError(f'attendance export returned HTTP {response.status_code}')
+    try:
+        payload = response.json()
+    except requests.JSONDecodeError as error:
+        raise ValueError('attendance export did not return JSON') from error
 
-        date_i = col('date')
-        name_i = col('name')
-        event_i = col('event')
+    if payload.get('ok') is not True or not isinstance(payload.get('rows'), list):
+        raise ValueError('attendance export returned an unexpected response')
 
-        rows = []
-        body_rows = page.locator('table tbody tr')
-        if body_rows.count() == 0:
-            body_rows = page.locator('table tr').filter(has_not=page.locator('th'))
-
-        for i in range(body_rows.count()):
-            cells = body_rows.nth(i).locator('td').all_inner_texts()
-            if not cells or len(cells) <= max(date_i, name_i, event_i):
-                continue
-            rows.append((cells[date_i].strip(), cells[name_i].strip(), cells[event_i].strip()))
-
-        browser.close()
-        return rows
+    rows = []
+    for item in payload['rows']:
+        if not isinstance(item, dict):
+            raise ValueError('attendance export contained an invalid row')
+        date = str(item.get('event_date', '')).strip()
+        name = str(item.get('name', '')).strip()
+        event_type = str(item.get('event_type', '')).strip()
+        if not date or not name or event_type not in EVENT_LABELS:
+            raise ValueError('attendance export contained a missing or unknown field')
+        rows.append((date, name, EVENT_LABELS[event_type]))
+    return rows
 
 
 def append_to_workbook(path, sheet_name, scraped_rows):
@@ -157,12 +179,12 @@ if __name__ == '__main__':
             f'Edit EXCEL_FILE in scrape_attendance.py to point to your workbook.\n'
         )
 
-    password = get_password()
+    credentials = get_credentials()
 
     try:
-        scraped_rows = scrape_attendance(password)
+        scraped_rows = scrape_attendance(credentials)
     except Exception as e:
-        sys.exit(f'\nERROR scraping attendance page: {e}\n')
+        sys.exit(f'\nERROR downloading attendance export: {e}\n')
 
     if not scraped_rows:
         sys.exit('No attendance rows found on the page — nothing to append.\n')

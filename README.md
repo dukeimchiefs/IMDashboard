@@ -32,7 +32,7 @@ Resident → team lookups are parsed at runtime straight out of `teams.html`'s
 
 | Script | What it does |
 | --- | --- |
-| `scrape_attendance.py` | Logs into the password-protected attendance roster at `imresidentdashboardapp.pages.dev/attendance`, and appends any new (Date, Name, Event) rows into the `AttendancePoints` sheet — skipping rows already recorded. |
+| `scrape_attendance.py` | Downloads the email-free `/export` feed through Cloudflare Access Service Auth, and appends any new (Date, Name, Event) rows into the `AttendancePoints` sheet — skipping rows already recorded. |
 | `refresh_data.py` | Reads `OtherPoints` + `AttendancePoints`, converts attendance events to points by event type (`Noon Conference` = 20, `Learning Session` = 10), aggregates everything into team/category totals, regenerates `data.js`, and rewrites the `Attendance Summary` sheet. |
 | `sync_and_publish.sh` | Runs both of the above in order, commits `data.js` if it changed, and pushes to GitHub — the one command to run for a full attendance sync + live publish. |
 
@@ -40,9 +40,19 @@ Resident → team lookups are parsed at runtime straight out of `teams.html`'s
 
 ```bash
 pip3 install -r requirements.txt
-playwright install chromium
-cp .env.example .env   # then fill in ATTENDANCE_PASSWORD yourself — never commit .env
 ```
+
+The sync requires `ADMIN_EXPORT_KEY`, `CF_ACCESS_CLIENT_ID`, and
+`CF_ACCESS_CLIENT_SECRET`. Environment variables take precedence. On the
+dashboard Mac, the script automatically reads the credentials from these
+macOS Keychain services (account `nbrazeau`):
+
+- `imresidentdashboardapp-admin-export-key`
+- `imresidentdashboard-access-client-id`
+- `imresidentdashboard-access-client-secret`
+
+For another machine, copy `.env.example` to `.env` and supply the three values
+locally. `.env` is gitignored and must never be committed.
 
 ## Day-to-day use
 
@@ -57,5 +67,6 @@ whatever's currently in the workbook.
 ## Privacy
 
 `Point_Spreadsheet.xlsx` and `.env` are both gitignored — the underlying
-points data and credentials never get committed or published. Only the
-derived, aggregated `data.js` becomes public.
+points data and credentials never get committed or published. The attendance
+export contains names, event types, and dates, but no email addresses. Only
+the derived, aggregated `data.js` becomes public.
