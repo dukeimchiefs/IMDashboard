@@ -1,4 +1,4 @@
-// Auto-generated 2026-07-24 08:08 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-07-24 08:20 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
@@ -18,14 +18,14 @@ const SAMPLE_DATA = {
         {
             "name": "Team PEEPs",
             "color": "#eda100",
-            "total": 100,
+            "total": 120,
             "monthly": [
-                100
+                120
             ],
             "weekly": [
                 50,
                 0,
-                50
+                70
             ]
         },
         {
@@ -42,8 +42,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Creatininjas",
-            "color": "#2a78d6",
+            "name": "Team Remissionaries",
+            "color": "#9d174d",
             "total": 70,
             "monthly": [
                 70
@@ -55,8 +55,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Remissionaries",
-            "color": "#9d174d",
+            "name": "Team Creatininjas",
+            "color": "#2a78d6",
             "total": 70,
             "monthly": [
                 70
@@ -81,8 +81,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Stentinels",
-            "color": "#e34948",
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
             "total": 60,
             "monthly": [
                 60
@@ -94,15 +94,15 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Scopetrotters",
-            "color": "#1baf7a",
-            "total": 50,
+            "name": "Team Stentinels",
+            "color": "#e34948",
+            "total": 60,
             "monthly": [
-                50
+                60
             ],
             "weekly": [
                 50,
-                0,
+                10,
                 0
             ]
         },
@@ -120,8 +120,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
+            "name": "Team Scopetrotters",
+            "color": "#1baf7a",
             "total": 50,
             "monthly": [
                 50
@@ -159,7 +159,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleage",
-            "value": 10,
+            "value": 20,
             "color": "#6B7280"
         },
         {
@@ -169,7 +169,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Attendance",
-            "value": 140,
+            "value": 160,
             "color": "#EC4899"
         }
     ]
