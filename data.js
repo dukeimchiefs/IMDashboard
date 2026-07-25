@@ -1,4 +1,4 @@
-// Auto-generated 2026-07-24 08:20 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-07-25 08:01 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
@@ -42,6 +42,19 @@ const SAMPLE_DATA = {
             ]
         },
         {
+            "name": "Team Karius",
+            "color": "#008300",
+            "total": 70,
+            "monthly": [
+                70
+            ],
+            "weekly": [
+                50,
+                0,
+                20
+            ]
+        },
+        {
             "name": "Team Remissionaries",
             "color": "#9d174d",
             "total": 70,
@@ -68,21 +81,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Karius",
-            "color": "#008300",
-            "total": 70,
-            "monthly": [
-                70
-            ],
-            "weekly": [
-                50,
-                0,
-                20
-            ]
-        },
-        {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
+            "name": "Team Stentinels",
+            "color": "#e34948",
             "total": 60,
             "monthly": [
                 60
@@ -94,8 +94,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Stentinels",
-            "color": "#e34948",
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
             "total": 60,
             "monthly": [
                 60
@@ -120,8 +120,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Scopetrotters",
-            "color": "#1baf7a",
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
             "total": 50,
             "monthly": [
                 50
@@ -133,8 +133,8 @@ const SAMPLE_DATA = {
             ]
         },
         {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
+            "name": "Team Scopetrotters",
+            "color": "#1baf7a",
             "total": 50,
             "monthly": [
                 50
