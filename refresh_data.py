@@ -22,10 +22,18 @@ EXCEL WORKBOOK FORMAT
 ---------------------
 Sheet tab named "Points" (or first sheet), headers in row 1:
 
-    Date | Team | Category | Points | Notes
+    Date | Resident | Team | Category | Points | Notes
 
     Date:     Any Excel date cell, or text as YYYY-MM-DD or M/D/YYYY
-    Team:     Must match a key in TEAM_COLORS below  (e.g. "Gold", "Blue")
+    Resident: Optional. Full name matching a member in teams.html's ROSTER —
+              if given and Team is left blank, the team is looked up
+              automatically. Use this instead of an in-sheet lookup formula
+              (e.g. XLOOKUP): openpyxl never evaluates formulas, and it also
+              strips any cached formula value on save (write_attendance_summary
+              below resaves this workbook every run), so formula-based Team
+              cells silently go blank.
+    Team:     Must match a key in TEAM_COLORS below (e.g. "Gold", "Blue").
+              Required only if Resident is blank (e.g. team-wide bonus rows).
     Category: Must match a key in CATEGORY_COLORS below
     Points:   A number
     Notes:    Optional — ignored by the dashboard
@@ -74,6 +82,7 @@ ATTENDANCE_SUMMARY_SHEET_NAME = 'Attendance Summary'
 EVENT_POINTS = {
     'Noon Conference':  20,
     'Learning Session': 10,
+    'Welcome':          20,
 }
 
 # teams.html holds the single source of truth for resident team membership
@@ -135,7 +144,15 @@ def parse_date(value):
     raise ValueError(f'Cannot parse date: {value!r}')
 
 
-def read_events(path, sheet_name):
+def read_events(path, sheet_name, roster_map=None):
+    """Read point events from the OtherPoints sheet.
+
+    The Team column is optional per-row: if it's blank but a Resident name is
+    given, the team is looked up from roster_map (parsed from teams.html) —
+    this avoids relying on an in-sheet formula (e.g. XLOOKUP), whose cached
+    value openpyxl can't compute and will blank out on any resave.
+    """
+    roster_map = roster_map or {}
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
 
     if sheet_name and sheet_name in wb.sheetnames:
@@ -161,7 +178,8 @@ def read_events(path, sheet_name):
 
     ci = {
         'date':     col('date'),
-        'team':     col('team'),
+        'team':     col('team', required=False),      # optional if 'resident' is given
+        'resident': col('resident', required=False),  # optional — used to derive team
         'category': col('category', required=False),  # optional
         'points':   col('points'),
     }
@@ -169,12 +187,19 @@ def read_events(path, sheet_name):
     events = []
     for row in rows[1:]:
         try:
-            date = parse_date(row[ci['date']])
-            team = str(row[ci['team']] or '').strip()
-            cat  = str(row[ci['category']] or '').strip() if ci['category'] is not None else 'All Points'
-            pts  = float(row[ci['points']] or 0)
+            date     = parse_date(row[ci['date']])
+            team     = str(row[ci['team']] or '').strip() if ci['team'] is not None else ''
+            resident = str(row[ci['resident']] or '').strip() if ci['resident'] is not None else ''
+            cat      = str(row[ci['category']] or '').strip() if ci['category'] is not None else 'All Points'
+            pts      = float(row[ci['points']] or 0)
         except (TypeError, ValueError, IndexError):
             continue
+
+        if not team and resident:
+            team = roster_map.get(resident, '')
+            if not team and pts:
+                print(f'  [points] skipping unmapped resident: {resident!r}')
+
         if team and pts:
             events.append({'date': date, 'team': team, 'category': cat, 'points': pts})
 
@@ -281,7 +306,17 @@ def week_month_label(week_num):
     return week_start.strftime('%b')
 
 
-def aggregate(events):
+def aggregate(events, today=None):
+    """Roll events up into the shape data.js expects.
+
+    Each team also gets `rank` (current standing) and `prevRank` (standing as of
+    the end of yesterday, computed from events dated strictly before today) so
+    the dashboard can show a movement arrow. `prevRank` is None when there are
+    no events before today at all — i.e. the season just started and there is no
+    prior standing to compare against.
+    """
+    today = (today or datetime.now()).replace(hour=0, minute=0, second=0, microsecond=0)
+
     team_monthly = {}
     team_weekly  = {}
     cat_totals   = {}
@@ -320,7 +355,29 @@ def aggregate(events):
             'monthly': monthly,
             'weekly':  weekly,
         })
-    teams.sort(key=lambda t: t['total'], reverse=True)
+    # Tie-break by name so equal totals rank in a stable order run-to-run —
+    # otherwise tied teams could swap places on a rerun and fake a rank change.
+    teams.sort(key=lambda t: (-t['total'], t['name']))
+    for i, t in enumerate(teams):
+        t['rank'] = i + 1
+
+    prior_totals = {}
+    for e in events:
+        if e['date'] < today:
+            key = 'Team ' + e['team']
+            prior_totals[key] = prior_totals.get(key, 0) + e['points']
+
+    if prior_totals:
+        prior_order = sorted(
+            (t['name'] for t in teams),
+            key=lambda n: (-prior_totals.get(n, 0), n),
+        )
+        prior_rank = {name: i + 1 for i, name in enumerate(prior_order)}
+        for t in teams:
+            t['prevRank'] = prior_rank[t['name']]
+    else:
+        for t in teams:
+            t['prevRank'] = None
 
     categories = [
         {
@@ -382,8 +439,10 @@ if __name__ == '__main__':
             f'Edit EXCEL_FILE in refresh_data.py to point to your workbook.\n'
         )
 
+    roster_map = load_roster_from_teams_html(TEAMS_HTML) if TEAMS_HTML.exists() else {}
+
     try:
-        events = read_events(EXCEL_FILE, SHEET_NAME)
+        events = read_events(EXCEL_FILE, SHEET_NAME, roster_map)
     except ValueError as e:
         diagnose(EXCEL_FILE, SHEET_NAME)
         sys.exit(f'\nERROR reading workbook: {e}\n')
@@ -396,14 +455,14 @@ if __name__ == '__main__':
         sys.exit(
             'ERROR: No valid data rows found.\n'
             'Check the diagnostic output above — look for:\n'
-            '  - Required headers: Date, Team, Points  (Category is optional)\n'
+            '  - Required headers: Date, Points  (Category optional; either Team or a\n'
+            '    Resident name matching teams.html is required)\n'
             '  - Date values parseable as dates (e.g. 7/1/2024 or 2024-07-01)\n'
             '  - Points column containing numbers\n'
             '  - Team values matching TEAM_COLORS keys in refresh_data.py\n'
         )
 
     if TEAMS_HTML.exists():
-        roster_map = load_roster_from_teams_html(TEAMS_HTML)
         attendance_events, resident_totals = read_attendance(EXCEL_FILE, ATTENDANCE_SHEET_NAME, roster_map)
         if attendance_events:
             print(f'[attendance] merged {len(attendance_events)} attendance event(s).')
