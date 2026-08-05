@@ -55,6 +55,8 @@ try:
 except ImportError:
     sys.exit('openpyxl not found. Install it with:  pip3 install openpyxl')
 
+import workbook_io
+
 # ============================================================
 # CONFIGURATION — edit these to match your setup
 # ============================================================
@@ -296,19 +298,41 @@ def read_attendance(path, sheet_name, roster_map):
 
 
 def write_attendance_summary(path, summary_sheet_name, resident_totals, roster_map):
-    """(Re)write the per-resident cumulative attendance points sheet."""
+    """(Re)write the per-resident cumulative attendance points sheet.
+
+    Returns (row_count, wrote). Saving this workbook strips the cached values
+    of its in-sheet formulas, so when the summary is already correct we leave
+    the file alone entirely rather than rewrite it identically.
+    """
+    signature = workbook_io.file_signature(path)
     wb = openpyxl.load_workbook(path)
 
-    if summary_sheet_name in wb.sheetnames:
-        del wb[summary_sheet_name]
-    ws = wb.create_sheet(summary_sheet_name, 0)
-
-    ws.append(['Name', 'Team', 'Attendance Points'])
+    rows = [['Name', 'Team', 'Attendance Points']]
     for name in sorted(roster_map, key=lambda n: (roster_map[n], n)):
-        ws.append([name, roster_map[name], resident_totals.get(name, 0)])
+        rows.append([name, roster_map[name], resident_totals.get(name, 0)])
 
-    wb.save(path)
-    return len(roster_map)
+    if summary_sheet_name in wb.sheetnames:
+        current = [
+            list(row) for row in wb[summary_sheet_name].iter_rows(values_only=True)
+            if any(cell is not None for cell in row)
+        ]
+        if current == rows:
+            wb.close()
+            return len(roster_map), False
+        del wb[summary_sheet_name]
+
+    ws = wb.create_sheet(summary_sheet_name, 0)
+    for row in rows:
+        ws.append(row)
+
+    # The summary is rebuilt from scratch each run, so it is the one sheet
+    # allowed to come out shorter than it went in.
+    workbook_io.save_workbook(
+        wb, path,
+        expect_signature=signature,
+        allow_shrink=(summary_sheet_name,),
+    )
+    return len(roster_map), True
 
 
 def week_number(date):
@@ -485,8 +509,16 @@ if __name__ == '__main__':
             print(f'[attendance] merged {len(attendance_events)} attendance event(s).')
         events += attendance_events
 
-        n_residents = write_attendance_summary(EXCEL_FILE, ATTENDANCE_SUMMARY_SHEET_NAME, resident_totals, roster_map)
-        print(f'[attendance] wrote "{ATTENDANCE_SUMMARY_SHEET_NAME}" sheet — {n_residents} resident row(s).')
+        try:
+            n_residents, wrote = write_attendance_summary(
+                EXCEL_FILE, ATTENDANCE_SUMMARY_SHEET_NAME, resident_totals, roster_map)
+        except workbook_io.WorkbookError as error:
+            # data.js is still regenerated below — only the workbook write is
+            # skipped, and the dashboard does not depend on the summary sheet.
+            print(f'[attendance] WARNING: {error}')
+        else:
+            action = 'wrote' if wrote else 'already current —'
+            print(f'[attendance] {action} "{ATTENDANCE_SUMMARY_SHEET_NAME}" sheet — {n_residents} resident row(s).')
 
     data = aggregate(events)
     write_data_js(data)
