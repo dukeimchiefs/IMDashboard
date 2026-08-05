@@ -42,6 +42,8 @@ try:
 except ImportError:
     sys.exit('requests not found. Install it with:  pip3 install -r requirements.txt')
 
+import workbook_io
+
 # ============================================================
 # CONFIGURATION — edit these to match your setup
 # ============================================================
@@ -143,7 +145,13 @@ def scrape_attendance(credentials):
 
 
 def append_to_workbook(path, sheet_name, scraped_rows):
-    """Append new (date, name, event) rows to the Attendance sheet, skipping duplicates."""
+    """Append new (date, name, event) rows to the Attendance sheet, skipping duplicates.
+
+    Saving strips the cached values of the workbook's in-sheet formulas, so on
+    the (common) run where the export holds nothing new, the file is left
+    untouched instead of being rewritten identically.
+    """
+    signature = workbook_io.file_signature(path)
     wb = openpyxl.load_workbook(path)
 
     if sheet_name in wb.sheetnames:
@@ -168,7 +176,11 @@ def append_to_workbook(path, sheet_name, scraped_rows):
         existing.add(key)
         appended += 1
 
-    wb.save(path)
+    if not appended:
+        wb.close()
+        return appended, skipped
+
+    workbook_io.save_workbook(wb, path, expect_signature=signature)
     return appended, skipped
 
 
@@ -189,7 +201,14 @@ if __name__ == '__main__':
     if not scraped_rows:
         sys.exit('No attendance rows found on the page — nothing to append.\n')
 
-    appended, skipped = append_to_workbook(EXCEL_FILE, ATTENDANCE_SHEET_NAME, scraped_rows)
+    try:
+        appended, skipped = append_to_workbook(EXCEL_FILE, ATTENDANCE_SHEET_NAME, scraped_rows)
+    except workbook_io.WorkbookError as error:
+        sys.exit(
+            f'\nERROR: attendance not saved — {error}\n'
+            f'No data was lost; the export is re-read in full on every run.\n'
+        )
+
     print(
         f'Scraped {len(scraped_rows)} row(s) — '
         f'appended {appended} new, skipped {skipped} already present.'
