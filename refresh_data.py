@@ -144,6 +144,21 @@ def parse_date(value):
     raise ValueError(f'Cannot parse date: {value!r}')
 
 
+def normalize_name(name):
+    """Lowercase and collapse whitespace for roster matching."""
+    return re.sub(r'\s+', ' ', str(name or '')).strip().lower()
+
+
+def build_name_index(roster_map):
+    """normalized name -> (canonical roster name, team).
+
+    Names in the spreadsheet are hand-typed, so 'maxwell sumner' and
+    'Sean Lafata' still have to match the roster's 'Maxwell Sumner' /
+    'Sean LaFata'.
+    """
+    return {normalize_name(n): (n, t) for n, t in roster_map.items()}
+
+
 def read_events(path, sheet_name, roster_map=None):
     """Read point events from the OtherPoints sheet.
 
@@ -153,6 +168,7 @@ def read_events(path, sheet_name, roster_map=None):
     value openpyxl can't compute and will blank out on any resave.
     """
     roster_map = roster_map or {}
+    name_index = build_name_index(roster_map)
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
 
     if sheet_name and sheet_name in wb.sheetnames:
@@ -196,7 +212,7 @@ def read_events(path, sheet_name, roster_map=None):
             continue
 
         if not team and resident:
-            team = roster_map.get(resident, '')
+            _, team = name_index.get(normalize_name(resident), (None, ''))
             if not team and pts:
                 print(f'  [points] skipping unmapped resident: {resident!r}')
 
@@ -227,6 +243,7 @@ def read_attendance(path, sheet_name, roster_map):
         roster_map (0 for residents with no attendance rows yet)
     """
     resident_totals = {name: 0 for name in roster_map}
+    name_index = build_name_index(roster_map)
 
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
 
@@ -262,7 +279,7 @@ def read_attendance(path, sheet_name, roster_map):
         except (TypeError, ValueError, IndexError):
             continue
 
-        team = roster_map.get(name)
+        canonical, team = name_index.get(normalize_name(name), (None, None))
         if not team:
             print(f'  [attendance] skipping unmapped name: {name!r}')
             continue
@@ -273,7 +290,7 @@ def read_attendance(path, sheet_name, roster_map):
             continue
 
         events.append({'date': date, 'team': team, 'category': 'Attendance', 'points': points})
-        resident_totals[name] = resident_totals.get(name, 0) + points
+        resident_totals[canonical] = resident_totals.get(canonical, 0) + points
 
     return events, resident_totals
 
