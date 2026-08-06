@@ -1,4 +1,4 @@
-// Auto-generated 2026-08-05 18:35 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-05 22:45 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
@@ -39,6 +39,24 @@ const SAMPLE_DATA = {
             "prevRank": 1
         },
         {
+            "name": "Team Karius",
+            "color": "#008300",
+            "total": 270,
+            "monthly": [
+                130,
+                140
+            ],
+            "weekly": [
+                50,
+                0,
+                40,
+                110,
+                70
+            ],
+            "rank": 2,
+            "prevRank": 5
+        },
+        {
             "name": "Team Glandiators",
             "color": "#0891b2",
             "total": 250,
@@ -53,26 +71,8 @@ const SAMPLE_DATA = {
                 100,
                 20
             ],
-            "rank": 2,
-            "prevRank": 2
-        },
-        {
-            "name": "Team Karius",
-            "color": "#008300",
-            "total": 250,
-            "monthly": [
-                130,
-                120
-            ],
-            "weekly": [
-                50,
-                0,
-                40,
-                110,
-                50
-            ],
             "rank": 3,
-            "prevRank": 5
+            "prevRank": 2
         },
         {
             "name": "Team Codeblazers",
@@ -131,17 +131,17 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 190,
+            "total": 200,
             "monthly": [
                 150,
-                40
+                50
             ],
             "weekly": [
                 50,
                 0,
                 70,
                 30,
-                40
+                50
             ],
             "rank": 7,
             "prevRank": 7
@@ -204,7 +204,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Residency Engagement",
-            "value": 510,
+            "value": 540,
             "color": "#6B7280"
         },
         {
