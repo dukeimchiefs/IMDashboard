@@ -86,8 +86,15 @@ def backup_workbook(path, keep=KEEP_BACKUPS):
 
 
 def sheet_row_counts(path):
-    """{sheet name: count of non-empty rows} — used to prove nothing was lost."""
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    """{sheet name: count of non-empty rows} — used to prove nothing was lost.
+
+    Read with data_only=False so formula cells count by their formula rather
+    than their cached value. The cache is present right after Excel saves and
+    absent right after openpyxl does, so counting cached values would make the
+    700 XLOOKUP rows in OtherPoints appear and vanish on their own and trip the
+    row-loss check on a perfectly good save.
+    """
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=False)
     try:
         counts = {}
         for name in wb.sheetnames:
