@@ -46,7 +46,9 @@ echo "==> [2/4] Refreshing dashboard data..."
 "$PYTHON" refresh_data.py
 
 echo "==> [3/4] Committing data.js..."
-git add data.js
+# index.html carries the data.js?v=<hash> cache-busting stamp that refresh_data.py
+# rewrites, so it has to ship in the same commit or browsers keep the stale file.
+git add data.js index.html
 if git diff --cached --quiet; then
     echo "    No changes to data.js — nothing to commit."
 else

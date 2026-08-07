@@ -43,6 +43,7 @@ folded in automatically if present — see ATTENDANCE_SHEET_NAME/EVENT_POINTS
 below. Run scrape_attendance.py first to sync it, then run this script.
 """
 
+import hashlib
 import json
 import math
 import re
@@ -128,6 +129,12 @@ ACADEMIC_YEAR_START = datetime(2026, 7, 1)
 
 # Output path — always the data.js sitting next to this script.
 DATA_JS = Path(__file__).parent / 'data.js'
+
+# Page that loads data.js. GitHub Pages serves data.js with max-age=600 and the
+# filename never changes, so a browser that has once cached it keeps showing
+# stale standings. write_data_js stamps a content hash onto the script tag here
+# (data.js?v=<hash>) so the URL changes exactly when the numbers do.
+INDEX_HTML = Path(__file__).parent / 'index.html'
 
 # ============================================================
 
@@ -438,6 +445,32 @@ def aggregate(events, today=None):
     }
 
 
+def stamp_index_html(version):
+    """Point index.html's data.js script tag at ?v=<version>.
+
+    Returns True if the file changed. The tag is matched with or without an
+    existing ?v= so this is idempotent across runs.
+    """
+    if not INDEX_HTML.exists():
+        print(f'  [cache] WARNING: {INDEX_HTML.name} not found — script tag not stamped.')
+        return False
+
+    text = INDEX_HTML.read_text(encoding='utf-8')
+    stamped, n = re.subn(
+        r'src="data\.js(?:\?v=[^"]*)?"',
+        f'src="data.js?v={version}"',
+        text,
+    )
+    if not n:
+        print(f'  [cache] WARNING: no data.js script tag found in {INDEX_HTML.name}.')
+        return False
+    if stamped == text:
+        return False
+
+    INDEX_HTML.write_text(stamped, encoding='utf-8')
+    return True
+
+
 def write_data_js(data):
     ts   = datetime.now().strftime('%Y-%m-%d %H:%M')
     blob = json.dumps(data, indent=4)
@@ -451,10 +484,18 @@ def write_data_js(data):
     )
     DATA_JS.write_text(content, encoding='utf-8')
 
+    # Hash the payload, not `content` — content embeds `ts`, which changes every
+    # run, and a version that churns on unchanged data would bust every visitor's
+    # cache daily for nothing.
+    version = hashlib.sha256(blob.encode('utf-8')).hexdigest()[:8]
+    restamped = stamp_index_html(version)
+
     n_teams  = len(data['teams'])
     n_months = len(data['months'])
     n_pts    = sum(t['total'] for t in data['teams'])
     print(f'[{ts}] data.js updated — {n_teams} teams, {n_months} months, {n_pts:,} total pts.')
+    action = 'restamped' if restamped else 'already current —'
+    print(f'[cache] {action} index.html script tag at data.js?v={version}')
 
 
 def diagnose(path, sheet_name):
