@@ -1,4 +1,4 @@
-// Auto-generated 2026-08-05 22:45 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-06 23:22 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
 const SAMPLE_DATA = {
     "months": [
@@ -54,7 +54,7 @@ const SAMPLE_DATA = {
                 70
             ],
             "rank": 2,
-            "prevRank": 5
+            "prevRank": 2
         },
         {
             "name": "Team Glandiators",
@@ -72,7 +72,7 @@ const SAMPLE_DATA = {
                 20
             ],
             "rank": 3,
-            "prevRank": 2
+            "prevRank": 3
         },
         {
             "name": "Team Codeblazers",
@@ -90,7 +90,7 @@ const SAMPLE_DATA = {
                 30
             ],
             "rank": 4,
-            "prevRank": 3
+            "prevRank": 4
         },
         {
             "name": "Team PEEPs",
@@ -108,7 +108,7 @@ const SAMPLE_DATA = {
                 0
             ],
             "rank": 5,
-            "prevRank": 4
+            "prevRank": 5
         },
         {
             "name": "Team Jointventurers",
@@ -162,7 +162,7 @@ const SAMPLE_DATA = {
                 40
             ],
             "rank": 8,
-            "prevRank": 9
+            "prevRank": 8
         },
         {
             "name": "Team Scopetrotters",
@@ -180,22 +180,22 @@ const SAMPLE_DATA = {
                 10
             ],
             "rank": 9,
-            "prevRank": 8
+            "prevRank": 9
         },
         {
             "name": "Team Hemoglobbers",
             "color": "#4a3aa7",
-            "total": 110,
+            "total": 115,
             "monthly": [
                 70,
-                40
+                45
             ],
             "weekly": [
                 50,
                 0,
                 10,
                 30,
-                20
+                25
             ],
             "rank": 10,
             "prevRank": 10
@@ -214,7 +214,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleage",
-            "value": 50,
+            "value": 55,
             "color": "#6B7280"
         },
         {
