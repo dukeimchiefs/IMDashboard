@@ -25,6 +25,7 @@ SETUP (one-time)
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 try:
@@ -55,7 +56,31 @@ EXCEL_FILE = Path('/Users/nbrazeau/Library/CloudStorage/OneDrive-SharedLibraries
 
 ATTENDANCE_SHEET_NAME = 'AttendancePoints'
 
+# The daily launchd job fires at 09:00, when the Mac may have only just woken
+# and Wi-Fi/DNS may not be up yet. A single failed request used to abort the
+# whole sync (sync_and_publish.sh runs under `set -e`), losing the day's
+# publish over a momentary blip. Retry across roughly four minutes instead:
+# delays double from 2s up to a 20s ceiling, so 15 attempts span ~3m50s.
+MAX_ATTEMPTS        = 15
+RETRY_BACKOFF_START = 2   # seconds to wait before the 2nd attempt
+RETRY_BACKOFF_CAP   = 20  # seconds — ceiling on the doubling
+REQUEST_TIMEOUT     = 30  # seconds per individual attempt
+
 # ============================================================
+
+
+def _retry_window(attempts, start, cap):
+    """Total seconds spent sleeping across `attempts` tries, excluding request time."""
+    total, delay = 0, start
+    for _ in range(attempts - 1):
+        total += delay
+        delay = min(delay * 2, cap)
+    return total
+
+
+# Derived, not hardcoded, so the error message stays accurate if the retry
+# constants above are tuned.
+TOTAL_RETRY_WINDOW = _retry_window(MAX_ATTEMPTS, RETRY_BACKOFF_START, RETRY_BACKOFF_CAP)
 
 
 KEYCHAIN_ACCOUNT = 'nbrazeau'
@@ -105,24 +130,55 @@ def get_credentials():
     return credentials
 
 
+def fetch_export(credentials):
+    """GET the protected export, retrying transient failures.
+
+    Retried: connection-level errors (DNS, refused, TLS, timeout — no response
+    came back at all) and 5xx responses, both of which routinely fix themselves
+    within seconds. Not retried: any other non-200. A 401/403 means the
+    credentials or Cloudflare Access policy are wrong and a 404 means the URL
+    is, and neither resolves by asking 15 more times.
+    """
+    headers = {
+        'Accept': 'application/json',
+        'X-Admin-Key': credentials['ADMIN_EXPORT_KEY'],
+        'CF-Access-Client-Id': credentials['CF_ACCESS_CLIENT_ID'],
+        'CF-Access-Client-Secret': credentials['CF_ACCESS_CLIENT_SECRET'],
+    }
+
+    delay = RETRY_BACKOFF_START
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            response = requests.get(ATTENDANCE_URL, headers=headers, timeout=REQUEST_TIMEOUT)
+        except requests.RequestException as error:
+            reason = f'{type(error).__name__}'
+        else:
+            if response.status_code == 200:
+                if attempt > 1:
+                    print(f'  [export] succeeded on attempt {attempt} of {MAX_ATTEMPTS}.', flush=True)
+                return response
+            if response.status_code < 500:
+                raise RuntimeError(f'attendance export returned HTTP {response.status_code}')
+            reason = f'HTTP {response.status_code}'
+
+        if attempt == MAX_ATTEMPTS:
+            raise RuntimeError(
+                f'attendance export unreachable after {MAX_ATTEMPTS} attempts '
+                f'over ~{TOTAL_RETRY_WINDOW // 60}m{TOTAL_RETRY_WINDOW % 60:02d}s — last failure: {reason}'
+            )
+
+        print(
+            f'  [export] attempt {attempt}/{MAX_ATTEMPTS} failed ({reason}) — retrying in {delay}s.',
+            flush=True,
+        )
+        time.sleep(delay)
+        delay = min(delay * 2, RETRY_BACKOFF_CAP)
+
+
 def scrape_attendance(credentials):
     """Download the protected export and return (date, name, event) tuples."""
-    try:
-        response = requests.get(
-            ATTENDANCE_URL,
-            headers={
-                'Accept': 'application/json',
-                'X-Admin-Key': credentials['ADMIN_EXPORT_KEY'],
-                'CF-Access-Client-Id': credentials['CF_ACCESS_CLIENT_ID'],
-                'CF-Access-Client-Secret': credentials['CF_ACCESS_CLIENT_SECRET'],
-            },
-            timeout=30,
-        )
-    except requests.RequestException as error:
-        raise RuntimeError('attendance export request failed') from error
+    response = fetch_export(credentials)
 
-    if response.status_code != 200:
-        raise RuntimeError(f'attendance export returned HTTP {response.status_code}')
     try:
         payload = response.json()
     except requests.JSONDecodeError as error:
