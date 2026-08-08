@@ -6,6 +6,10 @@
 # 3. Commits data.js if it changed.
 # 4. Pushes to GitHub, which republishes the live dashboard via GitHub Pages.
 #
+# Step 1 is the only step that needs the network. If it fails, steps 2-4 still
+# run so that points already in the workbook get published, and the script then
+# exits 1 so the failure is still visible in launchd's last exit code.
+#
 # Usage:
 #   ./sync_and_publish.sh
 #
@@ -39,8 +43,19 @@ if ! "$PYTHON" -c 'import openpyxl, dotenv, requests' 2>/dev/null; then
 fi
 echo "==> Using $PYTHON"
 
+# Step 1 talks to the network; step 2 reads the local workbook and does not
+# consume step 1's output. Under `set -e` a failed scrape used to abort the
+# whole run, so a momentary network blip also blocked hand-entered points from
+# ever reaching the site. Record the failure and carry on instead — nothing is
+# lost, because scrape_attendance.py re-reads the full export every run and
+# skips duplicates, so a missed day self-heals tomorrow.
+scrape_failed=0
+
 echo "==> [1/4] Scraping attendance..."
-"$PYTHON" scrape_attendance.py
+if ! "$PYTHON" scrape_attendance.py; then
+    echo "WARNING: attendance sync failed — publishing workbook data anyway." >&2
+    scrape_failed=1
+fi
 
 echo "==> [2/4] Refreshing dashboard data..."
 "$PYTHON" refresh_data.py
@@ -57,5 +72,12 @@ fi
 
 echo "==> [4/4] Pushing to GitHub..."
 git push
+
+# Publishing anyway must not make a broken scrape look like a clean run: exit
+# nonzero so `launchctl print ... | grep 'last exit code'` still surfaces it.
+if [ "$scrape_failed" -eq 1 ]; then
+    echo "==> Done — BUT the attendance sync failed; published from the workbook only." >&2
+    exit 1
+fi
 
 echo "==> Done."
