@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-07 21:22 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-08 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=7b849244
+// payload v=0f444c14
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -214,7 +214,7 @@ const SAMPLE_DATA = {
             "color": "#C84E00"
         },
         {
-            "label": "Caring Colleage",
+            "label": "Caring Colleague",
             "value": 55,
             "color": "#6B7280"
         },
