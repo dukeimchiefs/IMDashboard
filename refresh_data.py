@@ -472,28 +472,45 @@ def stamp_index_html(version):
 
 
 def write_data_js(data):
-    ts   = datetime.now().strftime('%Y-%m-%d %H:%M')
-    blob = json.dumps(data, indent=4)
-    content = (
-        f'// Auto-generated {ts} by refresh_data.py — do not edit manually.\n'
-        f'// To refresh: run python3 refresh_data.py then commit data.js\n'
-        f'const SAMPLE_DATA = {blob};\n\n'
-        f'async function loadDashboardData() {{\n'
-        f'    return SAMPLE_DATA;\n'
-        f'}}\n'
-    )
-    DATA_JS.write_text(content, encoding='utf-8')
+    """Write data.js and stamp index.html, but only when the numbers changed.
 
-    # Hash the payload, not `content` — content embeds `ts`, which changes every
-    # run, and a version that churns on unchanged data would bust every visitor's
-    # cache daily for nothing.
+    The header carries a generation timestamp, so rewriting unconditionally
+    made data.js differ on every run even when no points moved — which meant
+    sync_and_publish.sh's "nothing to commit" check could never fire and the
+    history filled with no-op commits. The payload version below is recorded
+    in the header so an unchanged run can be detected and skipped entirely.
+    """
+    blob = json.dumps(data, indent=4)
+
+    # Hash the payload, not the finished file — the file embeds a timestamp that
+    # changes every run, and a version that churns on unchanged data would bust
+    # every visitor's cache daily for nothing.
     version = hashlib.sha256(blob.encode('utf-8')).hexdigest()[:8]
-    restamped = stamp_index_html(version)
 
     n_teams  = len(data['teams'])
     n_months = len(data['months'])
     n_pts    = sum(t['total'] for t in data['teams'])
-    print(f'[{ts}] data.js updated — {n_teams} teams, {n_months} months, {n_pts:,} total pts.')
+
+    current = DATA_JS.read_text(encoding='utf-8') if DATA_JS.exists() else ''
+    if f'// payload v={version}\n' in current:
+        print(f'[data.js] already current — {n_teams} teams, {n_months} months, {n_pts:,} total pts.')
+    else:
+        ts = datetime.now().strftime('%Y-%m-%d %H:%M')
+        DATA_JS.write_text(
+            f'// Auto-generated {ts} by refresh_data.py — do not edit manually.\n'
+            f'// To refresh: run python3 refresh_data.py then commit data.js\n'
+            f'// payload v={version}\n'
+            f'const SAMPLE_DATA = {blob};\n\n'
+            f'async function loadDashboardData() {{\n'
+            f'    return SAMPLE_DATA;\n'
+            f'}}\n',
+            encoding='utf-8',
+        )
+        print(f'[{ts}] data.js updated — {n_teams} teams, {n_months} months, {n_pts:,} total pts.')
+
+    # Always reconciled, even when data.js was left alone: the stamp could be
+    # missing or stale from a hand-edit or a half-finished earlier run.
+    restamped = stamp_index_html(version)
     action = 'restamped' if restamped else 'already current —'
     print(f'[cache] {action} index.html script tag at data.js?v={version}')
 

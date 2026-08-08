@@ -1,5 +1,6 @@
-// Auto-generated 2026-08-07 09:28 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-07 21:22 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
+// payload v=7b849244
 const SAMPLE_DATA = {
     "months": [
         "Jul",
