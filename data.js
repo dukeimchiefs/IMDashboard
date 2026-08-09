@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-08 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-09 14:38 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=0f444c14
+// payload v=a2ebb652
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -204,9 +204,19 @@ const SAMPLE_DATA = {
     ],
     "categories": [
         {
+            "label": "Attendance",
+            "value": 1290,
+            "color": "#EC4899"
+        },
+        {
+            "label": "Safety First",
+            "value": 40,
+            "color": "#008300"
+        },
+        {
             "label": "Residency Engagement",
             "value": 540,
-            "color": "#6B7280"
+            "color": "#2563EB"
         },
         {
             "label": "Teaching",
@@ -216,27 +226,17 @@ const SAMPLE_DATA = {
         {
             "label": "Caring Colleague",
             "value": 55,
-            "color": "#6B7280"
+            "color": "#0891b2"
         },
         {
             "label": "Got Catch \u2018Em All",
             "value": 100,
-            "color": "#6B7280"
-        },
-        {
-            "label": "Attendance",
-            "value": 1290,
-            "color": "#EC4899"
+            "color": "#4a3aa7"
         },
         {
             "label": "Report Rockstar",
             "value": 30,
-            "color": "#6B7280"
-        },
-        {
-            "label": "Safety First",
-            "value": 40,
-            "color": "#6B7280"
+            "color": "#eda100"
         }
     ]
 };

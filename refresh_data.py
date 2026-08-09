@@ -108,16 +108,32 @@ TEAM_COLORS = {
 
 # Category colors — keys must match Category column values exactly.
 # 'All Points' is used automatically when no Category column exists.
+#
+# THE ORDER OF THIS DICT IS THE DOUGHNUT'S SLICE ORDER (see aggregate()), and it
+# is load-bearing: the palette is validated on *adjacent* slice pairs, so
+# reordering these keys can put two hard-to-separate hues side by side. Add or
+# reorder only after re-running the validator on the new sequence.
+#
+# One hue family per slot (pink/green/blue/orange/cyan/violet/yellow) so slices
+# stay matchable against the legend. Duke Blue (#012169) and Teal (#339898) from
+# the brand palette are deliberately absent: as data colors the first falls below
+# the lightness band and the second below the chroma floor (it reads gray). They
+# remain the correct choices for page chrome — see CLAUDE.md.
+#
+# Validated light-mode, white surface: lightness band, chroma floor, CVD
+# separation (worst adjacent ΔE 16.9), normal-vision floor (23.2) all pass.
+# #eda100 sits at 2.11:1 against white, which is legal only because the legend
+# in index.html prints a text label and value beside every swatch — do not drop
+# those labels without re-checking.
 CATEGORY_COLORS = {
-    'Mentoring':      '#012169',
-    'Teaching':       '#C84E00',
-    'Diagnosing':     '#339898',
-    'Grittiness':     '#D97706',
-    'Follow-Through': '#DC2626',
-    'Wellness':       '#16A34A',
-    'Learning':       '#6366F1',
-    'Attendance':     '#EC4899',
-    'All Points':     '#012169',
+    'Attendance':           '#EC4899',  # pink
+    'Safety First':         '#008300',  # green
+    'Residency Engagement': '#2563EB',  # blue
+    'Teaching':             '#C84E00',  # orange
+    'Caring Colleague':     '#0891b2',  # cyan
+    'Got Catch ‘Em All': '#4a3aa7',  # violet — note the curly apostrophe
+    'Report Rockstar':      '#eda100',  # yellow
+    'All Points':           '#2563EB',
 }
 
 # Academic year starts in July.
@@ -427,13 +443,23 @@ def aggregate(events, today=None):
         for t in teams:
             t['prevRank'] = None
 
+    # Emit in CATEGORY_COLORS order, not the order rows happen to appear in the
+    # sheet. The doughnut draws slices in this order, and the palette is only
+    # validated for the hues that end up adjacent — sheet order would shuffle
+    # that on any edit. Unknown categories land at the end in fallback gray.
+    known = [c for c in CATEGORY_COLORS if c in cat_totals]
+    unknown = sorted(c for c in cat_totals if c not in CATEGORY_COLORS)
+    for label in unknown:
+        print(f'  [categories] no color for {label!r} — falling back to gray. '
+              f'Add it to CATEGORY_COLORS in refresh_data.py.')
+
     categories = [
         {
             'label': label,
-            'value': int(v),
+            'value': int(cat_totals[label]),
             'color': CATEGORY_COLORS.get(label, '#6B7280'),
         }
-        for label, v in cat_totals.items()
+        for label in known + unknown
     ]
 
     return {
