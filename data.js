@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-13 08:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-13 15:27 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=3ca0684c
+// payload v=c4c951e0
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -26,10 +26,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 390,
+            "total": 410,
             "monthly": [
                 300,
-                90
+                110
             ],
             "weekly": [
                 50,
@@ -37,10 +37,29 @@ const SAMPLE_DATA = {
                 80,
                 190,
                 40,
-                20
+                40
             ],
             "rank": 1,
             "prevRank": 1
+        },
+        {
+            "name": "Team Glandiators",
+            "color": "#0891b2",
+            "total": 270,
+            "monthly": [
+                190,
+                80
+            ],
+            "weekly": [
+                50,
+                0,
+                80,
+                100,
+                20,
+                20
+            ],
+            "rank": 2,
+            "prevRank": 3
         },
         {
             "name": "Team Karius",
@@ -58,35 +77,16 @@ const SAMPLE_DATA = {
                 70,
                 0
             ],
-            "rank": 2,
-            "prevRank": 2
-        },
-        {
-            "name": "Team Glandiators",
-            "color": "#0891b2",
-            "total": 250,
-            "monthly": [
-                190,
-                60
-            ],
-            "weekly": [
-                50,
-                0,
-                80,
-                100,
-                20,
-                0
-            ],
             "rank": 3,
-            "prevRank": 3
+            "prevRank": 2
         },
         {
             "name": "Team Codeblazers",
             "color": "#eb6834",
-            "total": 240,
+            "total": 260,
             "monthly": [
                 200,
-                40
+                60
             ],
             "weekly": [
                 50,
@@ -94,7 +94,7 @@ const SAMPLE_DATA = {
                 100,
                 50,
                 30,
-                0
+                20
             ],
             "rank": 4,
             "prevRank": 4
@@ -217,7 +217,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 1350,
+            "value": 1410,
             "color": "#EC4899"
         },
         {
