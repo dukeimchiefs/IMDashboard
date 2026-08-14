@@ -21,5 +21,12 @@ internal_README.md
 claude.md
 Point_Spreadsheet.xlsx
 
+# Local-only misuse tooling and its output. flag_attendance_timing.py still
+# says it "lives in local-notes/, which is gitignored" — that stopped being
+# true when it moved to watchdog/, and nothing here was excluded. It renders
+# charts of individual residents' check-in times into attendance_reports/,
+# and this repository is public.
+watchdog/
+
 # Credentials — never commit
 .env
