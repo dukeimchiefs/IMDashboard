@@ -77,12 +77,15 @@ send_alert_email() {
     # subject and body are built below from our own text and never contain a
     # double quote or a newline, so interpolating them into the JSON directly is
     # safe and saves depending on jq or on a Python that may be what just failed.
-    if ! curl -sS --max-time 30 -X POST 'https://api.resend.com/emails' \
+    # --fail matters as much as the request does: without it curl exits 0 on an
+    # HTTP 401 or 422, so a revoked key would leave this reporting success
+    # forever — exactly when the alert is the only thing that would tell us.
+    if ! curl -sS --fail --max-time 30 -X POST 'https://api.resend.com/emails' \
         -H "Authorization: Bearer $key" \
         -H 'Content-Type: application/json' \
         -d "{\"from\":\"$ALERT_FROM\",\"to\":[\"$recipient\"],\"subject\":\"$subject\",\"text\":\"$body\"}" \
         >/dev/null 2>&1; then
-        echo "    (alert email failed to send)" >&2
+        echo "    (alert email rejected or failed to send)" >&2
         return 0
     fi
 
