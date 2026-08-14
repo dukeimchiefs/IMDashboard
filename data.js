@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-13 15:27 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-13 21:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=c4c951e0
+// payload v=f975eaa3
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -43,6 +43,25 @@ const SAMPLE_DATA = {
             "prevRank": 1
         },
         {
+            "name": "Team Codeblazers",
+            "color": "#eb6834",
+            "total": 280,
+            "monthly": [
+                200,
+                80
+            ],
+            "weekly": [
+                50,
+                10,
+                100,
+                50,
+                30,
+                40
+            ],
+            "rank": 2,
+            "prevRank": 4
+        },
+        {
             "name": "Team Glandiators",
             "color": "#0891b2",
             "total": 270,
@@ -58,7 +77,7 @@ const SAMPLE_DATA = {
                 20,
                 20
             ],
-            "rank": 2,
+            "rank": 3,
             "prevRank": 3
         },
         {
@@ -77,27 +96,8 @@ const SAMPLE_DATA = {
                 70,
                 0
             ],
-            "rank": 3,
-            "prevRank": 2
-        },
-        {
-            "name": "Team Codeblazers",
-            "color": "#eb6834",
-            "total": 260,
-            "monthly": [
-                200,
-                60
-            ],
-            "weekly": [
-                50,
-                10,
-                100,
-                50,
-                30,
-                20
-            ],
             "rank": 4,
-            "prevRank": 4
+            "prevRank": 2
         },
         {
             "name": "Team PEEPs",
@@ -217,7 +217,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 1410,
+            "value": 1430,
             "color": "#EC4899"
         },
         {
