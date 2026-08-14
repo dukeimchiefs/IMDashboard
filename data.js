@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-14 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-14 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=616cc580
+// payload v=83a4cab1
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -43,6 +43,25 @@ const SAMPLE_DATA = {
             "prevRank": 1
         },
         {
+            "name": "Team Codeblazers",
+            "color": "#eb6834",
+            "total": 300,
+            "monthly": [
+                200,
+                100
+            ],
+            "weekly": [
+                50,
+                10,
+                100,
+                50,
+                30,
+                60
+            ],
+            "rank": 2,
+            "prevRank": 3
+        },
+        {
             "name": "Team Glandiators",
             "color": "#0891b2",
             "total": 290,
@@ -58,27 +77,8 @@ const SAMPLE_DATA = {
                 20,
                 40
             ],
-            "rank": 2,
-            "prevRank": 2
-        },
-        {
-            "name": "Team Codeblazers",
-            "color": "#eb6834",
-            "total": 280,
-            "monthly": [
-                200,
-                80
-            ],
-            "weekly": [
-                50,
-                10,
-                100,
-                50,
-                30,
-                40
-            ],
             "rank": 3,
-            "prevRank": 3
+            "prevRank": 2
         },
         {
             "name": "Team Karius",
@@ -237,7 +237,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleague",
-            "value": 75,
+            "value": 95,
             "color": "#0891b2"
         },
         {
