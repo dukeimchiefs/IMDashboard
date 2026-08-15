@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-14 12:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-15 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=83a4cab1
+// payload v=2b8a2c58
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -59,7 +59,7 @@ const SAMPLE_DATA = {
                 60
             ],
             "rank": 2,
-            "prevRank": 3
+            "prevRank": 2
         },
         {
             "name": "Team Glandiators",
@@ -78,7 +78,7 @@ const SAMPLE_DATA = {
                 40
             ],
             "rank": 3,
-            "prevRank": 2
+            "prevRank": 3
         },
         {
             "name": "Team Karius",
@@ -119,6 +119,25 @@ const SAMPLE_DATA = {
             "prevRank": 5
         },
         {
+            "name": "Team Remissionaries",
+            "color": "#9d174d",
+            "total": 220,
+            "monthly": [
+                150,
+                70
+            ],
+            "weekly": [
+                50,
+                0,
+                70,
+                30,
+                50,
+                20
+            ],
+            "rank": 6,
+            "prevRank": 6
+        },
+        {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
             "total": 200,
@@ -134,35 +153,16 @@ const SAMPLE_DATA = {
                 30,
                 0
             ],
-            "rank": 6,
-            "prevRank": 6
-        },
-        {
-            "name": "Team Remissionaries",
-            "color": "#9d174d",
-            "total": 200,
-            "monthly": [
-                150,
-                50
-            ],
-            "weekly": [
-                50,
-                0,
-                70,
-                30,
-                50,
-                0
-            ],
             "rank": 7,
             "prevRank": 7
         },
         {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
-            "total": 140,
+            "total": 160,
             "monthly": [
                 90,
-                50
+                70
             ],
             "weekly": [
                 50,
@@ -170,7 +170,7 @@ const SAMPLE_DATA = {
                 40,
                 20,
                 10,
-                20
+                40
             ],
             "rank": 8,
             "prevRank": 8
@@ -227,7 +227,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Residency Engagement",
-            "value": 550,
+            "value": 590,
             "color": "#2563EB"
         },
         {
