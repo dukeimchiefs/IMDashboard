@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-20 09:16 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-20 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=666f7024
+// payload v=85c19540
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -68,10 +68,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Glandiators",
             "color": "#0891b2",
-            "total": 330,
+            "total": 350,
             "monthly": [
                 190,
-                140
+                160
             ],
             "weekly": [
                 50,
@@ -80,7 +80,7 @@ const SAMPLE_DATA = {
                 100,
                 20,
                 60,
-                20
+                40
             ],
             "rank": 3,
             "prevRank": 3
@@ -106,6 +106,26 @@ const SAMPLE_DATA = {
             "prevRank": 4
         },
         {
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
+            "total": 240,
+            "monthly": [
+                140,
+                100
+            ],
+            "weekly": [
+                50,
+                10,
+                40,
+                70,
+                30,
+                0,
+                40
+            ],
+            "rank": 5,
+            "prevRank": 6
+        },
+        {
             "name": "Team PEEPs",
             "color": "#eda100",
             "total": 240,
@@ -122,28 +142,8 @@ const SAMPLE_DATA = {
                 10,
                 20
             ],
-            "rank": 5,
-            "prevRank": 5
-        },
-        {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
-            "total": 220,
-            "monthly": [
-                140,
-                80
-            ],
-            "weekly": [
-                50,
-                10,
-                40,
-                70,
-                30,
-                0,
-                20
-            ],
             "rank": 6,
-            "prevRank": 6
+            "prevRank": 5
         },
         {
             "name": "Team Remissionaries",
@@ -229,7 +229,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 1750,
+            "value": 1790,
             "color": "#EC4899"
         },
         {
