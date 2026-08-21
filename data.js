@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-21 00:32 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-21 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=5cb0301e
+// payload v=fb401450
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -106,6 +106,26 @@ const SAMPLE_DATA = {
             "prevRank": 4
         },
         {
+            "name": "Team Remissionaries",
+            "color": "#9d174d",
+            "total": 270,
+            "monthly": [
+                150,
+                120
+            ],
+            "weekly": [
+                50,
+                0,
+                70,
+                30,
+                50,
+                10,
+                60
+            ],
+            "rank": 5,
+            "prevRank": 7
+        },
+        {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
             "total": 240,
@@ -122,7 +142,7 @@ const SAMPLE_DATA = {
                 0,
                 40
             ],
-            "rank": 5,
+            "rank": 6,
             "prevRank": 5
         },
         {
@@ -142,28 +162,8 @@ const SAMPLE_DATA = {
                 10,
                 20
             ],
-            "rank": 6,
-            "prevRank": 6
-        },
-        {
-            "name": "Team Remissionaries",
-            "color": "#9d174d",
-            "total": 220,
-            "monthly": [
-                150,
-                70
-            ],
-            "weekly": [
-                50,
-                0,
-                70,
-                30,
-                50,
-                10,
-                10
-            ],
             "rank": 7,
-            "prevRank": 7
+            "prevRank": 6
         },
         {
             "name": "Team Scopetrotters",
@@ -239,7 +239,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Residency Engagement",
-            "value": 570,
+            "value": 620,
             "color": "#2563EB"
         },
         {
