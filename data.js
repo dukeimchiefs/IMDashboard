@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-20 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-21 00:32 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=85c19540
+// payload v=5cb0301e
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -48,10 +48,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 410,
+            "total": 420,
             "monthly": [
                 130,
-                280
+                290
             ],
             "weekly": [
                 50,
@@ -60,7 +60,7 @@ const SAMPLE_DATA = {
                 110,
                 70,
                 80,
-                60
+                70
             ],
             "rank": 2,
             "prevRank": 2
@@ -123,7 +123,7 @@ const SAMPLE_DATA = {
                 40
             ],
             "rank": 5,
-            "prevRank": 6
+            "prevRank": 5
         },
         {
             "name": "Team PEEPs",
@@ -143,15 +143,15 @@ const SAMPLE_DATA = {
                 20
             ],
             "rank": 6,
-            "prevRank": 5
+            "prevRank": 6
         },
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 210,
+            "total": 220,
             "monthly": [
                 150,
-                60
+                70
             ],
             "weekly": [
                 50,
@@ -160,7 +160,7 @@ const SAMPLE_DATA = {
                 30,
                 50,
                 10,
-                0
+                10
             ],
             "rank": 7,
             "prevRank": 7
@@ -168,10 +168,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
-            "total": 180,
+            "total": 190,
             "monthly": [
                 90,
-                90
+                100
             ],
             "weekly": [
                 50,
@@ -180,7 +180,7 @@ const SAMPLE_DATA = {
                 20,
                 10,
                 60,
-                0
+                10
             ],
             "rank": 8,
             "prevRank": 8
@@ -234,7 +234,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Safety First",
-            "value": 40,
+            "value": 70,
             "color": "#008300"
         },
         {
