@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-21 12:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-22 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=fb401450
+// payload v=93765ad9
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -26,6 +26,26 @@ const SAMPLE_DATA = {
     ],
     "teams": [
         {
+            "name": "Team Karius",
+            "color": "#008300",
+            "total": 440,
+            "monthly": [
+                130,
+                310
+            ],
+            "weekly": [
+                50,
+                0,
+                40,
+                110,
+                70,
+                80,
+                90
+            ],
+            "rank": 1,
+            "prevRank": 1
+        },
+        {
             "name": "Team Stentinels",
             "color": "#e34948",
             "total": 440,
@@ -41,26 +61,6 @@ const SAMPLE_DATA = {
                 40,
                 70,
                 0
-            ],
-            "rank": 1,
-            "prevRank": 1
-        },
-        {
-            "name": "Team Karius",
-            "color": "#008300",
-            "total": 420,
-            "monthly": [
-                130,
-                290
-            ],
-            "weekly": [
-                50,
-                0,
-                40,
-                110,
-                70,
-                80,
-                70
             ],
             "rank": 2,
             "prevRank": 2
@@ -123,7 +123,7 @@ const SAMPLE_DATA = {
                 60
             ],
             "rank": 5,
-            "prevRank": 7
+            "prevRank": 5
         },
         {
             "name": "Team Jointventurers",
@@ -143,7 +143,7 @@ const SAMPLE_DATA = {
                 40
             ],
             "rank": 6,
-            "prevRank": 5
+            "prevRank": 6
         },
         {
             "name": "Team PEEPs",
@@ -163,7 +163,7 @@ const SAMPLE_DATA = {
                 20
             ],
             "rank": 7,
-            "prevRank": 6
+            "prevRank": 7
         },
         {
             "name": "Team Scopetrotters",
@@ -239,7 +239,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Residency Engagement",
-            "value": 620,
+            "value": 640,
             "color": "#2563EB"
         },
         {
