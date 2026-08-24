@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-22 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-24 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=93765ad9
+// payload v=21cfd0d8
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -108,10 +108,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 270,
+            "total": 285,
             "monthly": [
                 150,
-                120
+                135
             ],
             "weekly": [
                 50,
@@ -120,7 +120,7 @@ const SAMPLE_DATA = {
                 30,
                 50,
                 10,
-                60
+                75
             ],
             "rank": 5,
             "prevRank": 5
@@ -128,13 +128,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
-            "total": 240,
+            "total": 250,
             "monthly": [
                 140,
-                100
+                110
             ],
             "weekly": [
-                50,
+                60,
                 10,
                 40,
                 70,
@@ -168,10 +168,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
-            "total": 190,
+            "total": 195,
             "monthly": [
                 90,
-                100
+                105
             ],
             "weekly": [
                 50,
@@ -180,7 +180,7 @@ const SAMPLE_DATA = {
                 20,
                 10,
                 60,
-                10
+                15
             ],
             "rank": 8,
             "prevRank": 8
@@ -239,7 +239,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Residency Engagement",
-            "value": 640,
+            "value": 655,
             "color": "#2563EB"
         },
         {
@@ -254,13 +254,18 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 120,
+            "value": 130,
             "color": "#4a3aa7"
         },
         {
             "label": "Report Rockstar",
             "value": 30,
             "color": "#eda100"
+        },
+        {
+            "label": "Community Engagement",
+            "value": 5,
+            "color": "#6B7280"
         }
     ]
 };
