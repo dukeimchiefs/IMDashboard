@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-24 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-25 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=21cfd0d8
+// payload v=8bde143a
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -28,10 +28,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 440,
+            "total": 460,
             "monthly": [
                 130,
-                310
+                330
             ],
             "weekly": [
                 50,
@@ -40,7 +40,7 @@ const SAMPLE_DATA = {
                 110,
                 70,
                 80,
-                90
+                110
             ],
             "rank": 1,
             "prevRank": 1
@@ -48,10 +48,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 440,
+            "total": 460,
             "monthly": [
                 300,
-                140
+                160
             ],
             "weekly": [
                 50,
@@ -60,7 +60,7 @@ const SAMPLE_DATA = {
                 190,
                 40,
                 70,
-                0
+                20
             ],
             "rank": 2,
             "prevRank": 2
@@ -68,10 +68,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Glandiators",
             "color": "#0891b2",
-            "total": 350,
+            "total": 370,
             "monthly": [
                 190,
-                160
+                180
             ],
             "weekly": [
                 50,
@@ -80,10 +80,30 @@ const SAMPLE_DATA = {
                 100,
                 20,
                 60,
-                40
+                60
             ],
             "rank": 3,
             "prevRank": 3
+        },
+        {
+            "name": "Team Remissionaries",
+            "color": "#9d174d",
+            "total": 305,
+            "monthly": [
+                150,
+                155
+            ],
+            "weekly": [
+                50,
+                0,
+                70,
+                30,
+                50,
+                10,
+                95
+            ],
+            "rank": 4,
+            "prevRank": 5
         },
         {
             "name": "Team Codeblazers",
@@ -102,36 +122,16 @@ const SAMPLE_DATA = {
                 60,
                 0
             ],
-            "rank": 4,
-            "prevRank": 4
-        },
-        {
-            "name": "Team Remissionaries",
-            "color": "#9d174d",
-            "total": 285,
-            "monthly": [
-                150,
-                135
-            ],
-            "weekly": [
-                50,
-                0,
-                70,
-                30,
-                50,
-                10,
-                75
-            ],
             "rank": 5,
-            "prevRank": 5
+            "prevRank": 4
         },
         {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
-            "total": 250,
+            "total": 270,
             "monthly": [
                 140,
-                110
+                130
             ],
             "weekly": [
                 60,
@@ -140,7 +140,7 @@ const SAMPLE_DATA = {
                 70,
                 30,
                 0,
-                40
+                60
             ],
             "rank": 6,
             "prevRank": 6
@@ -166,6 +166,26 @@ const SAMPLE_DATA = {
             "prevRank": 7
         },
         {
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
+            "total": 195,
+            "monthly": [
+                70,
+                125
+            ],
+            "weekly": [
+                50,
+                0,
+                10,
+                30,
+                25,
+                40,
+                40
+            ],
+            "rank": 8,
+            "prevRank": 9
+        },
+        {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
             "total": 195,
@@ -182,28 +202,8 @@ const SAMPLE_DATA = {
                 60,
                 15
             ],
-            "rank": 8,
-            "prevRank": 8
-        },
-        {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
-            "total": 175,
-            "monthly": [
-                70,
-                105
-            ],
-            "weekly": [
-                50,
-                0,
-                10,
-                30,
-                25,
-                40,
-                20
-            ],
             "rank": 9,
-            "prevRank": 9
+            "prevRank": 8
         },
         {
             "name": "Team Creatininjas",
@@ -229,7 +229,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 1790,
+            "value": 1910,
             "color": "#EC4899"
         },
         {
