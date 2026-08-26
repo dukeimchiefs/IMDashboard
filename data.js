@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-26 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-26 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=bf3e915a
+// payload v=39864166
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -13,13 +13,15 @@ const SAMPLE_DATA = {
         5,
         6,
         7,
-        8
+        8,
+        9
     ],
     "weekMonths": [
         "Jul",
         "Jul",
         "Jul",
         "Jul",
+        "Aug",
         "Aug",
         "Aug",
         "Aug"
@@ -40,7 +42,8 @@ const SAMPLE_DATA = {
                 110,
                 70,
                 80,
-                110
+                110,
+                0
             ],
             "rank": 1,
             "prevRank": 1
@@ -60,7 +63,8 @@ const SAMPLE_DATA = {
                 190,
                 40,
                 70,
-                20
+                20,
+                0
             ],
             "rank": 2,
             "prevRank": 2
@@ -80,7 +84,8 @@ const SAMPLE_DATA = {
                 100,
                 20,
                 60,
-                70
+                70,
+                0
             ],
             "rank": 3,
             "prevRank": 3
@@ -100,7 +105,8 @@ const SAMPLE_DATA = {
                 30,
                 50,
                 10,
-                95
+                95,
+                0
             ],
             "rank": 4,
             "prevRank": 4
@@ -120,6 +126,7 @@ const SAMPLE_DATA = {
                 50,
                 30,
                 60,
+                0,
                 0
             ],
             "rank": 5,
@@ -140,7 +147,8 @@ const SAMPLE_DATA = {
                 70,
                 30,
                 0,
-                60
+                60,
+                0
             ],
             "rank": 6,
             "prevRank": 6
@@ -160,7 +168,8 @@ const SAMPLE_DATA = {
                 70,
                 0,
                 10,
-                20
+                20,
+                0
             ],
             "rank": 7,
             "prevRank": 7
@@ -180,7 +189,8 @@ const SAMPLE_DATA = {
                 30,
                 25,
                 40,
-                40
+                40,
+                0
             ],
             "rank": 8,
             "prevRank": 8
@@ -200,7 +210,8 @@ const SAMPLE_DATA = {
                 20,
                 10,
                 60,
-                15
+                15,
+                0
             ],
             "rank": 9,
             "prevRank": 9
@@ -208,10 +219,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Creatininjas",
             "color": "#2a78d6",
-            "total": 150,
+            "total": 160,
             "monthly": [
                 90,
-                60
+                70
             ],
             "weekly": [
                 50,
@@ -220,7 +231,8 @@ const SAMPLE_DATA = {
                 0,
                 40,
                 0,
-                20
+                20,
+                10
             ],
             "rank": 10,
             "prevRank": 10
@@ -239,7 +251,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Residency Engagement",
-            "value": 665,
+            "value": 675,
             "color": "#2563EB"
         },
         {
