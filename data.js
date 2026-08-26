@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-26 12:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-26 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=39864166
+// payload v=01b56b03
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -30,10 +30,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 460,
+            "total": 557,
             "monthly": [
                 130,
-                330
+                427
             ],
             "weekly": [
                 50,
@@ -43,7 +43,7 @@ const SAMPLE_DATA = {
                 70,
                 80,
                 110,
-                0
+                97
             ],
             "rank": 1,
             "prevRank": 1
@@ -51,10 +51,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 460,
+            "total": 497,
             "monthly": [
                 300,
-                160
+                197
             ],
             "weekly": [
                 50,
@@ -64,7 +64,7 @@ const SAMPLE_DATA = {
                 40,
                 70,
                 20,
-                0
+                37
             ],
             "rank": 2,
             "prevRank": 2
@@ -135,10 +135,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
-            "total": 270,
+            "total": 290,
             "monthly": [
                 140,
-                130
+                150
             ],
             "weekly": [
                 60,
@@ -148,7 +148,7 @@ const SAMPLE_DATA = {
                 30,
                 0,
                 60,
-                0
+                20
             ],
             "rank": 6,
             "prevRank": 6
@@ -156,10 +156,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team PEEPs",
             "color": "#eda100",
-            "total": 240,
+            "total": 260,
             "monthly": [
                 190,
-                50
+                70
             ],
             "weekly": [
                 50,
@@ -169,7 +169,7 @@ const SAMPLE_DATA = {
                 0,
                 10,
                 20,
-                0
+                20
             ],
             "rank": 7,
             "prevRank": 7
@@ -241,7 +241,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 1910,
+            "value": 2010,
             "color": "#EC4899"
         },
         {
@@ -261,7 +261,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleague",
-            "value": 95,
+            "value": 132,
             "color": "#0891b2"
         },
         {
@@ -276,7 +276,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Community Engagement",
-            "value": 5,
+            "value": 42,
             "color": "#6B7280"
         }
     ]
