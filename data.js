@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-25 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-26 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=8bde143a
+// payload v=bf3e915a
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -68,10 +68,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Glandiators",
             "color": "#0891b2",
-            "total": 370,
+            "total": 380,
             "monthly": [
                 190,
-                180
+                190
             ],
             "weekly": [
                 50,
@@ -80,7 +80,7 @@ const SAMPLE_DATA = {
                 100,
                 20,
                 60,
-                60
+                70
             ],
             "rank": 3,
             "prevRank": 3
@@ -103,7 +103,7 @@ const SAMPLE_DATA = {
                 95
             ],
             "rank": 4,
-            "prevRank": 5
+            "prevRank": 4
         },
         {
             "name": "Team Codeblazers",
@@ -123,7 +123,7 @@ const SAMPLE_DATA = {
                 0
             ],
             "rank": 5,
-            "prevRank": 4
+            "prevRank": 5
         },
         {
             "name": "Team Jointventurers",
@@ -183,7 +183,7 @@ const SAMPLE_DATA = {
                 40
             ],
             "rank": 8,
-            "prevRank": 9
+            "prevRank": 8
         },
         {
             "name": "Team Scopetrotters",
@@ -203,7 +203,7 @@ const SAMPLE_DATA = {
                 15
             ],
             "rank": 9,
-            "prevRank": 8
+            "prevRank": 9
         },
         {
             "name": "Team Creatininjas",
@@ -239,7 +239,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Residency Engagement",
-            "value": 655,
+            "value": 665,
             "color": "#2563EB"
         },
         {
