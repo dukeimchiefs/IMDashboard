@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-26 21:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-27 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=003dba8d
+// payload v=387b13c5
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -51,10 +51,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 497,
+            "total": 517,
             "monthly": [
                 300,
-                197
+                217
             ],
             "weekly": [
                 50,
@@ -64,7 +64,7 @@ const SAMPLE_DATA = {
                 40,
                 70,
                 20,
-                37
+                57
             ],
             "rank": 2,
             "prevRank": 2
@@ -72,10 +72,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Glandiators",
             "color": "#0891b2",
-            "total": 380,
+            "total": 400,
             "monthly": [
                 190,
-                190
+                210
             ],
             "weekly": [
                 50,
@@ -85,7 +85,7 @@ const SAMPLE_DATA = {
                 20,
                 60,
                 70,
-                0
+                20
             ],
             "rank": 3,
             "prevRank": 3
@@ -156,10 +156,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team PEEPs",
             "color": "#eda100",
-            "total": 260,
+            "total": 280,
             "monthly": [
                 190,
-                70
+                90
             ],
             "weekly": [
                 50,
@@ -169,7 +169,7 @@ const SAMPLE_DATA = {
                 0,
                 10,
                 20,
-                20
+                40
             ],
             "rank": 7,
             "prevRank": 7
@@ -219,10 +219,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Creatininjas",
             "color": "#2a78d6",
-            "total": 160,
+            "total": 180,
             "monthly": [
                 90,
-                70
+                90
             ],
             "weekly": [
                 50,
@@ -232,7 +232,7 @@ const SAMPLE_DATA = {
                 40,
                 0,
                 20,
-                10
+                30
             ],
             "rank": 10,
             "prevRank": 10
@@ -241,7 +241,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 2010,
+            "value": 2090,
             "color": "#EC4899"
         },
         {
