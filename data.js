@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-26 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-26 21:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=01b56b03
+// payload v=003dba8d
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -93,10 +93,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 305,
+            "total": 315,
             "monthly": [
                 150,
-                155
+                165
             ],
             "weekly": [
                 50,
@@ -106,7 +106,7 @@ const SAMPLE_DATA = {
                 50,
                 10,
                 95,
-                0
+                10
             ],
             "rank": 4,
             "prevRank": 4
@@ -251,7 +251,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Residency Engagement",
-            "value": 675,
+            "value": 685,
             "color": "#2563EB"
         },
         {
