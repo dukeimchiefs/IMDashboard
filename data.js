@@ -1,6 +1,6 @@
-// Auto-generated 2026-08-27 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-08-28 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=387b13c5
+// payload v=a241e679
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -30,10 +30,10 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 557,
+            "total": 567,
             "monthly": [
                 130,
-                427
+                437
             ],
             "weekly": [
                 50,
@@ -43,7 +43,7 @@ const SAMPLE_DATA = {
                 70,
                 80,
                 110,
-                97
+                107
             ],
             "rank": 1,
             "prevRank": 1
@@ -276,7 +276,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Community Engagement",
-            "value": 42,
+            "value": 52,
             "color": "#6B7280"
         }
     ]
