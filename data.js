@@ -1,6 +1,6 @@
-// Auto-generated 2026-09-08 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-09-09 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=3c7f64f6
+// payload v=d5f6d13f
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -51,7 +51,7 @@ const SAMPLE_DATA = {
                 20
             ],
             "rank": 1,
-            "prevRank": 2
+            "prevRank": 1
         },
         {
             "name": "Team Karius",
@@ -74,7 +74,7 @@ const SAMPLE_DATA = {
                 0
             ],
             "rank": 2,
-            "prevRank": 1
+            "prevRank": 2
         },
         {
             "name": "Team Glandiators",
@@ -120,7 +120,7 @@ const SAMPLE_DATA = {
                 80
             ],
             "rank": 4,
-            "prevRank": 6
+            "prevRank": 4
         },
         {
             "name": "Team Codeblazers",
@@ -166,7 +166,7 @@ const SAMPLE_DATA = {
                 50
             ],
             "rank": 6,
-            "prevRank": 7
+            "prevRank": 6
         },
         {
             "name": "Team Remissionaries",
@@ -189,7 +189,7 @@ const SAMPLE_DATA = {
                 20
             ],
             "rank": 7,
-            "prevRank": 4
+            "prevRank": 7
         },
         {
             "name": "Team Scopetrotters",
@@ -212,7 +212,7 @@ const SAMPLE_DATA = {
                 20
             ],
             "rank": 8,
-            "prevRank": 9
+            "prevRank": 8
         },
         {
             "name": "Team Creatininjas",
@@ -235,7 +235,7 @@ const SAMPLE_DATA = {
                 30
             ],
             "rank": 9,
-            "prevRank": 10
+            "prevRank": 9
         },
         {
             "name": "Team Hemoglobbers",
@@ -258,7 +258,7 @@ const SAMPLE_DATA = {
                 0
             ],
             "rank": 10,
-            "prevRank": 8
+            "prevRank": 10
         }
     ],
     "categories": [
