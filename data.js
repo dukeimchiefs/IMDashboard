@@ -1,6 +1,6 @@
-// Auto-generated 2026-09-14 21:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-09-15 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=89f34d80
+// payload v=6840376f
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -174,7 +174,7 @@ const SAMPLE_DATA = {
                 30
             ],
             "rank": 6,
-            "prevRank": 7
+            "prevRank": 6
         },
         {
             "name": "Team Codeblazers",
@@ -198,7 +198,31 @@ const SAMPLE_DATA = {
                 20
             ],
             "rank": 7,
-            "prevRank": 6
+            "prevRank": 7
+        },
+        {
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
+            "total": 275,
+            "monthly": [
+                70,
+                125,
+                80
+            ],
+            "weekly": [
+                50,
+                0,
+                10,
+                30,
+                25,
+                40,
+                40,
+                0,
+                0,
+                80
+            ],
+            "rank": 8,
+            "prevRank": 10
         },
         {
             "name": "Team Scopetrotters",
@@ -221,7 +245,7 @@ const SAMPLE_DATA = {
                 20,
                 50
             ],
-            "rank": 8,
+            "rank": 9,
             "prevRank": 8
         },
         {
@@ -245,32 +269,8 @@ const SAMPLE_DATA = {
                 30,
                 20
             ],
-            "rank": 9,
-            "prevRank": 9
-        },
-        {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
-            "total": 225,
-            "monthly": [
-                70,
-                125,
-                30
-            ],
-            "weekly": [
-                50,
-                0,
-                10,
-                30,
-                25,
-                40,
-                40,
-                0,
-                0,
-                30
-            ],
             "rank": 10,
-            "prevRank": 10
+            "prevRank": 9
         }
     ],
     "categories": [
@@ -296,7 +296,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleague",
-            "value": 132,
+            "value": 182,
             "color": "#0891b2"
         },
         {
