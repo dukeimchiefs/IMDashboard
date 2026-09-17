@@ -157,15 +157,36 @@ echo "==> Using $PYTHON"
 # lost, because scrape_attendance.py re-reads the full export every run and
 # skips duplicates, so a missed day self-heals tomorrow.
 scrape_failed=0
+workbook_regressed=0
+
+# Must match EXIT_WORKBOOK_REGRESSED in scrape_attendance.py: the workbook lost
+# rows it used to hold and this run put them back. That is a different event
+# from a failed scrape and needs different wording, or the alert sends you
+# chasing the network when the problem was someone's Excel session.
+EXIT_WORKBOOK_REGRESSED=3
 
 echo "==> [1/4] Scraping attendance..."
-if ! "$PYTHON" scrape_attendance.py; then
+# `|| status=$?` rather than `if ! ...`: neither `set -e` nor the ERR trap fires
+# on a non-final command in a || list, so the exit code survives to be classified
+# instead of collapsing to pass/fail.
+scrape_status=0
+"$PYTHON" scrape_attendance.py || scrape_status=$?
+if [ "$scrape_status" -eq "$EXIT_WORKBOOK_REGRESSED" ]; then
+    workbook_regressed=1
+elif [ "$scrape_status" -ne 0 ]; then
     echo "WARNING: attendance sync failed — publishing workbook data anyway." >&2
     scrape_failed=1
 fi
 
 echo "==> [2/4] Refreshing dashboard data..."
-"$PYTHON" refresh_data.py
+refresh_status=0
+"$PYTHON" refresh_data.py || refresh_status=$?
+if [ "$refresh_status" -ne 0 ]; then
+    # Name this explicitly because a command in a || list does not trip ERR.
+    # Nothing is staged yet, so a failed refresh cannot publish stale output.
+    failure_reason='dashboard refresh failed; nothing was committed or pushed'
+    exit "$refresh_status"
+fi
 
 echo "==> [3/4] Committing data.js..."
 # index.html carries the data.js?v=<hash> cache-busting stamp that refresh_data.py
@@ -184,9 +205,19 @@ git push
 # nonzero so `launchctl print ... | grep 'last exit code'` still surfaces it.
 if [ "$scrape_failed" -eq 1 ]; then
     echo "==> Done — BUT the attendance sync failed; published from the workbook only." >&2
-    # A failed scrape is reached through `if !`, which trips neither `set -e` nor
-    # the ERR trap, so name it here or the alert would report a bare exit 1.
+    # A failed scrape is reached through a || list, which trips neither `set -e`
+    # nor the ERR trap, so name it here or the alert would report a bare exit 1.
     failure_reason='attendance scrape failed; published from the workbook only'
+    exit 1
+fi
+
+# The rows are back and the published site is correct, so the sync did its job.
+# But something outside it deleted attendance rows from the workbook, and that
+# stays invisible unless a run says so out loud — the last one went unnoticed
+# from 21:02 until someone asked why two interns were missing.
+if [ "$workbook_regressed" -eq 1 ]; then
+    echo "==> Done — BUT the workbook had lost attendance rows; this run restored them." >&2
+    failure_reason='workbook lost attendance rows since the last run; restored from the export'
     exit 1
 fi
 

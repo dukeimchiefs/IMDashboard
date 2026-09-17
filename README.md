@@ -9,20 +9,21 @@ committed.
 ## Data flow
 
 ```
-Point_Spreadsheet.xlsx (local, OneDrive-synced, gitignored)
-  ├─ OtherPoints        one row per manual point event (Date/Resident/Team/Category/Points/Notes)
-  ├─ AttendancePoints   one row per attendance record (Date/Name/Event) — see below
-  ├─ Residents          resident directory (name/team/contact info)
-  ├─ Teams              team name list
-  └─ Categories         point-category list
-        │
-        │  refresh_data.py
-        ▼
-  ├─ Attendance Summary   (re)written each run — one row per resident,
-  │                       cumulative attendance points
-  │
-  ▼
-data.js  →  committed & pushed  →  GitHub Pages serves the live dashboard
+protected attendance export
+        │  scrape_attendance.py
+        ├─→ AttendancePoints (human-readable mirror in the workbook)
+        └─→ attendance-export.json (local, outside OneDrive and git) ─┐
+                                                                        │
+Point_Spreadsheet.xlsx (local, OneDrive-synced, gitignored)              │
+  ├─ OtherPoints (manual point events) ───────────────────────────────────┤
+  ├─ Residents / Teams / Categories                                    │
+  └─ Attendance Summary ←────────────────────────────────────┐    │
+                                                      │    │
+                                              refresh_data.py ─┘
+                                                      │
+                                                      └─→ data.js
+                                                           │
+                                                           └─→ GitHub Pages
 ```
 
 Resident → team lookups are parsed at runtime straight out of `teams.html`'s
@@ -33,7 +34,7 @@ Resident → team lookups are parsed at runtime straight out of `teams.html`'s
 | Script | What it does |
 | --- | --- |
 | `scrape_attendance.py` | Downloads the email-free `/export` feed through Cloudflare Access Service Auth, and appends any new (Date, Name, Event) rows into the `AttendancePoints` sheet — skipping rows already recorded. |
-| `refresh_data.py` | Reads `OtherPoints` + `AttendancePoints`, converts attendance events to points by event type (`Noon Conference` = 20, `Learning Session` = 10), aggregates everything into team/category totals, regenerates `data.js`, and rewrites the `Attendance Summary` sheet. |
+| `refresh_data.py` | Reads `OtherPoints` plus the local attendance-export snapshot, converts attendance events to points by event type (`Noon Conference` = 20, `Learning Session` = 10), aggregates everything into team/category totals, regenerates `data.js`, and rewrites the `Attendance Summary` sheet. It falls back to `AttendancePoints` only before the first snapshot has been created. |
 | `sync_and_publish.sh` | Runs both of the above in order, commits `data.js` if it changed, and pushes to GitHub — the one command to run for a full attendance sync + live publish. |
 
 ## One-time setup

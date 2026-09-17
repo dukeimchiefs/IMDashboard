@@ -22,10 +22,12 @@ SETUP (one-time)
 4. Run refresh_data.py afterward and commit the updated data.js.
 """
 
+import json
 import os
 import subprocess
 import sys
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 try:
@@ -96,6 +98,71 @@ EVENT_LABELS = {
     'grand_rounds': 'Grand Rounds',
     'welcome': 'Welcome',
 }
+
+# Row-count watermark. Kept off the OneDrive path for the same reason the
+# workbook backups are: it has to survive the workbook being reverted.
+#
+# The workbook is written by this script and edited by hand in Excel on a synced
+# shared library, and a stale Excel copy can land on top of a save that already
+# verified clean — that is how ten attendance rows disappeared on 2026-08-20 and
+# eight more the night before. The scrape itself never notices: it re-reads the
+# full export every run and simply re-appends whatever is missing, so
+# "appended 10 new" and "appended 2 new" read identically in the log.
+#
+# Counting distinct records at open time and comparing against the previous run
+# catches it exactly, with none of the false positives a date heuristic would
+# raise for a check-in filed after the day's last scheduled run.
+STATE_DIR = Path.home() / 'Library' / 'Application Support' / 'IMResidentDashboard'
+ROW_WATERMARK = STATE_DIR / 'attendance-row-watermark'
+
+# The export, snapshotted for refresh_data.py. See write_export_cache().
+ATTENDANCE_CACHE = STATE_DIR / 'attendance-export.json'
+
+# Distinct from 1 so sync_and_publish.sh can tell "the workbook lost rows and
+# this run put them back" apart from "the scrape failed and published nothing".
+# They need different wording, or the alert sends you chasing the wrong thing.
+EXIT_WORKBOOK_REGRESSED = 3
+
+
+def read_watermark():
+    """Distinct AttendancePoints records at the end of the last successful run."""
+    try:
+        return int(ROW_WATERMARK.read_text().strip())
+    except (OSError, ValueError):
+        return None
+
+
+def write_watermark(count):
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    ROW_WATERMARK.write_text(str(count))
+
+
+def write_export_cache(rows):
+    """Snapshot the export so refresh_data.py never reads attendance back out
+    of the workbook.
+
+    The workbook sits on a OneDrive shared library that people also edit in
+    Excel, and a stale Excel save can silently drop rows from it. While
+    refresh_data.py sourced attendance from the AttendancePoints sheet, that
+    published fewer points than the database actually held — ten rows on
+    2026-08-19/20. Sourcing the dashboard from this file instead means no Excel
+    save can cost anyone attendance points; the sheet stays as the
+    human-readable mirror and nothing downstream depends on it.
+
+    Written before the workbook append, so a snapshot lands even on a run where
+    the guarded save is refused. A local file rather than a live fetch on
+    purpose: refresh_data.py stays runnable when the export is unreachable,
+    which is the property sync_and_publish.sh relies on to publish hand-entered
+    points through a network blip.
+    """
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        'fetched': datetime.now(timezone.utc).isoformat(),
+        'rows': [list(row) for row in rows],
+    }
+    tmp = ATTENDANCE_CACHE.with_name(ATTENDANCE_CACHE.name + '.tmp')
+    tmp.write_text(json.dumps(payload))
+    os.replace(tmp, ATTENDANCE_CACHE)
 
 
 def keychain_value(service):
@@ -208,7 +275,7 @@ def append_to_workbook(path, sheet_name, scraped_rows):
     untouched instead of being rewritten identically.
     """
     signature = workbook_io.file_signature(path)
-    wb = openpyxl.load_workbook(path)
+    wb = workbook_io.load_workbook(path)
 
     if sheet_name in wb.sheetnames:
         ws = wb[sheet_name]
@@ -220,6 +287,11 @@ def append_to_workbook(path, sheet_name, scraped_rows):
         ws = wb.create_sheet(sheet_name)
         ws.append(['Date', 'Name', 'Event'])
         existing = set()
+
+    # Captured before anything is appended: what the workbook actually held when
+    # we opened it, and the only reliable way to notice it lost rows it used to
+    # have (see the watermark check in __main__).
+    present_before = len(existing)
 
     appended = 0
     skipped = 0
@@ -234,10 +306,10 @@ def append_to_workbook(path, sheet_name, scraped_rows):
 
     if not appended:
         wb.close()
-        return appended, skipped
+        return appended, skipped, present_before
 
     workbook_io.save_workbook(wb, path, expect_signature=signature)
-    return appended, skipped
+    return appended, skipped, present_before
 
 
 if __name__ == '__main__':
@@ -257,8 +329,14 @@ if __name__ == '__main__':
     if not scraped_rows:
         sys.exit('No attendance rows found on the page — nothing to append.\n')
 
+    # Before the workbook append: the dashboard reads this, and it should be
+    # current even if the guarded save below is refused.
+    write_export_cache(scraped_rows)
+
     try:
-        appended, skipped = append_to_workbook(EXCEL_FILE, ATTENDANCE_SHEET_NAME, scraped_rows)
+        appended, skipped, present_before = append_to_workbook(
+            EXCEL_FILE, ATTENDANCE_SHEET_NAME, scraped_rows
+        )
     except workbook_io.WorkbookError as error:
         sys.exit(
             f'\nERROR: attendance not saved — {error}\n'
@@ -269,3 +347,20 @@ if __name__ == '__main__':
         f'Scraped {len(scraped_rows)} row(s) — '
         f'appended {appended} new, skipped {skipped} already present.'
     )
+
+    # Written before the regression is reported, so a workbook that was reverted
+    # once does not re-alert on every run for the rest of the day.
+    watermark = read_watermark()
+    write_watermark(present_before + appended)
+
+    if watermark is not None and present_before < watermark:
+        lost = watermark - present_before
+        print(
+            f'\nWARNING: the workbook held {present_before} attendance record(s) when this '
+            f'run opened it, down from {watermark} at the end of the last run — {lost} had '
+            f'been removed since.\nThis run restored them from the export, so no points are '
+            f'lost, but something overwrote the workbook. Check whether it was open in '
+            f'Excel, and see OneDrive version history.\n',
+            file=sys.stderr,
+        )
+        sys.exit(EXIT_WORKBOOK_REGRESSED)

@@ -38,14 +38,15 @@ Sheet tab named "Points" (or first sheet), headers in row 1:
     Points:   A number
     Notes:    Optional — ignored by the dashboard
 
-An optional "Attendance" sheet (written by scrape_attendance.py) is also
-folded in automatically if present — see ATTENDANCE_SHEET_NAME/EVENT_POINTS
-below. Run scrape_attendance.py first to sync it, then run this script.
+Attendance points are folded in from the export snapshot that
+scrape_attendance.py writes — NOT from the workbook's AttendancePoints sheet,
+which is kept only as a human-readable mirror. See read_attendance and
+EVENT_POINTS below. Run scrape_attendance.py first to refresh the snapshot,
+then run this script.
 """
 
 import hashlib
 import json
-import math
 import re
 import sys
 from datetime import datetime, timedelta
@@ -57,6 +58,9 @@ except ImportError:
     sys.exit('openpyxl not found. Install it with:  pip3 install openpyxl')
 
 import workbook_io
+# Imported rather than restated: a second copy of this path would fail silently
+# by falling back to the workbook, and this repo has enough hand-mirrored pairs.
+from scrape_attendance import ATTENDANCE_CACHE
 
 # ============================================================
 # CONFIGURATION — edit these to match your setup
@@ -78,7 +82,7 @@ SHEET_NAME = 'OtherPoints'
 ATTENDANCE_SHEET_NAME = 'AttendancePoints'
 
 # Sheet tab (re)written each run with one row per resident's cumulative
-# attendance points, sourced from ATTENDANCE_SHEET_NAME.
+# attendance points, normally sourced from the local attendance-export snapshot.
 ATTENDANCE_SUMMARY_SHEET_NAME = 'Attendance Summary'
 
 # Points awarded per attendance event type. Add new event types here as needed.
@@ -133,15 +137,27 @@ CATEGORY_COLORS = {
     'Caring Colleague':     '#0891b2',  # cyan
     'Got Catch ‘Em All': '#4a3aa7',  # violet — note the curly apostrophe
     'Report Rockstar':      '#eda100',  # yellow
+    # Explicitly retain the neutral color previously supplied by the unknown-
+    # category fallback. This removes the warning without changing the chart.
+    'Community Engagement': '#6B7280',  # neutral gray
     'All Points':           '#2563EB',
 }
 
 # Academic year starts in July.
 ACADEMIC_MONTHS = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
 
-# Academic year start date — used to bucket events into weeks 1-52 (matches the
-# "Week X of 52" calculation in index.html).
+# Academic year start date — the first day that counts toward the season.
 ACADEMIC_YEAR_START = datetime(2026, 7, 1)
+
+# Weeks run Monday through Sunday. ACADEMIC_YEAR_START is a Wednesday, and
+# anchoring the buckets directly to it made every academic week run Wednesday
+# to Tuesday, which split a normal work week across two buckets — Monday and
+# Tuesday conference landed in the week that was already closing. Anchor on the
+# Monday on or before the year start (2026-06-29) instead, so week 1 still
+# contains 1 Jul and no event can fall outside weeks 1-52.
+# index.html duplicates this calculation for its "Week X of 52" readout; the two
+# must be changed together or the dashboard reads the wrong weekly column.
+ACADEMIC_WEEK_ANCHOR = ACADEMIC_YEAR_START - timedelta(days=ACADEMIC_YEAR_START.weekday())
 
 # Output path — always the data.js sitting next to this script.
 DATA_JS = Path(__file__).parent / 'data.js'
@@ -194,7 +210,7 @@ def read_events(path, sheet_name, roster_map=None):
     """
     roster_map = roster_map or {}
     name_index = build_name_index(roster_map)
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    wb = workbook_io.load_workbook(path, read_only=True, data_only=True)
 
     if sheet_name and sheet_name in wb.sheetnames:
         ws = wb[sheet_name]
@@ -259,29 +275,23 @@ def load_roster_from_teams_html(path):
     return roster
 
 
-def read_attendance(path, sheet_name, roster_map):
-    """Read the scraped Attendance sheet.
+def _attendance_rows_from_workbook(path, sheet_name):
+    """(date, name, event) tuples read straight off the AttendancePoints sheet.
 
-    Returns (events, resident_totals):
-      - events: list of {'date', 'team', 'category': 'Attendance', 'points'} for aggregate()
-      - resident_totals: {name: cumulative_attendance_points} for every resident in
-        roster_map (0 for residents with no attendance rows yet)
+    Fallback only — see read_attendance for why this is no longer the source.
     """
-    resident_totals = {name: 0 for name in roster_map}
-    name_index = build_name_index(roster_map)
-
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    wb = workbook_io.load_workbook(path, read_only=True, data_only=True)
 
     if sheet_name not in wb.sheetnames:
         wb.close()
-        return [], resident_totals
+        return []
 
     ws = wb[sheet_name]
     rows = list(ws.iter_rows(values_only=True))
     wb.close()
 
     if len(rows) < 2:
-        return [], resident_totals
+        return []
 
     headers = [str(h).strip().lower() if h is not None else '' for h in rows[0]]
 
@@ -295,13 +305,65 @@ def read_attendance(path, sheet_name, roster_map):
     name_i = col('name')
     event_i = col('event')
 
-    events = []
+    out = []
     for row in rows[1:]:
         try:
-            date = parse_date(row[date_i])
-            name = str(row[name_i] or '').strip()
-            event = str(row[event_i] or '').strip()
-        except (TypeError, ValueError, IndexError):
+            out.append((row[date_i], row[name_i], row[event_i]))
+        except IndexError:
+            continue
+    return out
+
+
+def _attendance_rows_from_export():
+    """(date, name, event) tuples from the snapshot scrape_attendance.py writes.
+
+    Returns None rather than [] when there is no snapshot, so the caller can
+    tell "nothing has ever been fetched here" apart from "the export is empty".
+    """
+    try:
+        payload = json.loads(ATTENDANCE_CACHE.read_text())
+    except (OSError, ValueError):
+        return None
+    rows = payload.get('rows')
+    if not isinstance(rows, list):
+        return None
+    return [tuple(row[:3]) for row in rows if isinstance(row, (list, tuple)) and len(row) >= 3]
+
+
+def read_attendance(path, sheet_name, roster_map):
+    """Read attendance and return (events, resident_totals).
+
+      - events: list of {'date', 'team', 'category': 'Attendance', 'points'} for aggregate()
+      - resident_totals: {name: cumulative_attendance_points} for every resident in
+        roster_map (0 for residents with no attendance rows yet)
+
+    Sourced from the export snapshot, NOT from the workbook. The workbook lives
+    on a OneDrive shared library that people also edit in Excel, and a stale
+    Excel save can silently drop rows from the AttendancePoints sheet. While
+    this function read that sheet, such a save published fewer points than the
+    database actually held — ten rows went that way on 2026-08-19/20, and the
+    dashboard reported them as simply not having happened. The sheet is still
+    written and is still the human-readable record; nothing downstream depends
+    on it any more, so an Excel save can no longer cost a resident points.
+
+    Falls back to the sheet only when no snapshot exists, so a checkout that has
+    never run scrape_attendance.py still produces a dashboard.
+    """
+    resident_totals = {name: 0 for name in roster_map}
+    name_index = build_name_index(roster_map)
+
+    rows = _attendance_rows_from_export()
+    if rows is None:
+        print('  [attendance] no export snapshot yet — reading the workbook sheet instead.')
+        rows = _attendance_rows_from_workbook(path, sheet_name)
+
+    events = []
+    for raw_date, raw_name, raw_event in rows:
+        try:
+            date = parse_date(raw_date)
+            name = str(raw_name or '').strip()
+            event = str(raw_event or '').strip()
+        except (TypeError, ValueError):
             continue
 
         canonical, team = name_index.get(normalize_name(name), (None, None))
@@ -328,7 +390,7 @@ def write_attendance_summary(path, summary_sheet_name, resident_totals, roster_m
     the file alone entirely rather than rewrite it identically.
     """
     signature = workbook_io.file_signature(path)
-    wb = openpyxl.load_workbook(path)
+    wb = workbook_io.load_workbook(path)
 
     rows = [['Name', 'Team', 'Attendance Points']]
     for name in sorted(roster_map, key=lambda n: (roster_map[n], n)):
@@ -359,15 +421,20 @@ def write_attendance_summary(path, summary_sheet_name, resident_totals, roster_m
 
 
 def week_number(date):
-    """1-52 week index since ACADEMIC_YEAR_START, matching the frontend's calc."""
-    delta_days = (date - ACADEMIC_YEAR_START).days + 1
-    return min(52, max(1, math.ceil(delta_days / 7)))
+    """1-52 Monday-based week index, matching the frontend's calc."""
+    delta_days = (date - ACADEMIC_WEEK_ANCHOR).days
+    return min(52, max(1, delta_days // 7 + 1))
 
 
 def week_month_label(week_num):
-    """Calendar month abbreviation that a given academic week falls in."""
-    week_start = ACADEMIC_YEAR_START + timedelta(weeks=week_num - 1)
-    return week_start.strftime('%b')
+    """Calendar month abbreviation that a given academic week falls in.
+
+    Week 1 starts on 29 Jun, so label it by the year start rather than by its
+    own Monday — otherwise the chart's first x-axis tick reads "Jun" for a
+    season that begins in July.
+    """
+    week_start = ACADEMIC_WEEK_ANCHOR + timedelta(weeks=week_num - 1)
+    return max(week_start, ACADEMIC_YEAR_START).strftime('%b')
 
 
 def aggregate(events, today=None):
@@ -543,7 +610,7 @@ def write_data_js(data):
 
 def diagnose(path, sheet_name):
     """Print sheet names, row count, headers, and first 5 data rows to help debug."""
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    wb = workbook_io.load_workbook(path, read_only=True, data_only=True)
     print(f'\n--- DIAGNOSTIC ---')
     print(f'Sheet tabs found:  {wb.sheetnames}')
     ws = wb[sheet_name] if sheet_name and sheet_name in wb.sheetnames else wb.active
@@ -568,6 +635,8 @@ if __name__ == '__main__':
 
     try:
         events = read_events(EXCEL_FILE, SHEET_NAME, roster_map)
+    except workbook_io.WorkbookError as e:
+        sys.exit(f'\nERROR: {e}\n')
     except ValueError as e:
         diagnose(EXCEL_FILE, SHEET_NAME)
         sys.exit(f'\nERROR reading workbook: {e}\n')
