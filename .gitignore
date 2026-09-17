@@ -19,6 +19,9 @@ __pycache__/
 # Internal files
 internal_README.md
 claude.md
+# Same content as CLAUDE.md, which the rule above already covers on a
+# case-insensitive filesystem. This repository is public — keep both local.
+AGENTS.md
 Point_Spreadsheet.xlsx
 
 # Local-only misuse tooling and its output. flag_attendance_timing.py still
