@@ -1,6 +1,6 @@
-// Auto-generated 2026-09-16 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-09-17 14:53 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=205b4e18
+// payload v=899d4523
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -17,13 +17,15 @@ const SAMPLE_DATA = {
         8,
         9,
         10,
-        11
+        11,
+        12
     ],
     "weekMonths": [
         "Jul",
         "Jul",
         "Jul",
         "Jul",
+        "Aug",
         "Aug",
         "Aug",
         "Aug",
@@ -44,14 +46,15 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 0,
-                40,
-                110,
-                70,
-                80,
-                110,
-                107,
+                20,
+                60,
+                140,
                 0,
-                100
+                170,
+                127,
+                0,
+                60,
+                40
             ],
             "rank": 1,
             "prevRank": 1
@@ -68,12 +71,13 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 10,
-                80,
-                190,
+                0,
+                240,
+                50,
+                60,
+                30,
+                77,
                 40,
-                70,
-                20,
-                97,
                 20,
                 50
             ],
@@ -92,14 +96,15 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 0,
-                90,
                 70,
-                0,
+                70,
+                20,
                 10,
                 20,
-                60,
-                80,
-                100
+                40,
+                20,
+                140,
+                40
             ],
             "rank": 3,
             "prevRank": 3
@@ -116,12 +121,13 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 0,
-                80,
-                100,
-                20,
+                0,
+                140,
                 60,
-                70,
-                20,
+                40,
+                60,
+                50,
+                0,
                 40,
                 20
             ],
@@ -139,15 +145,16 @@ const SAMPLE_DATA = {
             ],
             "weekly": [
                 60,
-                10,
-                40,
-                70,
-                30,
                 0,
+                10,
+                80,
                 60,
-                20,
-                50,
-                110
+                0,
+                40,
+                40,
+                0,
+                70,
+                90
             ],
             "rank": 5,
             "prevRank": 5
@@ -164,14 +171,15 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 10,
+                40,
                 100,
-                50,
-                30,
+                40,
                 60,
                 0,
                 0,
-                40,
-                60
+                0,
+                60,
+                40
             ],
             "rank": 6,
             "prevRank": 6
@@ -188,14 +196,15 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 0,
-                70,
-                30,
+                40,
+                60,
                 50,
                 10,
-                95,
-                10,
-                20,
-                60
+                60,
+                45,
+                0,
+                80,
+                0
             ],
             "rank": 7,
             "prevRank": 7
@@ -212,14 +221,15 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 0,
-                40,
-                20,
-                10,
-                60,
-                15,
                 0,
-                20,
-                70
+                40,
+                30,
+                30,
+                40,
+                5,
+                0,
+                60,
+                30
             ],
             "rank": 8,
             "prevRank": 8
@@ -236,14 +246,15 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 0,
-                10,
-                30,
-                25,
-                40,
-                40,
                 0,
+                20,
+                45,
+                20,
+                40,
+                20,
                 0,
-                80
+                20,
+                60
             ],
             "rank": 9,
             "prevRank": 9
@@ -260,14 +271,15 @@ const SAMPLE_DATA = {
             "weekly": [
                 50,
                 0,
-                40,
-                0,
+                20,
+                20,
                 40,
                 0,
                 20,
                 30,
-                30,
-                20
+                0,
+                50,
+                0
             ],
             "rank": 10,
             "prevRank": 10
