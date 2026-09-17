@@ -1,6 +1,6 @@
-// Auto-generated 2026-09-17 14:53 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-09-17 18:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=899d4523
+// payload v=83f5f0e3
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -162,11 +162,11 @@ const SAMPLE_DATA = {
         {
             "name": "Team Codeblazers",
             "color": "#eb6834",
-            "total": 400,
+            "total": 430,
             "monthly": [
                 200,
                 100,
-                100
+                130
             ],
             "weekly": [
                 50,
@@ -179,7 +179,7 @@ const SAMPLE_DATA = {
                 0,
                 0,
                 60,
-                40
+                70
             ],
             "rank": 6,
             "prevRank": 6
@@ -308,7 +308,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleague",
-            "value": 182,
+            "value": 212,
             "color": "#0891b2"
         },
         {
