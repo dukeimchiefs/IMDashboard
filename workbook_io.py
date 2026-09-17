@@ -25,7 +25,9 @@ Backups live outside the synced folder and never leave the machine.
 
 import os
 import shutil
+import stat
 import tempfile
+from zipfile import BadZipFile
 from datetime import datetime
 from pathlib import Path
 
@@ -39,7 +41,15 @@ KEEP_BACKUPS = 10
 
 
 class WorkbookError(RuntimeError):
-    """A guarded save was refused or rolled back. The workbook is unchanged."""
+    """The workbook could not be safely read or written."""
+
+
+class WorkbookUnavailable(WorkbookError):
+    """The workbook exists but its contents are not currently available."""
+
+
+class WorkbookInvalid(WorkbookError):
+    """The workbook was downloaded but is not a valid XLSX archive."""
 
 
 class WorkbookBusy(WorkbookError):
@@ -69,6 +79,76 @@ def file_signature(path):
     return (st.st_mtime_ns, st.st_size)
 
 
+def is_dataless(path):
+    """Whether macOS File Provider has evicted the file's local contents."""
+    flags = getattr(Path(path).stat(), 'st_flags', 0)
+    # Python 3.13 exposes SF_DATALESS on macOS. Keep the documented Darwin
+    # value as a fallback so this check still works with older interpreters.
+    return bool(flags & getattr(stat, 'SF_DATALESS', 0x40000000))
+
+
+def materialize(path):
+    """Force File Provider to fetch an evicted file's contents before a read.
+
+    Being dataless is not a failure. macOS downloads a placeholder on demand
+    the moment something reads it, so the flag on its own only means "nobody
+    has touched this lately" — the provider reclaims space from idle files by
+    design. Reading one byte triggers that download and blocks until it lands
+    (a few seconds for this workbook), which is exactly what the caller wants.
+    Only a genuine fetch failure — offline, signed out, EDEADLK — raises.
+    """
+    with open(path, 'rb') as handle:
+        handle.read(1)
+
+
+def load_workbook(path, **kwargs):
+    """Open an XLSX with useful errors for OneDrive/File Provider failures.
+
+    An online-only File Provider placeholder has a normal path and advertised
+    size, so exists()/stat() both succeed. Reading it can instead raise EDEADLK;
+    zipfile then often replaces that useful error with the misleading
+    ``BadZipFile: File is not a zip file``. Materialize the placeholder before
+    the read and normalize both failure modes for callers.
+
+    This used to refuse the read outright whenever is_dataless() was true, which
+    turned an ordinary eviction into a failed run: on 2026-09-17 both scripts
+    aborted on a workbook that a plain open() then fetched in under four
+    seconds. Attempt the download and report unavailability only when the
+    attempt actually fails.
+    """
+    path = Path(path)
+    if is_dataless(path):
+        try:
+            materialize(path)
+        except OSError as error:
+            raise WorkbookUnavailable(
+                f'{path.name} is online-only and OneDrive could not download it '
+                f'({error}). In Finder, right-click it (or its folder), choose '
+                '"Always Keep on This Device", and wait for the solid green '
+                'checkmark.'
+            ) from error
+
+    try:
+        return openpyxl.load_workbook(path, **kwargs)
+    except BadZipFile as error:
+        underlying = error.__context__
+        if is_dataless(path) or isinstance(underlying, OSError):
+            raise WorkbookUnavailable(
+                f'{path.name} became unavailable while it was being read. OneDrive '
+                'may still be downloading it; wait for the solid green checkmark '
+                'and re-run.'
+            ) from error
+        raise WorkbookInvalid(
+            f'{path.name} is downloaded but is not a valid Excel workbook. '
+            'Check OneDrive version history or a local workbook backup.'
+        ) from error
+    except OSError as error:
+        raise WorkbookUnavailable(
+            f'{path.name} could not be read ({error}). OneDrive may still be '
+            'downloading or syncing it; wait for the solid green checkmark and re-run.'
+        ) from error
+
+
 def backup_workbook(path, keep=KEEP_BACKUPS):
     """Copy the workbook into BACKUP_DIR, pruning all but the newest `keep`."""
     path = Path(path)
@@ -94,7 +174,7 @@ def sheet_row_counts(path):
     700 XLOOKUP rows in OtherPoints appear and vanish on their own and trip the
     row-loss check on a perfectly good save.
     """
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=False)
+    wb = load_workbook(path, read_only=True, data_only=False)
     try:
         counts = {}
         for name in wb.sheetnames:
@@ -141,7 +221,15 @@ def save_workbook(wb, path, expect_signature=None, allow_shrink=(), keep_backups
     tmp = Path(tmp_name)
     try:
         wb.save(tmp)
-        shutil.copystat(path, tmp)
+        # copymode, NOT copystat. copystat also carries the *old* file's mtime
+        # onto the replacement, so every guarded save left the workbook looking
+        # untouched since whenever a human last opened it in Excel — the backup
+        # set shows six consecutive script saves all stamped 2026-08-18 14:11:02.
+        # OneDrive resolves conflicts against that timestamp, which is how a save
+        # that verified clean locally kept losing to a stale cloud copy: ten
+        # attendance rows went that way on 2026-08-20. Only the permission bits
+        # need to survive the atomic swap; the new mtime is the point.
+        shutil.copymode(path, tmp)
         os.replace(tmp, path)
     except BaseException:
         tmp.unlink(missing_ok=True)
