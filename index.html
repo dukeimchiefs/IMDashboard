@@ -6,7 +6,7 @@
     <title>Duke Internal Medicine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-    <script src="data.js?v=205b4e18"></script>
+    <script src="data.js?v=899d4523"></script>
     <script>
         const DUKE_BLUE = '#012169';
         const ORANGE    = '#C84E00';
@@ -172,10 +172,22 @@
             if (el) el.textContent = val;
         }
 
-        // Academic year runs July 2026 – July 2027
-        var ACADEMIC_YEAR_START = new Date(2026, 6, 1);
-        var msPerWeek = 7 * 24 * 60 * 60 * 1000;
-        var weekNum = Math.min(52, Math.max(1, Math.ceil((Date.now() - ACADEMIC_YEAR_START.getTime() + 1) / msPerWeek)));
+        // Academic year runs July 2026 – July 2027. Weeks run Monday through
+        // Sunday, anchored on the Monday on or before the year start (29 Jun
+        // 2026) so week 1 still contains 1 Jul. This must stay in step with
+        // week_number() in refresh_data.py — that function decides which bucket
+        // each event lands in, and this one decides which bucket gets read as
+        // "this week". If they disagree, the standings show the wrong column.
+        var ACADEMIC_YEAR_START  = new Date(2026, 6, 1);
+        var ACADEMIC_WEEK_ANCHOR = new Date(2026, 5, 29);
+        var msPerDay = 24 * 60 * 60 * 1000;
+        // Round rather than floor the day count: a DST change between the
+        // anchor and today shifts the difference by an hour, which would
+        // otherwise drop a whole day at the week boundary.
+        var now = new Date();
+        var daysSinceAnchor = Math.round(
+            (new Date(now.getFullYear(), now.getMonth(), now.getDate()) - ACADEMIC_WEEK_ANCHOR) / msPerDay);
+        var weekNum = Math.min(52, Math.max(1, Math.floor(daysSinceAnchor / 7) + 1));
         document.getElementById('stat-week').textContent = 'Week ' + weekNum + ' of 52';
 
         async function initDashboard() {
