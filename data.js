@@ -1,6 +1,6 @@
-// Auto-generated 2026-09-17 18:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-09-18 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=83f5f0e3
+// payload v=0f7c211c
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -85,6 +85,31 @@ const SAMPLE_DATA = {
             "prevRank": 2
         },
         {
+            "name": "Team Glandiators",
+            "color": "#0891b2",
+            "total": 480,
+            "monthly": [
+                190,
+                210,
+                80
+            ],
+            "weekly": [
+                50,
+                0,
+                0,
+                140,
+                60,
+                40,
+                60,
+                50,
+                0,
+                40,
+                40
+            ],
+            "rank": 3,
+            "prevRank": 4
+        },
+        {
             "name": "Team PEEPs",
             "color": "#eda100",
             "total": 480,
@@ -106,33 +131,8 @@ const SAMPLE_DATA = {
                 140,
                 40
             ],
-            "rank": 3,
-            "prevRank": 3
-        },
-        {
-            "name": "Team Glandiators",
-            "color": "#0891b2",
-            "total": 460,
-            "monthly": [
-                190,
-                210,
-                60
-            ],
-            "weekly": [
-                50,
-                0,
-                0,
-                140,
-                60,
-                40,
-                60,
-                50,
-                0,
-                40,
-                20
-            ],
             "rank": 4,
-            "prevRank": 4
+            "prevRank": 3
         },
         {
             "name": "Team Jointventurers",
@@ -288,7 +288,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 2990,
+            "value": 3010,
             "color": "#EC4899"
         },
         {
