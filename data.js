@@ -1,6 +1,6 @@
-// Auto-generated 2026-09-18 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-09-18 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=0f7c211c
+// payload v=51556370
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -37,11 +37,11 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 667,
+            "total": 687,
             "monthly": [
                 130,
                 437,
-                100
+                120
             ],
             "weekly": [
                 50,
@@ -54,7 +54,7 @@ const SAMPLE_DATA = {
                 127,
                 0,
                 60,
-                40
+                60
             ],
             "rank": 1,
             "prevRank": 1
@@ -62,11 +62,11 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 627,
+            "total": 667,
             "monthly": [
                 300,
                 217,
-                110
+                150
             ],
             "weekly": [
                 50,
@@ -79,44 +79,19 @@ const SAMPLE_DATA = {
                 77,
                 40,
                 20,
-                50
+                90
             ],
             "rank": 2,
             "prevRank": 2
         },
         {
-            "name": "Team Glandiators",
-            "color": "#0891b2",
-            "total": 480,
-            "monthly": [
-                190,
-                210,
-                80
-            ],
-            "weekly": [
-                50,
-                0,
-                0,
-                140,
-                60,
-                40,
-                60,
-                50,
-                0,
-                40,
-                40
-            ],
-            "rank": 3,
-            "prevRank": 4
-        },
-        {
             "name": "Team PEEPs",
             "color": "#eda100",
-            "total": 480,
+            "total": 540,
             "monthly": [
                 190,
                 90,
-                200
+                260
             ],
             "weekly": [
                 50,
@@ -129,10 +104,35 @@ const SAMPLE_DATA = {
                 40,
                 20,
                 140,
-                40
+                100
+            ],
+            "rank": 3,
+            "prevRank": 3
+        },
+        {
+            "name": "Team Glandiators",
+            "color": "#0891b2",
+            "total": 500,
+            "monthly": [
+                190,
+                210,
+                100
+            ],
+            "weekly": [
+                50,
+                0,
+                0,
+                140,
+                60,
+                40,
+                60,
+                50,
+                0,
+                40,
+                60
             ],
             "rank": 4,
-            "prevRank": 3
+            "prevRank": 4
         },
         {
             "name": "Team Jointventurers",
@@ -288,7 +288,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 3010,
+            "value": 3150,
             "color": "#EC4899"
         },
         {
