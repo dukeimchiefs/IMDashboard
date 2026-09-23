@@ -1,6 +1,6 @@
-// Auto-generated 2026-09-23 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-09-23 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=7f96d362
+// payload v=294a7aef
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -221,11 +221,11 @@ const SAMPLE_DATA = {
         {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
-            "total": 285,
+            "total": 305,
             "monthly": [
                 90,
                 105,
-                90
+                110
             ],
             "weekly": [
                 50,
@@ -239,7 +239,7 @@ const SAMPLE_DATA = {
                 0,
                 60,
                 30,
-                0
+                20
             ],
             "rank": 8,
             "prevRank": 8
@@ -300,7 +300,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 3230,
+            "value": 3250,
             "color": "#EC4899"
         },
         {
