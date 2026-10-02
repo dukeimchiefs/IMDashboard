@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-01 20:19 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-02 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=2871eb39
+// payload v=fd2b6c84
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -65,7 +65,7 @@ const SAMPLE_DATA = {
                 40
             ],
             "rank": 1,
-            "prevRank": 2
+            "prevRank": 1
         },
         {
             "name": "Team Stentinels",
@@ -93,7 +93,7 @@ const SAMPLE_DATA = {
                 40
             ],
             "rank": 2,
-            "prevRank": 1
+            "prevRank": 2
         },
         {
             "name": "Team PEEPs",
