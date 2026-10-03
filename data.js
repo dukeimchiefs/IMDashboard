@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-02 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-03 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=fd2b6c84
+// payload v=538e7284
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -42,12 +42,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 747,
+            "total": 787,
             "monthly": [
                 130,
                 437,
                 140,
-                40
+                80
             ],
             "weekly": [
                 50,
@@ -62,7 +62,7 @@ const SAMPLE_DATA = {
                 60,
                 60,
                 20,
-                40
+                80
             ],
             "rank": 1,
             "prevRank": 1
@@ -70,12 +70,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 747,
+            "total": 767,
             "monthly": [
                 300,
                 217,
                 230,
-                0
+                20
             ],
             "weekly": [
                 50,
@@ -90,7 +90,7 @@ const SAMPLE_DATA = {
                 20,
                 90,
                 40,
-                40
+                60
             ],
             "rank": 2,
             "prevRank": 2
@@ -182,12 +182,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Codeblazers",
             "color": "#eb6834",
-            "total": 470,
+            "total": 480,
             "monthly": [
                 200,
                 100,
                 170,
-                0
+                10
             ],
             "weekly": [
                 50,
@@ -202,7 +202,7 @@ const SAMPLE_DATA = {
                 60,
                 70,
                 0,
-                40
+                50
             ],
             "rank": 6,
             "prevRank": 6
@@ -210,12 +210,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 455,
+            "total": 475,
             "monthly": [
                 150,
                 165,
                 140,
-                0
+                20
             ],
             "weekly": [
                 50,
@@ -230,7 +230,7 @@ const SAMPLE_DATA = {
                 80,
                 0,
                 60,
-                0
+                20
             ],
             "rank": 7,
             "prevRank": 7
@@ -266,12 +266,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Creatininjas",
             "color": "#2a78d6",
-            "total": 310,
+            "total": 360,
             "monthly": [
                 90,
                 90,
                 130,
-                0
+                50
             ],
             "weekly": [
                 50,
@@ -286,7 +286,7 @@ const SAMPLE_DATA = {
                 50,
                 0,
                 20,
-                60
+                110
             ],
             "rank": 9,
             "prevRank": 9
@@ -294,12 +294,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Hemoglobbers",
             "color": "#4a3aa7",
-            "total": 275,
+            "total": 285,
             "monthly": [
                 70,
                 125,
                 80,
-                0
+                10
             ],
             "weekly": [
                 50,
@@ -314,10 +314,38 @@ const SAMPLE_DATA = {
                 20,
                 60,
                 0,
-                0
+                10
             ],
             "rank": 10,
             "prevRank": 10
+        },
+        {
+            "name": "Team Not found",
+            "color": "#6B7280",
+            "total": 10,
+            "monthly": [
+                0,
+                0,
+                0,
+                10
+            ],
+            "weekly": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                10
+            ],
+            "rank": 11,
+            "prevRank": 11
         }
     ],
     "categories": [
@@ -328,12 +356,12 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Safety First",
-            "value": 70,
+            "value": 160,
             "color": "#008300"
         },
         {
             "label": "Residency Engagement",
-            "value": 685,
+            "value": 715,
             "color": "#2563EB"
         },
         {
@@ -343,7 +371,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleague",
-            "value": 212,
+            "value": 232,
             "color": "#0891b2"
         },
         {
@@ -353,12 +381,17 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Report Rockstar",
-            "value": 30,
+            "value": 40,
             "color": "#eda100"
         },
         {
             "label": "Community Engagement",
             "value": 52,
+            "color": "#6B7280"
+        },
+        {
+            "label": "teaching",
+            "value": 10,
             "color": "#6B7280"
         }
     ]
