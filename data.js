@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-04 14:06 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-04 14:12 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=6f75784b
+// payload v=50ceb2c9
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -70,12 +70,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 787,
+            "total": 767,
             "monthly": [
                 300,
                 217,
                 230,
-                40
+                20
             ],
             "weekly": [
                 50,
@@ -90,7 +90,7 @@ const SAMPLE_DATA = {
                 20,
                 90,
                 40,
-                80
+                60
             ],
             "rank": 2,
             "prevRank": 2
@@ -238,12 +238,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
-            "total": 365,
+            "total": 375,
             "monthly": [
                 90,
                 105,
                 170,
-                0
+                10
             ],
             "weekly": [
                 50,
@@ -258,7 +258,7 @@ const SAMPLE_DATA = {
                 60,
                 30,
                 80,
-                0
+                10
             ],
             "rank": 8,
             "prevRank": 8
@@ -328,7 +328,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Safety First",
-            "value": 150,
+            "value": 160,
             "color": "#008300"
         },
         {
@@ -348,7 +348,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 230,
+            "value": 210,
             "color": "#4a3aa7"
         },
         {
