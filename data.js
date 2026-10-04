@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-03 12:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-03 21:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=538e7284
+// payload v=ae0670b0
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -70,12 +70,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 767,
+            "total": 777,
             "monthly": [
                 300,
                 217,
                 230,
-                20
+                30
             ],
             "weekly": [
                 50,
@@ -90,7 +90,7 @@ const SAMPLE_DATA = {
                 20,
                 90,
                 40,
-                60
+                70
             ],
             "rank": 2,
             "prevRank": 2
@@ -318,34 +318,6 @@ const SAMPLE_DATA = {
             ],
             "rank": 10,
             "prevRank": 10
-        },
-        {
-            "name": "Team Not found",
-            "color": "#6B7280",
-            "total": 10,
-            "monthly": [
-                0,
-                0,
-                0,
-                10
-            ],
-            "weekly": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                10
-            ],
-            "rank": 11,
-            "prevRank": 11
         }
     ],
     "categories": [
@@ -356,7 +328,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Safety First",
-            "value": 160,
+            "value": 150,
             "color": "#008300"
         },
         {
@@ -376,7 +348,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 210,
+            "value": 220,
             "color": "#4a3aa7"
         },
         {
