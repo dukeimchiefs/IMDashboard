@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-05 21:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-06 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=fc83188a
+// payload v=c1c511e5
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -305,12 +305,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Hemoglobbers",
             "color": "#4a3aa7",
-            "total": 310,
+            "total": 330,
             "monthly": [
                 70,
                 125,
                 80,
-                35
+                55
             ],
             "weekly": [
                 50,
@@ -326,7 +326,7 @@ const SAMPLE_DATA = {
                 60,
                 0,
                 10,
-                25
+                45
             ],
             "rank": 10,
             "prevRank": 10
@@ -365,7 +365,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Uncategorized",
-            "value": 25,
+            "value": 45,
             "color": "#C4C4C4"
         },
         {
