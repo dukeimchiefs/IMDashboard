@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-04 14:12 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-05 21:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=50ceb2c9
+// payload v=fc83188a
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -21,7 +21,8 @@ const SAMPLE_DATA = {
         11,
         12,
         13,
-        14
+        14,
+        15
     ],
     "weekMonths": [
         "Jul",
@@ -36,7 +37,8 @@ const SAMPLE_DATA = {
         "Sep",
         "Sep",
         "Sep",
-        "Sep"
+        "Sep",
+        "Oct"
     ],
     "teams": [
         {
@@ -62,7 +64,8 @@ const SAMPLE_DATA = {
                 60,
                 60,
                 20,
-                100
+                100,
+                0
             ],
             "rank": 1,
             "prevRank": 1
@@ -90,7 +93,8 @@ const SAMPLE_DATA = {
                 20,
                 90,
                 40,
-                60
+                60,
+                0
             ],
             "rank": 2,
             "prevRank": 2
@@ -118,7 +122,8 @@ const SAMPLE_DATA = {
                 140,
                 100,
                 60,
-                30
+                30,
+                0
             ],
             "rank": 3,
             "prevRank": 3
@@ -146,7 +151,8 @@ const SAMPLE_DATA = {
                 40,
                 60,
                 40,
-                20
+                20,
+                0
             ],
             "rank": 4,
             "prevRank": 4
@@ -174,7 +180,8 @@ const SAMPLE_DATA = {
                 70,
                 90,
                 0,
-                60
+                60,
+                0
             ],
             "rank": 5,
             "prevRank": 5
@@ -202,7 +209,8 @@ const SAMPLE_DATA = {
                 60,
                 70,
                 0,
-                50
+                50,
+                0
             ],
             "rank": 6,
             "prevRank": 6
@@ -230,7 +238,8 @@ const SAMPLE_DATA = {
                 80,
                 0,
                 60,
-                20
+                20,
+                0
             ],
             "rank": 7,
             "prevRank": 7
@@ -258,7 +267,8 @@ const SAMPLE_DATA = {
                 60,
                 30,
                 80,
-                10
+                10,
+                0
             ],
             "rank": 8,
             "prevRank": 8
@@ -286,7 +296,8 @@ const SAMPLE_DATA = {
                 50,
                 0,
                 20,
-                110
+                110,
+                0
             ],
             "rank": 9,
             "prevRank": 9
@@ -294,12 +305,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Hemoglobbers",
             "color": "#4a3aa7",
-            "total": 285,
+            "total": 310,
             "monthly": [
                 70,
                 125,
                 80,
-                10
+                35
             ],
             "weekly": [
                 50,
@@ -314,7 +325,8 @@ const SAMPLE_DATA = {
                 20,
                 60,
                 0,
-                10
+                10,
+                25
             ],
             "rank": 10,
             "prevRank": 10
@@ -350,6 +362,11 @@ const SAMPLE_DATA = {
             "label": "Got Catch \u2018Em All",
             "value": 210,
             "color": "#4a3aa7"
+        },
+        {
+            "label": "Uncategorized",
+            "value": 25,
+            "color": "#C4C4C4"
         },
         {
             "label": "Report Rockstar",
