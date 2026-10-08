@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-07 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-07 21:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=cbd8768a
+// payload v=9d7273e6
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -102,12 +102,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team PEEPs",
             "color": "#eda100",
-            "total": 670,
+            "total": 710,
             "monthly": [
                 190,
                 90,
                 320,
-                70
+                110
             ],
             "weekly": [
                 50,
@@ -123,7 +123,7 @@ const SAMPLE_DATA = {
                 100,
                 60,
                 30,
-                40
+                80
             ],
             "rank": 3,
             "prevRank": 3
@@ -245,6 +245,35 @@ const SAMPLE_DATA = {
             "prevRank": 7
         },
         {
+            "name": "Team Creatininjas",
+            "color": "#2a78d6",
+            "total": 420,
+            "monthly": [
+                90,
+                90,
+                130,
+                110
+            ],
+            "weekly": [
+                50,
+                0,
+                20,
+                20,
+                40,
+                0,
+                20,
+                30,
+                0,
+                50,
+                0,
+                20,
+                110,
+                60
+            ],
+            "rank": 8,
+            "prevRank": 9
+        },
+        {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
             "total": 415,
@@ -270,37 +299,8 @@ const SAMPLE_DATA = {
                 10,
                 40
             ],
-            "rank": 8,
-            "prevRank": 8
-        },
-        {
-            "name": "Team Creatininjas",
-            "color": "#2a78d6",
-            "total": 380,
-            "monthly": [
-                90,
-                90,
-                130,
-                70
-            ],
-            "weekly": [
-                50,
-                0,
-                20,
-                20,
-                40,
-                0,
-                20,
-                30,
-                0,
-                50,
-                0,
-                20,
-                110,
-                20
-            ],
             "rank": 9,
-            "prevRank": 9
+            "prevRank": 8
         },
         {
             "name": "Team Hemoglobbers",
@@ -360,12 +360,12 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 210,
+            "value": 250,
             "color": "#4a3aa7"
         },
         {
             "label": "Uncategorized",
-            "value": 125,
+            "value": 165,
             "color": "#C4C4C4"
         },
         {
