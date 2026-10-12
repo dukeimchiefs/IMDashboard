@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-10 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-12 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=d614cb73
+// payload v=4926668e
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -22,7 +22,8 @@ const SAMPLE_DATA = {
         12,
         13,
         14,
-        15
+        15,
+        16
     ],
     "weekMonths": [
         "Jul",
@@ -38,6 +39,7 @@ const SAMPLE_DATA = {
         "Sep",
         "Sep",
         "Sep",
+        "Oct",
         "Oct"
     ],
     "teams": [
@@ -65,7 +67,8 @@ const SAMPLE_DATA = {
                 60,
                 20,
                 100,
-                110
+                110,
+                0
             ],
             "rank": 1,
             "prevRank": 1
@@ -94,7 +97,8 @@ const SAMPLE_DATA = {
                 90,
                 40,
                 60,
-                60
+                60,
+                0
             ],
             "rank": 2,
             "prevRank": 2
@@ -123,7 +127,8 @@ const SAMPLE_DATA = {
                 100,
                 60,
                 30,
-                80
+                80,
+                0
             ],
             "rank": 3,
             "prevRank": 3
@@ -152,7 +157,8 @@ const SAMPLE_DATA = {
                 60,
                 40,
                 20,
-                20
+                20,
+                0
             ],
             "rank": 4,
             "prevRank": 4
@@ -160,12 +166,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
-            "total": 550,
+            "total": 560,
             "monthly": [
                 140,
                 150,
                 220,
-                40
+                50
             ],
             "weekly": [
                 60,
@@ -181,7 +187,8 @@ const SAMPLE_DATA = {
                 90,
                 0,
                 60,
-                40
+                40,
+                10
             ],
             "rank": 5,
             "prevRank": 5
@@ -210,7 +217,8 @@ const SAMPLE_DATA = {
                 70,
                 0,
                 50,
-                60
+                60,
+                0
             ],
             "rank": 6,
             "prevRank": 6
@@ -239,7 +247,8 @@ const SAMPLE_DATA = {
                 0,
                 60,
                 20,
-                20
+                20,
+                0
             ],
             "rank": 7,
             "prevRank": 7
@@ -268,7 +277,8 @@ const SAMPLE_DATA = {
                 30,
                 80,
                 10,
-                80
+                80,
+                0
             ],
             "rank": 8,
             "prevRank": 8
@@ -276,12 +286,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Creatininjas",
             "color": "#2a78d6",
-            "total": 440,
+            "total": 450,
             "monthly": [
                 90,
                 90,
                 130,
-                130
+                140
             ],
             "weekly": [
                 50,
@@ -297,7 +307,8 @@ const SAMPLE_DATA = {
                 0,
                 20,
                 110,
-                80
+                80,
+                10
             ],
             "rank": 9,
             "prevRank": 9
@@ -326,7 +337,8 @@ const SAMPLE_DATA = {
                 60,
                 0,
                 10,
-                125
+                125,
+                0
             ],
             "rank": 10,
             "prevRank": 10
@@ -355,7 +367,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleague",
-            "value": 232,
+            "value": 252,
             "color": "#0891b2"
         },
         {
