@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-13 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-13 18:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=480493de
+// payload v=3680ab97
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -284,6 +284,36 @@ const SAMPLE_DATA = {
             "prevRank": 8
         },
         {
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
+            "total": 460,
+            "monthly": [
+                70,
+                125,
+                80,
+                185
+            ],
+            "weekly": [
+                50,
+                0,
+                0,
+                20,
+                45,
+                20,
+                40,
+                20,
+                0,
+                20,
+                60,
+                0,
+                10,
+                125,
+                50
+            ],
+            "rank": 9,
+            "prevRank": 10
+        },
+        {
             "name": "Team Creatininjas",
             "color": "#2a78d6",
             "total": 450,
@@ -310,38 +340,8 @@ const SAMPLE_DATA = {
                 80,
                 10
             ],
-            "rank": 9,
-            "prevRank": 9
-        },
-        {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
-            "total": 440,
-            "monthly": [
-                70,
-                125,
-                80,
-                165
-            ],
-            "weekly": [
-                50,
-                0,
-                0,
-                20,
-                45,
-                20,
-                40,
-                20,
-                0,
-                20,
-                60,
-                0,
-                10,
-                125,
-                30
-            ],
             "rank": 10,
-            "prevRank": 10
+            "prevRank": 9
         }
     ],
     "categories": [
@@ -388,6 +388,11 @@ const SAMPLE_DATA = {
         {
             "label": "Community Engagement",
             "value": 52,
+            "color": "#6B7280"
+        },
+        {
+            "label": "PCP Wins",
+            "value": 20,
             "color": "#6B7280"
         },
         {
