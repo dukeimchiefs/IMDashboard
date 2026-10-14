@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-13 18:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-14 09:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=3680ab97
+// payload v=748a40d1
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -311,7 +311,7 @@ const SAMPLE_DATA = {
                 50
             ],
             "rank": 9,
-            "prevRank": 10
+            "prevRank": 9
         },
         {
             "name": "Team Creatininjas",
@@ -341,7 +341,7 @@ const SAMPLE_DATA = {
                 10
             ],
             "rank": 10,
-            "prevRank": 9
+            "prevRank": 10
         }
     ],
     "categories": [
