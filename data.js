@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-14 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-14 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=748a40d1
+// payload v=014e8dd5
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -136,12 +136,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Glandiators",
             "color": "#0891b2",
-            "total": 600,
+            "total": 620,
             "monthly": [
                 190,
                 210,
                 140,
-                60
+                80
             ],
             "weekly": [
                 50,
@@ -158,7 +158,7 @@ const SAMPLE_DATA = {
                 40,
                 20,
                 20,
-                20
+                40
             ],
             "rank": 4,
             "prevRank": 4
@@ -347,7 +347,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 4370,
+            "value": 4390,
             "color": "#EC4899"
         },
         {
