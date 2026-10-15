@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-14 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-15 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=014e8dd5
+// payload v=f23bb4a4
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -46,12 +46,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 957,
+            "total": 962,
             "monthly": [
                 130,
                 437,
                 140,
-                250
+                255
             ],
             "weekly": [
                 50,
@@ -68,7 +68,7 @@ const SAMPLE_DATA = {
                 20,
                 100,
                 110,
-                40
+                45
             ],
             "rank": 1,
             "prevRank": 1
@@ -226,12 +226,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 515,
+            "total": 530,
             "monthly": [
                 150,
                 165,
                 140,
-                60
+                75
             ],
             "weekly": [
                 50,
@@ -248,7 +248,7 @@ const SAMPLE_DATA = {
                 60,
                 20,
                 20,
-                20
+                35
             ],
             "rank": 7,
             "prevRank": 7
@@ -256,12 +256,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
-            "total": 475,
+            "total": 485,
             "monthly": [
                 90,
                 105,
                 170,
-                110
+                120
             ],
             "weekly": [
                 50,
@@ -278,7 +278,7 @@ const SAMPLE_DATA = {
                 80,
                 10,
                 80,
-                20
+                30
             ],
             "rank": 8,
             "prevRank": 8
@@ -362,7 +362,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Teaching",
-            "value": 60,
+            "value": 75,
             "color": "#C84E00"
         },
         {
@@ -372,7 +372,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 250,
+            "value": 265,
             "color": "#4a3aa7"
         },
         {
