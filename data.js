@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-19 21:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-20 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=4302e0ac
+// payload v=84142932
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -294,6 +294,37 @@ const SAMPLE_DATA = {
             "prevRank": 8
         },
         {
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
+            "total": 490,
+            "monthly": [
+                70,
+                125,
+                80,
+                215
+            ],
+            "weekly": [
+                50,
+                0,
+                0,
+                20,
+                45,
+                20,
+                40,
+                20,
+                0,
+                20,
+                60,
+                0,
+                10,
+                125,
+                50,
+                30
+            ],
+            "rank": 9,
+            "prevRank": 10
+        },
+        {
             "name": "Team Creatininjas",
             "color": "#2a78d6",
             "total": 470,
@@ -321,45 +352,14 @@ const SAMPLE_DATA = {
                 30,
                 0
             ],
-            "rank": 9,
-            "prevRank": 9
-        },
-        {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
-            "total": 470,
-            "monthly": [
-                70,
-                125,
-                80,
-                195
-            ],
-            "weekly": [
-                50,
-                0,
-                0,
-                20,
-                45,
-                20,
-                40,
-                20,
-                0,
-                20,
-                60,
-                0,
-                10,
-                125,
-                50,
-                10
-            ],
             "rank": 10,
-            "prevRank": 10
+            "prevRank": 9
         }
     ],
     "categories": [
         {
             "label": "Attendance",
-            "value": 4450,
+            "value": 4470,
             "color": "#EC4899"
         },
         {
