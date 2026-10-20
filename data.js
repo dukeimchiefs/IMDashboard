@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-20 12:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-20 15:02 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=84142932
+// payload v=c1857087
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -48,12 +48,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 1022,
+            "total": 1042,
             "monthly": [
                 130,
                 437,
                 140,
-                315
+                335
             ],
             "weekly": [
                 50,
@@ -71,7 +71,7 @@ const SAMPLE_DATA = {
                 100,
                 110,
                 105,
-                0
+                20
             ],
             "rank": 1,
             "prevRank": 1
@@ -79,12 +79,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 877,
+            "total": 897,
             "monthly": [
                 300,
                 217,
                 230,
-                130
+                150
             ],
             "weekly": [
                 50,
@@ -102,7 +102,7 @@ const SAMPLE_DATA = {
                 60,
                 60,
                 40,
-                10
+                30
             ],
             "rank": 2,
             "prevRank": 2
@@ -141,12 +141,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Glandiators",
             "color": "#0891b2",
-            "total": 620,
+            "total": 660,
             "monthly": [
                 190,
                 210,
                 140,
-                80
+                120
             ],
             "weekly": [
                 50,
@@ -164,7 +164,7 @@ const SAMPLE_DATA = {
                 20,
                 20,
                 40,
-                0
+                40
             ],
             "rank": 4,
             "prevRank": 4
@@ -172,12 +172,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
-            "total": 610,
+            "total": 630,
             "monthly": [
                 140,
                 150,
                 220,
-                100
+                120
             ],
             "weekly": [
                 60,
@@ -195,7 +195,7 @@ const SAMPLE_DATA = {
                 60,
                 40,
                 50,
-                10
+                30
             ],
             "rank": 5,
             "prevRank": 5
@@ -203,12 +203,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 570,
+            "total": 590,
             "monthly": [
                 150,
                 165,
                 140,
-                115
+                135
             ],
             "weekly": [
                 50,
@@ -226,7 +226,7 @@ const SAMPLE_DATA = {
                 20,
                 20,
                 55,
-                20
+                40
             ],
             "rank": 6,
             "prevRank": 6
@@ -296,12 +296,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Hemoglobbers",
             "color": "#4a3aa7",
-            "total": 490,
+            "total": 510,
             "monthly": [
                 70,
                 125,
                 80,
-                215
+                235
             ],
             "weekly": [
                 50,
@@ -319,7 +319,7 @@ const SAMPLE_DATA = {
                 10,
                 125,
                 50,
-                30
+                50
             ],
             "rank": 9,
             "prevRank": 10
@@ -359,7 +359,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 4470,
+            "value": 4610,
             "color": "#EC4899"
         },
         {
