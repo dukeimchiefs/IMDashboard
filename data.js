@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-21 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-22 09:09 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=31d6bd52
+// payload v=2a959111
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -203,12 +203,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 590,
+            "total": 630,
             "monthly": [
                 150,
                 165,
                 140,
-                135
+                175
             ],
             "weekly": [
                 50,
@@ -226,7 +226,7 @@ const SAMPLE_DATA = {
                 20,
                 20,
                 55,
-                40
+                80
             ],
             "rank": 6,
             "prevRank": 6
@@ -265,12 +265,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
-            "total": 515,
+            "total": 535,
             "monthly": [
                 90,
                 105,
                 170,
-                150
+                170
             ],
             "weekly": [
                 50,
@@ -288,7 +288,7 @@ const SAMPLE_DATA = {
                 10,
                 80,
                 50,
-                10
+                30
             ],
             "rank": 8,
             "prevRank": 8
@@ -327,12 +327,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Creatininjas",
             "color": "#2a78d6",
-            "total": 470,
+            "total": 490,
             "monthly": [
                 90,
                 90,
                 130,
-                160
+                180
             ],
             "weekly": [
                 50,
@@ -350,7 +350,7 @@ const SAMPLE_DATA = {
                 110,
                 80,
                 30,
-                0
+                20
             ],
             "rank": 10,
             "prevRank": 10
@@ -384,7 +384,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 455,
+            "value": 535,
             "color": "#4a3aa7"
         },
         {
