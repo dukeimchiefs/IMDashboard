@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-22 09:09 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-25 21:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=2a959111
+// payload v=f3e70c8c
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -48,12 +48,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 1042,
+            "total": 1057,
             "monthly": [
                 130,
                 437,
                 140,
-                335
+                350
             ],
             "weekly": [
                 50,
@@ -71,7 +71,7 @@ const SAMPLE_DATA = {
                 100,
                 110,
                 105,
-                20
+                35
             ],
             "rank": 1,
             "prevRank": 1
@@ -263,6 +263,37 @@ const SAMPLE_DATA = {
             "prevRank": 7
         },
         {
+            "name": "Team Hemoglobbers",
+            "color": "#4a3aa7",
+            "total": 540,
+            "monthly": [
+                70,
+                125,
+                80,
+                265
+            ],
+            "weekly": [
+                50,
+                0,
+                0,
+                20,
+                45,
+                20,
+                40,
+                20,
+                0,
+                20,
+                60,
+                0,
+                10,
+                125,
+                50,
+                80
+            ],
+            "rank": 8,
+            "prevRank": 9
+        },
+        {
             "name": "Team Scopetrotters",
             "color": "#1baf7a",
             "total": 535,
@@ -290,39 +321,8 @@ const SAMPLE_DATA = {
                 50,
                 30
             ],
-            "rank": 8,
-            "prevRank": 8
-        },
-        {
-            "name": "Team Hemoglobbers",
-            "color": "#4a3aa7",
-            "total": 510,
-            "monthly": [
-                70,
-                125,
-                80,
-                235
-            ],
-            "weekly": [
-                50,
-                0,
-                0,
-                20,
-                45,
-                20,
-                40,
-                20,
-                0,
-                20,
-                60,
-                0,
-                10,
-                125,
-                50,
-                50
-            ],
             "rank": 9,
-            "prevRank": 9
+            "prevRank": 8
         },
         {
             "name": "Team Creatininjas",
@@ -379,7 +379,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Caring Colleague",
-            "value": 252,
+            "value": 297,
             "color": "#0891b2"
         },
         {
