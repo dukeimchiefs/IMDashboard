@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-29 15:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-29 18:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=f89b7b23
+// payload v=463e673e
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -82,12 +82,12 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 957,
+            "total": 977,
             "monthly": [
                 300,
                 217,
                 230,
-                210
+                230
             ],
             "weekly": [
                 50,
@@ -106,7 +106,7 @@ const SAMPLE_DATA = {
                 60,
                 40,
                 30,
-                60
+                80
             ],
             "rank": 2,
             "prevRank": 2
@@ -396,7 +396,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 535,
+            "value": 555,
             "color": "#4a3aa7"
         },
         {
