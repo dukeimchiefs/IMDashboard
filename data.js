@@ -1,6 +1,6 @@
-// Auto-generated 2026-10-30 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-10-30 12:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=71137358
+// payload v=fd6b919c
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -144,6 +144,70 @@ const SAMPLE_DATA = {
             "prevRank": 3
         },
         {
+            "name": "Team Glandiators",
+            "color": "#0891b2",
+            "total": 710,
+            "monthly": [
+                190,
+                210,
+                140,
+                170
+            ],
+            "weekly": [
+                50,
+                0,
+                0,
+                140,
+                60,
+                40,
+                60,
+                50,
+                0,
+                40,
+                60,
+                40,
+                20,
+                20,
+                40,
+                40,
+                50
+            ],
+            "rank": 4,
+            "prevRank": 5
+        },
+        {
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
+            "total": 710,
+            "monthly": [
+                140,
+                150,
+                220,
+                200
+            ],
+            "weekly": [
+                60,
+                0,
+                10,
+                80,
+                60,
+                0,
+                40,
+                40,
+                0,
+                70,
+                90,
+                0,
+                60,
+                40,
+                50,
+                30,
+                80
+            ],
+            "rank": 5,
+            "prevRank": 6
+        },
+        {
             "name": "Team Remissionaries",
             "color": "#9d174d",
             "total": 700,
@@ -172,72 +236,8 @@ const SAMPLE_DATA = {
                 80,
                 70
             ],
-            "rank": 4,
-            "prevRank": 4
-        },
-        {
-            "name": "Team Glandiators",
-            "color": "#0891b2",
-            "total": 690,
-            "monthly": [
-                190,
-                210,
-                140,
-                150
-            ],
-            "weekly": [
-                50,
-                0,
-                0,
-                140,
-                60,
-                40,
-                60,
-                50,
-                0,
-                40,
-                60,
-                40,
-                20,
-                20,
-                40,
-                40,
-                30
-            ],
-            "rank": 5,
-            "prevRank": 5
-        },
-        {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
-            "total": 660,
-            "monthly": [
-                140,
-                150,
-                220,
-                150
-            ],
-            "weekly": [
-                60,
-                0,
-                10,
-                80,
-                60,
-                0,
-                40,
-                40,
-                0,
-                70,
-                90,
-                0,
-                60,
-                40,
-                50,
-                30,
-                30
-            ],
             "rank": 6,
-            "prevRank": 6
+            "prevRank": 4
         },
         {
             "name": "Team Hemoglobbers",
@@ -386,7 +386,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Teaching",
-            "value": 75,
+            "value": 125,
             "color": "#C84E00"
         },
         {
@@ -401,7 +401,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Uncategorized",
-            "value": 195,
+            "value": 215,
             "color": "#C4C4C4"
         },
         {
