@@ -1,6 +1,6 @@
-// Auto-generated 2026-11-01 22:44 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-11-02 09:05 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=0c4ecdd1
+// payload v=ae75796f
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -26,7 +26,8 @@ const SAMPLE_DATA = {
         15,
         16,
         17,
-        18
+        18,
+        19
     ],
     "weekMonths": [
         "Jul",
@@ -45,19 +46,20 @@ const SAMPLE_DATA = {
         "Oct",
         "Oct",
         "Oct",
-        "Oct"
+        "Oct",
+        "Nov"
     ],
     "teams": [
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 1257,
+            "total": 1267,
             "monthly": [
                 130,
                 437,
                 140,
                 550,
-                0
+                10
             ],
             "weekly": [
                 50,
@@ -76,7 +78,8 @@ const SAMPLE_DATA = {
                 110,
                 105,
                 215,
-                20
+                20,
+                10
             ],
             "rank": 1,
             "prevRank": 1
@@ -109,7 +112,8 @@ const SAMPLE_DATA = {
                 60,
                 40,
                 170,
-                80
+                80,
+                0
             ],
             "rank": 2,
             "prevRank": 2
@@ -142,7 +146,8 @@ const SAMPLE_DATA = {
                 80,
                 0,
                 170,
-                20
+                20,
+                0
             ],
             "rank": 3,
             "prevRank": 3
@@ -150,13 +155,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 790,
+            "total": 800,
             "monthly": [
                 150,
                 165,
                 140,
                 315,
-                20
+                30
             ],
             "weekly": [
                 50,
@@ -175,7 +180,8 @@ const SAMPLE_DATA = {
                 20,
                 55,
                 150,
-                90
+                90,
+                10
             ],
             "rank": 4,
             "prevRank": 4
@@ -208,7 +214,8 @@ const SAMPLE_DATA = {
                 20,
                 40,
                 90,
-                50
+                50,
+                0
             ],
             "rank": 5,
             "prevRank": 5
@@ -241,7 +248,8 @@ const SAMPLE_DATA = {
                 40,
                 50,
                 70,
-                80
+                80,
+                0
             ],
             "rank": 6,
             "prevRank": 6
@@ -274,7 +282,8 @@ const SAMPLE_DATA = {
                 125,
                 50,
                 220,
-                20
+                20,
+                0
             ],
             "rank": 7,
             "prevRank": 7
@@ -307,6 +316,7 @@ const SAMPLE_DATA = {
                 80,
                 50,
                 80,
+                0,
                 0
             ],
             "rank": 8,
@@ -340,7 +350,8 @@ const SAMPLE_DATA = {
                 80,
                 30,
                 70,
-                40
+                40,
+                0
             ],
             "rank": 9,
             "prevRank": 9
@@ -373,6 +384,7 @@ const SAMPLE_DATA = {
                 60,
                 0,
                 10,
+                0,
                 0
             ],
             "rank": 10,
@@ -407,7 +419,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 1045,
+            "value": 1055,
             "color": "#4a3aa7"
         },
         {
@@ -422,7 +434,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Community Engagement",
-            "value": 382,
+            "value": 392,
             "color": "#6B7280"
         },
         {
