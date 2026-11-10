@@ -2,13 +2,15 @@
 # Duke IM Resident Dashboard — Full Attendance Sync + Publish
 # =============================================================
 # 1. Scrapes the attendance roster into the AttendancePoints sheet.
-# 2. Regenerates data.js (team totals + per-resident Attendance Summary sheet).
-# 3. Commits data.js if it changed.
-# 4. Pushes to GitHub, which republishes the live dashboard via GitHub Pages.
+# 2. Pulls points awarded by text message (scrape_text_points.py).
+# 3. Regenerates data.js (team totals + per-resident Attendance Summary sheet).
+# 4. Commits data.js if it changed.
+# 5. Pushes to GitHub, which republishes the live dashboard via GitHub Pages.
 #
-# Step 1 is the only step that needs the network. If it fails, steps 2-4 still
-# run so that points already in the workbook get published, and the script then
-# exits 1 so the failure is still visible in launchd's last exit code.
+# Steps 1 and 2 are the only steps that need the network. If either fails,
+# steps 3-5 still run so that points already in the workbook get published, and
+# the script then exits 1 so the failure is still visible in launchd's last
+# exit code.
 #
 # Run by launchd five times a day (09:00, 12:00, 15:00, 18:00, 21:00 local) via
 # ~/Library/LaunchAgents/com.nbrazeau.imresidentdashboard.sync-and-publish.plist.
@@ -165,7 +167,7 @@ workbook_regressed=0
 # chasing the network when the problem was someone's Excel session.
 EXIT_WORKBOOK_REGRESSED=3
 
-echo "==> [1/4] Scraping attendance..."
+echo "==> [1/5] Scraping attendance..."
 # `|| status=$?` rather than `if ! ...`: neither `set -e` nor the ERR trap fires
 # on a non-final command in a || list, so the exit code survives to be classified
 # instead of collapsing to pass/fail.
@@ -178,7 +180,20 @@ elif [ "$scrape_status" -ne 0 ]; then
     scrape_failed=1
 fi
 
-echo "==> [2/4] Refreshing dashboard data..."
+# Same reasoning as step 1: this talks to the network and step 3 does not
+# consume its output directly — refresh_data.py reads the snapshot the last
+# successful pull left behind, so a failed pull publishes slightly stale texted
+# points rather than none. On a machine where texted points were never set up
+# the script says so and exits 0; that is not a failure.
+text_points_failed=0
+
+echo "==> [2/5] Pulling texted points..."
+if ! "$PYTHON" scrape_text_points.py; then
+    echo "WARNING: texted-points sync failed — publishing the last snapshot anyway." >&2
+    text_points_failed=1
+fi
+
+echo "==> [3/5] Refreshing dashboard data..."
 refresh_status=0
 "$PYTHON" refresh_data.py || refresh_status=$?
 if [ "$refresh_status" -ne 0 ]; then
@@ -188,7 +203,7 @@ if [ "$refresh_status" -ne 0 ]; then
     exit "$refresh_status"
 fi
 
-echo "==> [3/4] Committing data.js..."
+echo "==> [4/5] Committing data.js..."
 # index.html carries the data.js?v=<hash> cache-busting stamp that refresh_data.py
 # rewrites, so it has to ship in the same commit or browsers keep the stale file.
 git add data.js index.html
@@ -198,7 +213,7 @@ else
     git commit -m "Automated attendance sync $(date +'%Y-%m-%d %H:%M')"
 fi
 
-echo "==> [4/4] Pushing to GitHub..."
+echo "==> [5/5] Pushing to GitHub..."
 git push
 
 # Publishing anyway must not make a broken scrape look like a clean run: exit
@@ -208,6 +223,14 @@ if [ "$scrape_failed" -eq 1 ]; then
     # A failed scrape is reached through a || list, which trips neither `set -e`
     # nor the ERR trap, so name it here or the alert would report a bare exit 1.
     failure_reason='attendance scrape failed; published from the workbook only'
+    exit 1
+fi
+
+# Named for the same reason as the scrape above: an `if !` trips neither
+# `set -e` nor the ERR trap.
+if [ "$text_points_failed" -eq 1 ]; then
+    echo "==> Done — BUT the texted-points sync failed; published from the last snapshot." >&2
+    failure_reason='texted-points sync failed; published from the last snapshot'
     exit 1
 fi
 

@@ -53,8 +53,9 @@ import workbook_io
 
 ATTENDANCE_URL = 'https://imresidentdashboardapp.pages.dev/export'
 
-# Same workbook refresh_data.py reads from.
-EXCEL_FILE = Path('~/Library/CloudStorage/OneDrive/Point_Spreadsheet.xlsx')
+# Same workbook refresh_data.py reads from, found under whichever folder
+# OneDrive syncs it to today (see workbook_io.find_workbook).
+EXCEL_FILE = workbook_io.find_workbook()
 
 ATTENDANCE_SHEET_NAME = 'AttendancePoints'
 
@@ -316,7 +317,7 @@ if __name__ == '__main__':
     if not EXCEL_FILE.exists():
         sys.exit(
             f'\nERROR: Excel file not found:\n  {EXCEL_FILE}\n\n'
-            f'Edit EXCEL_FILE in scrape_attendance.py to point to your workbook.\n'
+            f'Check OneDrive is syncing the folder that holds it, or set IMDASH_WORKBOOK to its path.\n'
         )
 
     credentials = get_credentials()

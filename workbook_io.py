@@ -40,6 +40,33 @@ BACKUP_DIR = Path.home() / 'Library' / 'Application Support' / 'IMResidentDashbo
 KEEP_BACKUPS = 10
 
 
+# The shared workbook's file name. No folder is named here, or anywhere in this
+# public repository: the workbook is found by name under the OneDrive roots.
+WORKBOOK_NAME = 'Point_Spreadsheet.xlsx'
+CLOUD_STORAGE = Path.home() / 'Library' / 'CloudStorage'
+
+
+def find_workbook():
+    """The shared Point_Spreadsheet.xlsx, wherever OneDrive currently syncs it.
+
+    OneDrive renames its sync folders without warning (it did on 2026-11-07,
+    and every sync failed until a hardcoded path was fixed), so the workbook is
+    looked up by name up to three folders below each OneDrive root instead.
+
+    IMDASH_WORKBOOK overrides the search. If nothing is found, a placeholder
+    path is returned so the caller's "not found" error has something to name.
+    """
+    override = os.environ.get('IMDASH_WORKBOOK')
+    if override:
+        return Path(override).expanduser()
+    for root in sorted(CLOUD_STORAGE.glob('OneDrive*')):
+        for pattern in (WORKBOOK_NAME, f'*/{WORKBOOK_NAME}', f'*/*/{WORKBOOK_NAME}'):
+            matches = sorted(root.glob(pattern))
+            if matches:
+                return matches[0]
+    return CLOUD_STORAGE / 'OneDrive' / WORKBOOK_NAME
+
+
 class WorkbookError(RuntimeError):
     """The workbook could not be safely read or written."""
 

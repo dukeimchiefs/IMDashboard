@@ -9,9 +9,9 @@ SETUP (one-time)
 1. Install dependency:
        pip3 install openpyxl
 
-2. Set EXCEL_FILE below to the path of your workbook.
-   For a file synced via OneDrive / Box / Dropbox, use the local sync path —
-   the file itself never leaves your machine.
+2. Sync the workbook's folder with OneDrive. The workbook is found by name
+   under whichever OneDrive folder holds it (workbook_io.find_workbook); set
+   IMDASH_WORKBOOK to point elsewhere. The file itself never leaves your machine.
 
 3. Run it manually whenever the spreadsheet is updated:
        python3 refresh_data.py
@@ -43,6 +43,10 @@ scrape_attendance.py writes — NOT from the workbook's AttendancePoints sheet,
 which is kept only as a human-readable mirror. See read_attendance and
 EVENT_POINTS below. Run scrape_attendance.py first to refresh the snapshot,
 then run this script.
+
+Points awarded by text message are folded in the same way, from the snapshot
+scrape_text_points.py writes; the workbook's TextPoints sheet is likewise only
+a mirror. See read_text_points below.
 """
 
 import hashlib
@@ -61,14 +65,15 @@ import workbook_io
 # Imported rather than restated: a second copy of this path would fail silently
 # by falling back to the workbook, and this repo has enough hand-mirrored pairs.
 from scrape_attendance import ATTENDANCE_CACHE
+from scrape_text_points import TEXT_POINTS_CACHE
 
 # ============================================================
 # CONFIGURATION — edit these to match your setup
 # ============================================================
 
-# Full path to the shared Excel workbook.
-# Use the local OneDrive / Box / Dropbox sync path if the file is shared that way.
-EXCEL_FILE = Path('~/Library/CloudStorage/OneDrive/Point_Spreadsheet.xlsx')
+# The shared Excel workbook, found under whichever folder OneDrive syncs it to
+# today (see workbook_io.find_workbook). Set IMDASH_WORKBOOK to override.
+EXCEL_FILE = workbook_io.find_workbook()
 
 
 # Sheet tab name with the points log. None = use the first (active) sheet —
@@ -136,6 +141,12 @@ CATEGORY_COLORS = {
     'Teaching':             '#C84E00',  # orange
     'Caring Colleague':     '#0891b2',  # cyan
     'Got Catch ‘Em All': '#4a3aa7',  # violet — note the curly apostrophe
+    # Points with no category: a blank Category cell, or a texted award that
+    # nothing categorised (the Hourglass files those as 'Uncategorized'). They
+    # still count for the team. Light neutral, placed between violet and yellow
+    # so it never sits beside Community Engagement's darker gray. Not yet run
+    # through the palette validator; the legend labels it, as with yellow.
+    'Uncategorized':        '#C4C4C4',  # light gray
     'Report Rockstar':      '#eda100',  # yellow
     # Explicitly retain the neutral color previously supplied by the unknown-
     # category fallback. This removes the warning without changing the chart.
@@ -247,7 +258,8 @@ def read_events(path, sheet_name, roster_map=None):
             date     = parse_date(row[ci['date']])
             team     = str(row[ci['team']] or '').strip() if ci['team'] is not None else ''
             resident = str(row[ci['resident']] or '').strip() if ci['resident'] is not None else ''
-            cat      = str(row[ci['category']] or '').strip() if ci['category'] is not None else 'All Points'
+            # A blank Category cell is uncategorized, not a nameless slice.
+            cat      = (str(row[ci['category']] or '').strip() or 'Uncategorized') if ci['category'] is not None else 'All Points'
             pts      = float(row[ci['points']] or 0)
         except (TypeError, ValueError, IndexError):
             continue
@@ -380,6 +392,54 @@ def read_attendance(path, sheet_name, roster_map):
         resident_totals[canonical] = resident_totals.get(canonical, 0) + points
 
     return events, resident_totals
+
+
+def read_text_points(roster_map):
+    """Points awarded by text message, as events for aggregate().
+
+    Read from the snapshot scrape_text_points.py writes, never from the
+    workbook's TextPoints sheet, for the reason read_attendance gives: nothing
+    a stale Excel save does to that sheet can then cost a team points. No
+    snapshot simply means texted points are not set up on this machine, and
+    contributes nothing.
+
+    Each row already carries its own category and point value — the Hourglass
+    decides those when the text arrives. Only the team is looked up here, from
+    the same roster as everything else, so a resident who changes team is
+    counted consistently across all of their points. Voided awards are in the
+    snapshot, flagged, and are skipped.
+    """
+    try:
+        payload = json.loads(TEXT_POINTS_CACHE.read_text())
+    except (OSError, ValueError):
+        return []
+    rows = payload.get('rows') if isinstance(payload, dict) else None
+    if not isinstance(rows, list):
+        return []
+
+    name_index = build_name_index(roster_map)
+
+    events = []
+    for row in rows:
+        if not isinstance(row, dict) or row.get('voided'):
+            continue
+        try:
+            date     = parse_date(row['award_date'])
+            resident = str(row['resident'] or '').strip()
+            cat      = str(row.get('category') or '').strip() or 'Uncategorized'
+            pts      = float(row['points'] or 0)
+        except (KeyError, TypeError, ValueError):
+            continue
+
+        _, team = name_index.get(normalize_name(resident), (None, ''))
+        if not team:
+            print(f'  [text-points] skipping unmapped resident: {resident!r}')
+            continue
+
+        if pts > 0:
+            events.append({'date': date, 'team': team, 'category': cat, 'points': pts})
+
+    return events
 
 
 def write_attendance_summary(path, summary_sheet_name, resident_totals, roster_map):
@@ -628,7 +688,7 @@ if __name__ == '__main__':
     if not EXCEL_FILE.exists():
         sys.exit(
             f'\nERROR: Excel file not found:\n  {EXCEL_FILE}\n\n'
-            f'Edit EXCEL_FILE in refresh_data.py to point to your workbook.\n'
+            f'Check OneDrive is syncing the folder that holds it, or set IMDASH_WORKBOOK to its path.\n'
         )
 
     roster_map = load_roster_from_teams_html(TEAMS_HTML) if TEAMS_HTML.exists() else {}
@@ -672,6 +732,11 @@ if __name__ == '__main__':
         else:
             action = 'wrote' if wrote else 'already current —'
             print(f'[attendance] {action} "{ATTENDANCE_SUMMARY_SHEET_NAME}" sheet — {n_residents} resident row(s).')
+
+        text_events = read_text_points(roster_map)
+        if text_events:
+            print(f'[text-points] merged {len(text_events)} texted award(s).')
+        events += text_events
 
     data = aggregate(events)
     write_data_js(data)
