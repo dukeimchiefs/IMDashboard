@@ -95,6 +95,7 @@ EVENT_POINTS = {
     'Noon Conference':  20,
     'Learning Session': 10,
     'Welcome':          20,
+    'Grand Rounds':     20,
 }
 
 # teams.html holds the single source of truth for resident team membership
@@ -151,8 +152,14 @@ CATEGORY_COLORS = {
     # Explicitly retain the neutral color previously supplied by the unknown-
     # category fallback. This removes the warning without changing the chart.
     'Community Engagement': '#6B7280',  # neutral gray
+    # Texted "PCP wins" awards. Brown: unlike every other hue here, and it sits
+    # between neutral gray and (wrapping round the doughnut) pink.
+    'PCP Wins':             '#8B5E34',  # brown
     'All Points':           '#2563EB',
 }
+
+# Lower-cased name -> the spelling in CATEGORY_COLORS.
+CATEGORY_BY_LOWER = {name.lower(): name for name in CATEGORY_COLORS}
 
 # Academic year starts in July.
 ACADEMIC_MONTHS = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
@@ -528,7 +535,9 @@ def aggregate(events, today=None):
         team_weekly.setdefault(t, {})
         team_weekly[t][wk] = team_weekly[t].get(wk, 0) + e['points']
 
-        c = e['category']
+        # Match categories case-insensitively, so a texted 'teaching' joins
+        # 'Teaching' instead of becoming a second, gray slice.
+        c = CATEGORY_BY_LOWER.get(e['category'].lower(), e['category'])
         cat_totals[c] = cat_totals.get(c, 0) + e['points']
 
     months = [m for m in ACADEMIC_MONTHS if m in seen_months]
