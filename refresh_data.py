@@ -686,10 +686,7 @@ def diagnose(path, sheet_name):
 
 if __name__ == '__main__':
     if not EXCEL_FILE.exists():
-        sys.exit(
-            f'\nERROR: Excel file not found:\n  {EXCEL_FILE}\n\n'
-            f'Check OneDrive is syncing the folder that holds it, or set IMDASH_WORKBOOK to its path.\n'
-        )
+        sys.exit(workbook_io.missing_workbook_message(EXCEL_FILE))
 
     roster_map = load_roster_from_teams_html(TEAMS_HTML) if TEAMS_HTML.exists() else {}
 

@@ -315,10 +315,7 @@ def append_to_workbook(path, sheet_name, scraped_rows):
 
 if __name__ == '__main__':
     if not EXCEL_FILE.exists():
-        sys.exit(
-            f'\nERROR: Excel file not found:\n  {EXCEL_FILE}\n\n'
-            f'Check OneDrive is syncing the folder that holds it, or set IMDASH_WORKBOOK to its path.\n'
-        )
+        sys.exit(workbook_io.missing_workbook_message(EXCEL_FILE))
 
     credentials = get_credentials()
 

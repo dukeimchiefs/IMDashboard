@@ -26,6 +26,7 @@ Backups live outside the synced folder and never leave the machine.
 import os
 import shutil
 import stat
+import sys
 import tempfile
 from zipfile import BadZipFile
 from datetime import datetime
@@ -54,17 +55,83 @@ def find_workbook():
     looked up by name up to three folders below each OneDrive root instead.
 
     IMDASH_WORKBOOK overrides the search. If nothing is found, a placeholder
-    path is returned so the caller's "not found" error has something to name.
+    path is returned so the caller's "not found" error has something to name;
+    callers build that error with missing_workbook_message().
+
+    The search lists folders itself rather than using Path.glob, because glob
+    swallows PermissionError and returns nothing. When macOS privacy controls
+    block the launchd job from OneDrive, that turned "permission denied" into
+    a misleading "file not found" for two weeks (Nov 2026). Folders that
+    refuse to be listed are recorded in BLOCKED_FOLDERS instead.
     """
+    BLOCKED_FOLDERS.clear()
     override = os.environ.get('IMDASH_WORKBOOK')
     if override:
         return Path(override).expanduser()
-    for root in sorted(CLOUD_STORAGE.glob('OneDrive*')):
-        for pattern in (WORKBOOK_NAME, f'*/{WORKBOOK_NAME}', f'*/*/{WORKBOOK_NAME}'):
-            matches = sorted(root.glob(pattern))
-            if matches:
-                return matches[0]
+    try:
+        roots = sorted(p for p in CLOUD_STORAGE.iterdir() if p.name.startswith('OneDrive'))
+    except PermissionError:
+        BLOCKED_FOLDERS.append(CLOUD_STORAGE)
+        roots = []
+    except OSError:
+        roots = []
+    for root in roots:
+        level = [root]
+        for _ in range(3):  # the root itself, then up to two folders below it
+            for folder in level:
+                try:
+                    if (folder / WORKBOOK_NAME).is_file():
+                        return folder / WORKBOOK_NAME
+                except PermissionError:
+                    BLOCKED_FOLDERS.append(folder)
+                    break
+                except OSError:
+                    pass
+            level = [sub for folder in level for sub in _subfolders(folder)]
     return CLOUD_STORAGE / 'OneDrive' / WORKBOOK_NAME
+
+
+# Folders find_workbook() could not list because access was refused.
+BLOCKED_FOLDERS = []
+
+
+def _subfolders(folder):
+    """Sorted subfolders of folder; records it in BLOCKED_FOLDERS if access is refused."""
+    try:
+        return sorted(e for e in folder.iterdir() if e.is_dir() and not e.name.startswith('.'))
+    except PermissionError:
+        BLOCKED_FOLDERS.append(folder)
+    except OSError:
+        pass
+    return []
+
+
+def missing_workbook_message(path):
+    """The error to show when path cannot be opened, naming the real cause.
+
+    Distinguishes a macOS privacy block (the usual cause under launchd) from a
+    workbook that genuinely is not there.
+    """
+    try:
+        os.stat(path)
+    except PermissionError:
+        blocked = True
+    except OSError:
+        blocked = bool(BLOCKED_FOLDERS)
+    else:
+        blocked = False
+    if blocked:
+        return (
+            f'\nERROR: permission denied reading the OneDrive folder that holds {WORKBOOK_NAME}.\n'
+            f'macOS is blocking this process from OneDrive (common after OneDrive renames its\n'
+            f'sync folder). In System Settings > Privacy & Security > Full Disk Access, add\n'
+            f'  {os.path.realpath(sys.executable)}\n'
+            f'and re-run.\n'
+        )
+    return (
+        f'\nERROR: Excel file not found:\n  {path}\n\n'
+        f'Check OneDrive is syncing the folder that holds it, or set IMDASH_WORKBOOK to its path.\n'
+    )
 
 
 class WorkbookError(RuntimeError):
