@@ -1,6 +1,6 @@
-// Auto-generated 2026-11-24 09:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-11-24 15:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=84e69976
+// payload v=f239eea0
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -59,13 +59,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Karius",
             "color": "#008300",
-            "total": 1437,
+            "total": 1477,
             "monthly": [
                 130,
                 437,
                 140,
                 690,
-                40
+                80
             ],
             "weekly": [
                 50,
@@ -88,7 +88,7 @@ const SAMPLE_DATA = {
                 10,
                 30,
                 0,
-                0
+                40
             ],
             "rank": 1,
             "prevRank": 1
@@ -96,13 +96,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 1212,
+            "total": 1232,
             "monthly": [
                 300,
                 217,
                 230,
                 390,
-                75
+                95
             ],
             "weekly": [
                 50,
@@ -125,7 +125,7 @@ const SAMPLE_DATA = {
                 0,
                 40,
                 30,
-                5
+                25
             ],
             "rank": 2,
             "prevRank": 2
@@ -133,13 +133,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team PEEPs",
             "color": "#eda100",
-            "total": 980,
+            "total": 1020,
             "monthly": [
                 190,
                 90,
                 320,
                 340,
-                40
+                80
             ],
             "weekly": [
                 50,
@@ -162,7 +162,7 @@ const SAMPLE_DATA = {
                 0,
                 20,
                 0,
-                20
+                60
             ],
             "rank": 3,
             "prevRank": 3
@@ -244,13 +244,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Jointventurers",
             "color": "#e87ba4",
-            "total": 790,
+            "total": 830,
             "monthly": [
                 140,
                 150,
                 220,
                 240,
-                40
+                80
             ],
             "weekly": [
                 60,
@@ -273,7 +273,7 @@ const SAMPLE_DATA = {
                 0,
                 0,
                 30,
-                10
+                50
             ],
             "rank": 6,
             "prevRank": 6
@@ -281,13 +281,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Hemoglobbers",
             "color": "#4a3aa7",
-            "total": 780,
+            "total": 800,
             "monthly": [
                 70,
                 125,
                 80,
                 505,
-                0
+                20
             ],
             "weekly": [
                 50,
@@ -310,7 +310,7 @@ const SAMPLE_DATA = {
                 0,
                 0,
                 0,
-                0
+                20
             ],
             "rank": 7,
             "prevRank": 7
@@ -392,13 +392,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Codeblazers",
             "color": "#eb6834",
-            "total": 570,
+            "total": 590,
             "monthly": [
                 200,
                 100,
                 170,
                 100,
-                0
+                20
             ],
             "weekly": [
                 50,
@@ -421,7 +421,7 @@ const SAMPLE_DATA = {
                 0,
                 0,
                 0,
-                0
+                20
             ],
             "rank": 10,
             "prevRank": 10
@@ -430,7 +430,7 @@ const SAMPLE_DATA = {
     "categories": [
         {
             "label": "Attendance",
-            "value": 5190,
+            "value": 5370,
             "color": "#EC4899"
         },
         {
