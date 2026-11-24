@@ -1,6 +1,6 @@
-// Auto-generated 2026-11-23 12:00 by refresh_data.py — do not edit manually.
+// Auto-generated 2026-11-23 21:00 by refresh_data.py — do not edit manually.
 // To refresh: run python3 refresh_data.py then commit data.js
-// payload v=f0838f21
+// payload v=6453d599
 const SAMPLE_DATA = {
     "months": [
         "Jul",
@@ -29,7 +29,8 @@ const SAMPLE_DATA = {
         18,
         19,
         20,
-        21
+        21,
+        22
     ],
     "weekMonths": [
         "Jul",
@@ -49,6 +50,7 @@ const SAMPLE_DATA = {
         "Oct",
         "Oct",
         "Oct",
+        "Nov",
         "Nov",
         "Nov",
         "Nov"
@@ -85,6 +87,7 @@ const SAMPLE_DATA = {
                 20,
                 10,
                 30,
+                0,
                 0
             ],
             "rank": 1,
@@ -93,13 +96,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Stentinels",
             "color": "#e34948",
-            "total": 1207,
+            "total": 1212,
             "monthly": [
                 300,
                 217,
                 230,
                 390,
-                70
+                75
             ],
             "weekly": [
                 50,
@@ -121,7 +124,8 @@ const SAMPLE_DATA = {
                 80,
                 0,
                 40,
-                30
+                30,
+                5
             ],
             "rank": 2,
             "prevRank": 2
@@ -129,13 +133,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team PEEPs",
             "color": "#eda100",
-            "total": 960,
+            "total": 980,
             "monthly": [
                 190,
                 90,
                 320,
                 340,
-                20
+                40
             ],
             "weekly": [
                 50,
@@ -157,7 +161,8 @@ const SAMPLE_DATA = {
                 20,
                 0,
                 20,
-                0
+                0,
+                20
             ],
             "rank": 3,
             "prevRank": 3
@@ -165,13 +170,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Remissionaries",
             "color": "#9d174d",
-            "total": 850,
+            "total": 870,
             "monthly": [
                 150,
                 165,
                 140,
                 315,
-                80
+                100
             ],
             "weekly": [
                 50,
@@ -193,7 +198,8 @@ const SAMPLE_DATA = {
                 90,
                 10,
                 50,
-                0
+                0,
+                20
             ],
             "rank": 4,
             "prevRank": 4
@@ -201,13 +207,13 @@ const SAMPLE_DATA = {
         {
             "name": "Team Glandiators",
             "color": "#0891b2",
-            "total": 790,
+            "total": 850,
             "monthly": [
                 190,
                 210,
                 140,
                 240,
-                10
+                70
             ],
             "weekly": [
                 50,
@@ -229,10 +235,48 @@ const SAMPLE_DATA = {
                 50,
                 0,
                 10,
-                0
+                0,
+                60
             ],
             "rank": 5,
             "prevRank": 5
+        },
+        {
+            "name": "Team Jointventurers",
+            "color": "#e87ba4",
+            "total": 790,
+            "monthly": [
+                140,
+                150,
+                220,
+                240,
+                40
+            ],
+            "weekly": [
+                60,
+                0,
+                10,
+                80,
+                60,
+                0,
+                40,
+                40,
+                0,
+                70,
+                90,
+                0,
+                60,
+                40,
+                50,
+                70,
+                80,
+                0,
+                0,
+                30,
+                10
+            ],
+            "rank": 6,
+            "prevRank": 7
         },
         {
             "name": "Team Hemoglobbers",
@@ -265,46 +309,11 @@ const SAMPLE_DATA = {
                 20,
                 0,
                 0,
+                0,
                 0
             ],
-            "rank": 6,
-            "prevRank": 6
-        },
-        {
-            "name": "Team Jointventurers",
-            "color": "#e87ba4",
-            "total": 780,
-            "monthly": [
-                140,
-                150,
-                220,
-                240,
-                30
-            ],
-            "weekly": [
-                60,
-                0,
-                10,
-                80,
-                60,
-                0,
-                40,
-                40,
-                0,
-                70,
-                90,
-                0,
-                60,
-                40,
-                50,
-                70,
-                80,
-                0,
-                0,
-                30
-            ],
             "rank": 7,
-            "prevRank": 7
+            "prevRank": 6
         },
         {
             "name": "Team Scopetrotters",
@@ -337,7 +346,8 @@ const SAMPLE_DATA = {
                 0,
                 10,
                 110,
-                30
+                30,
+                0
             ],
             "rank": 8,
             "prevRank": 8
@@ -373,6 +383,7 @@ const SAMPLE_DATA = {
                 40,
                 0,
                 20,
+                0,
                 0
             ],
             "rank": 9,
@@ -409,6 +420,7 @@ const SAMPLE_DATA = {
                 0,
                 0,
                 0,
+                0,
                 0
             ],
             "rank": 10,
@@ -433,17 +445,17 @@ const SAMPLE_DATA = {
         },
         {
             "label": "Teaching",
-            "value": 135,
+            "value": 140,
             "color": "#C84E00"
         },
         {
             "label": "Caring Colleague",
-            "value": 497,
+            "value": 577,
             "color": "#0891b2"
         },
         {
             "label": "Got Catch \u2018Em All",
-            "value": 1155,
+            "value": 1175,
             "color": "#4a3aa7"
         },
         {
@@ -463,7 +475,7 @@ const SAMPLE_DATA = {
         },
         {
             "label": "PCP Wins",
-            "value": 20,
+            "value": 30,
             "color": "#8B5E34"
         }
     ]
